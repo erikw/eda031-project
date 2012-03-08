@@ -1,5 +1,5 @@
 # EDA031 Project - News System
-A project in the course [EDA031](http://cs.lth.se/eda031) C++ Programming at Lund University. The goal is to design and implement a news system with a server and client; much like the good old Usenet but more lightweight. 
+A project in the course [EDA031](http://cs.lth.se/eda031) C++ Programming at Lund University 2012. The goal is to design and implement a news system with a server and client; much like the good old Usenet but more lightweight. 
 
 For further documentation; visit [doc/](https://github.com/erikw/eda031_project/tree/master/doc).
 
