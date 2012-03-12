@@ -1,4 +1,3 @@
-
 #ifndef MESSAGEHANDLER_H
 #define MESSAGEHANDLER_H
 
@@ -9,15 +8,14 @@
 namespace {
 	
 	class MessageHandler {
-		public:
-			MessageHandler(Connection& con);
-			Query& recieve_message();
-			void send_result(Result& res);
-		private:
-			Connection con;
+	public:
+		MessageHandler(Connection& con);
+		Query &recieve_message();
+		void send_result(Result& res);
+	private:
+		Connection con;
 	};
 }
-
 
 
 #endif

@@ -1,4 +1,3 @@
-
 #ifndef QUERY_H
 #define QUERRY_H
 
@@ -7,13 +6,12 @@
 
 namespace net {
 	class Query {
-		public:
-			Query(DatabaseAbs& db);
-			Result execute();
-		private:
-			DatabaseAbs db;
+	public:
+		Query(DatabaseAbs& db);
+		Result execute();
+	private:
+		DatabaseAbs db;
 	}
 }
-
 
 #endif
