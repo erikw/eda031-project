@@ -25,3 +25,5 @@ Compile and run by typing the following commands:
 [Oscar Olsson](https://github.com/DrunkenInfant)
 
 [Erik Westrup](https://github.com/erikw)
+
+[Joachim Nelson](https://github.com/pimpimmi)
