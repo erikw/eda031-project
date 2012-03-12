@@ -4,21 +4,14 @@ A project in the course [EDA031](http://cs.lth.se/eda031) C++ Programming at Lun
 For further documentation; visit [doc/](https://github.com/erikw/eda031_project/tree/master/doc).
 
 ## How to build and run
-### Server
 Compile and run by typing the following commands:
 
-	$cd eda031_project/server/
+	$cd eda031_project/build/
 	$make
-	$...
+	$./server_main &
+	$./client <query>
 
-
-### Client
-Compile and run by typing the following commands:
-
-	$cd eda031_project/client/
-	$make
-	$...
-
+With a query as described in the specifications.
 
 ##Contributors
 
