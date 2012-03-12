@@ -26,7 +26,7 @@
 
 #include "connectionclosedexception.h"
 
-namespace client_server {
+namespace net {
     /* forward declaration of class Server */
     class Server;
     

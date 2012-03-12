@@ -37,7 +37,7 @@
 #include <sys/uio.h>     /* read(), write() */
 #include <netinet/in.h>  /* sockaddr_in */
 
-namespace client_server {
+namespace net {
     bool Connection::ignoresPipeSignals = false;
     
     Connection::Connection(const char* host, int port) {

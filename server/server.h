@@ -27,7 +27,7 @@
 #include <vector>
 #include "connection.h"
 
-namespace client_server {
+namespace server {
     /* A server listens to a port and handles multiple connections */
     class Server {
         friend class Connection;

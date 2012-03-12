@@ -32,7 +32,7 @@
 #include <sys/time.h>    /* select() */
 #include <netinet/in.h>  /* sockaddr_in */
 
-namespace client_server {
+namespace server {
     Server::Server(int port) {
         no_of_connections = 0;
         pending_socket    = -1;
