@@ -7,9 +7,9 @@
 namespace db {
 	class ListNGQuery : public Query {
 		public:
-			ListNGQuery(Database& db) {Query(db)}
+			ListNGQuery(Database& db) : Query(db) {}
 			Result* execute();
-	}
+	};
 
 }
 

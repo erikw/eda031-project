@@ -2,7 +2,7 @@
 #define DATABASE_H
 
 namespace db {
-	struct Database {}
+	struct Database {};
 }
 
 #endif

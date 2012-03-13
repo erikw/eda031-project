@@ -1,6 +1,6 @@
 
 #ifndef QUERY_H
-#define QUERRY_H
+#define QUERY_H
 
 #include "result.h"
 #include "database.h"
@@ -12,7 +12,7 @@ namespace db {
 			virtual Result* execute() = 0;
 		private:
 			Database db;
-	}
+	};
 }
 
 

@@ -6,8 +6,7 @@ namespace db {
 	class Result{
 		public:
 			Result();
-			virtual printToConnection(Connection& conn);
-	}
+	};
 }
 
 #endif
