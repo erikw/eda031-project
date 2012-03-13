@@ -4,7 +4,7 @@
 
 #include "query.h"
 
-namespace server {
+namespace db {
 	class ListNGQuery : public Query {
 		public:
 			ListNGQuery(Database& db) {Query(db)}

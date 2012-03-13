@@ -3,9 +3,9 @@
 #define QUERRY_H
 
 #include "result.h"
-#include "databaseabs.h"
+#include "database.h"
 
-namespace server {
+namespace db {
 	class Query {
 		public:
 			Query(Database& database) : db(database) {}

@@ -2,7 +2,7 @@
 #ifndef RESULT_H
 #define RESULT_H
 
-namespace net {
+namespace db {
 	class Result{
 		public:
 			Result();

@@ -1,6 +1,6 @@
 
 #include "listngquery.h"
 
-namespace server {
+namespace db {
 	Result* ListNGQuery::execute() {}
 }
