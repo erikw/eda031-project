@@ -4,15 +4,16 @@ SRCDIR		= ../src
 BINDIR		= ../bin
 LIBDIR		= ../lib
 INCDIR		= ../include
-SRCS		= $(wildcard $(SRCDIR)/*.cc)
+SRCS		= $(wildcard $(SRCDIR)/**/*.cc)
 OBJS		= $(wildcard *.o)
-DFILES		= $(patsubst $(SRCDIR)/%.cc,%.d,$(SRCS))
+DFILES		= $(patsubst $(SRCDIR)/%.cc,$(SRCDIR)/%.d,$(SRCS))
 #VPATH		= src include					# Search path for all prerequisites.
-VPATH		= $(SRCDIR) $(LIBDIR)
+VPATH		= $(SRCDIR) $(LIBDIR) ../src/net/
 #DESTDIR	= bin
 THISDIR		= $(shell basename `pwd`)
 TAGFILE		= ../tags
-PROGS		= prog0
+#PROGS		= client_main server_main
+PROGS		= client_main 
 
 # Compiler and compiler options:
 CXX		=  g++
@@ -22,7 +23,7 @@ OPTLVL		= 2			# Default is 2.
 DEBUG		= true
 DEBUGOPT	= -ggdb
 ERRFLAGS	= -Wall -W -Wmissing-braces -Wparentheses -Wold-style-cast
-CXXFLAGS	=  -pipe $(OPTI) $(ERRFLAGS) -ansi -pedantic-errors -fstack-protector-all -z noexecstack
+CXXFLAGS	=  -pipe $(OPTI) $(ERRFLAGS) -ansi -pedantic-errors 
 CXXFLAGS	+= $(ERRFLAGS)
 #LDFLAGS	=
 #LDLIBE		=
@@ -91,11 +92,17 @@ doc :
 
 # Generate Makefiles describing "name.cc"s dependencies.
 %.d: %.cc
-		@set -e; rm -f $@; \
-		$(CXX) -MM $(CXXFLAGS) $< > $@.$$$$; \
-		sed 's,\($*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
-		rm -f $@.$$$$
+	@set -e; rm -f $@; \
+	$(CXX) -MM $(CXXFLAGS) $< > $@.$$$$; \
+	sed 's,\(.*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
+	rm -f $@.$$$$
 include $(DFILES)
 
+#client_main.o ../src/client/client_main.d : ../src/client/client_main.cc
+
+print:
+	@echo $(DFILES)
+
 # Linking of $(PROGS)
-prog0: prog0.o lib0.o
+client_main: client_main.o
+#server_main: 

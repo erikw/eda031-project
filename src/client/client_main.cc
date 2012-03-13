@@ -1,10 +1,8 @@
 #include <iostream>
 
-using namespace server;
+//using namespace server;
 using std::clog;
 
 int main() {
-	clog << "Client started."
-
-
+	clog << "Client started.";
 }

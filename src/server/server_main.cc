@@ -4,7 +4,5 @@ using namespace server;
 using std::clog;
 
 int main() {
-	clog << "Server started."
-
-
+	clog << "Server started.";
 }
