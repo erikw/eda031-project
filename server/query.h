@@ -5,13 +5,13 @@
 #include "result.h"
 #include "databaseabs.h"
 
-namespace net {
+namespace server {
 	class Query {
 		public:
-			Query(DatabaseAbs& db);
-			Result execute();
+			Query(Database& database) : db(database) {}
+			virtual Result* execute() = 0;
 		private:
-			DatabaseAbs db;
+			Database db;
 	}
 }
 

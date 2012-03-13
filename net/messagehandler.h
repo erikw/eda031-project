@@ -6,15 +6,17 @@
 #include "result.h"
 #include "query.h"
 
-namespace {
+namespace net {
+	struct IllegalCommandException {}
 	
 	class MessageHandler {
 		public:
-			MessageHandler(Connection& con);
-			Query& recieve_message();
-			void send_result(Result& res);
+			MessageHandler(Database& database);
+			Query* recieve_query(Connection& con) const throw(IllegalCommandException, ConnectionClosedException);
+			void send_result(Result& res) const;
 		private:
-			Connection con;
+			Query* read_list_ng(Connection& con) const throw(IllegalCommandException, ConnectionClosedException);
+			Database db;
 	};
 }
 
