@@ -5,15 +5,14 @@ BINDIR		= ../bin
 LIBDIR		= ../lib
 INCDIR		= ../include
 SRCS		= $(wildcard $(SRCDIR)/**/*.cc)
-OBJS		= $(wildcard *.o)
-DFILES		= $(patsubst $(SRCDIR)/%.cc,$(SRCDIR)/%.d,$(SRCS))
+OBJS		= $(shell find -iname '*.o')
+DFILES		= $(patsubst $(SRCDIR)/%.cc,%.d,$(SRCS))
 #VPATH		= src include					# Search path for all prerequisites.
-VPATH		= $(SRCDIR) $(LIBDIR) ../src/net/
+VPATH		= $(SRCDIR) $(LIBDIR) 
 #DESTDIR	= bin
 THISDIR		= $(shell basename `pwd`)
 TAGFILE		= ../tags
-#PROGS		= client_main server_main
-PROGS		= client_main 
+PROGS		= client/client_main server/server_main
 
 # Compiler and compiler options:
 CXX		=  g++
@@ -24,7 +23,7 @@ DEBUG		= true
 DEBUGOPT	= -ggdb
 ERRFLAGS	= -Wall -W -Wmissing-braces -Wparentheses -Wold-style-cast
 CXXFLAGS	=  -pipe $(OPTI) $(ERRFLAGS) -ansi -pedantic-errors 
-CXXFLAGS	+= $(ERRFLAGS)
+CXXFLAGS	+= $(ERRFLAGS) $(shell find $(SRCDIR) -type d -exec echo "-I" \{\} \;)
 #LDFLAGS	=
 #LDLIBE		=
 
@@ -44,7 +43,7 @@ all: $(PROGS)
 
 # target: help - Display all targets.
 help :
-		egrep "#\starget:" [Mm]akefile	| cut -d " " -f3-
+		@egrep "#\starget:" [Mm]akefile	| cut -d " " -f3-
 
 # target: clean - Remove all objects.
 clean:
@@ -73,7 +72,7 @@ uninstall:
 
 # target: list - List all source files.
 list :
-		ls -l $(SRCDIR)/*.{cc,h}
+		@find ../src/ -iregex '.*\.\(cc\|h\)'
 
 # target: tar - Pack all the files to a gzip'd tarball.
 tar :
@@ -81,7 +80,8 @@ tar :
 
 # target: tar-src - Pack the source files only.
 tar-src :
-		tar pvczf ../../$(NAME).src.tar.gz $(SRCDIR) $(INCDIR)
+		#tar pvczf ../../$(NAME).src.tar.gz $(SRCDIR) $(INCDIR)
+		tar pvczf ../../$(NAME).src.tar.gz $(SRCDIR)
 # target: tags - Generate tags with ctags for all files.
 tags :
 		ctags -R -f $(TAGFILE) ../
@@ -91,18 +91,15 @@ doc :
 		#doxygen ../src
 
 # Generate Makefiles describing "name.cc"s dependencies.
+# The double escaped `echo` is needed because the normal .o : .c implicit rule will not be invoked when target is not in the same directory as prerequisite.
 %.d: %.cc
 	@set -e; rm -f $@; \
 	$(CXX) -MM $(CXXFLAGS) $< > $@.$$$$; \
-	sed 's,\(.*\)\.o[ :]*,\1.o $@ : ,g' < $@.$$$$ > $@; \
+	sed 's,\(.$*\)\.o[ :]*,$(shell echo $< | sed -e "s/\.\.\/src\/\(.*\)\/[-_[:alnum:]]*\.cc/\1/g")\/\1.o $@ : ,g' < $@.$$$$ > $@; \
+	echo -e "\t\$$(CXX) \$$(CXXFLAGS) -c -o \$$@ \$$^" >> $@; \
 	rm -f $@.$$$$
 include $(DFILES)
 
-#client_main.o ../src/client/client_main.d : ../src/client/client_main.cc
-
-print:
-	@echo $(DFILES)
-
 # Linking of $(PROGS)
-client_main: client_main.o
-#server_main: 
+client/client_main: client/client_main.o
+server/server_main: server/server_main.o

@@ -1,8 +1,11 @@
 #include <iostream>
+#include <cstdlib>
+#include "connection.h"
 
-using namespace server;
+using namespace net;
 using std::clog;
 
 int main() {
-	clog << "Server started.";
+	clog << "Server started." << std::endl;
+	return EXIT_SUCCESS;
 }
