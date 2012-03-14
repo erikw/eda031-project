@@ -54,6 +54,7 @@ clean:
 # target: clean - Remove all executables.
 cleaner: clean
 		$(RM) $(PROGS)
+		#$(RM) -r $(fileter $(shell find . -type d),.) # Useless with include($(DFILES)).
 
 # target: install - Installs executables and libraries.
 install: $(PROGS)
@@ -94,6 +95,7 @@ doc :
 # The double escaped `echo` is needed because the normal .o : .c implicit rule will not be invoked when target is not in the same directory as prerequisite.
 %.d: %.cc
 	@set -e; rm -f $@; \
+	mkdir -p $(shell echo $< | sed -e "s/\.\.\/src\/\(.*\)\/[-_[:alnum:]]*\.cc/\1/g"); \
 	$(CXX) -MM $(CXXFLAGS) $< > $@.$$$$; \
 	sed 's,\(.$*\)\.o[ :]*,$(shell echo $< | sed -e "s/\.\.\/src\/\(.*\)\/[-_[:alnum:]]*\.cc/\1/g")\/\1.o $@ : ,g' < $@.$$$$ > $@; \
 	echo -e "\t\$$(CXX) \$$(CXXFLAGS) -c -o \$$@ \$$^" >> $@; \
