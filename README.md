@@ -8,8 +8,8 @@ Compile and run by typing the following commands:
 
 	$cd eda031_project/build/
 	$make
-	$./server_main &
-	$./client_main <query>
+	$server/server_main &
+	$client/client_main <query>
 
 With a query as described in the specifications.
 
