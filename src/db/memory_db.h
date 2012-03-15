@@ -10,14 +10,14 @@
 namespace db {
 	class MemoryDb : public Database{
 		MemoryDb() : ng_count(0){}
-		Result list_ng();
-		Result create_ng(std::string ng_name);
-		Result delete_ng(const int& ng_id);
-		Result list_art(const int& ng_id);
-		Result create_art(const int& ng_id, std::string title,
+		Result* list_ng();
+		Result* create_ng(std::string ng_name);
+		Result* delete_ng(const int& ng_id);
+		Result* list_art(const int& ng_id);
+		Result* create_art(const int& ng_id, std::string title,
 						std::string author, std::string text);
-		Result delete_art(const int& ng_id, const int& art_id);
-		Result get_art(const int& ng_id, const int& art_id);
+		Result* delete_art(const int& ng_id, const int& art_id);
+		Result* get_art(const int& ng_id, const int& art_id);
 	private:
 		
 		struct Article{
