@@ -73,11 +73,11 @@ namespace db {
 
 		Result* MemoryDb::get_art(const int& ng_id, const int& art_id){
 			if(news_groups.find(ng_id) == news_groups.end())
-				return new GetArtResult(Protocol::ERR_NG_DOES_NOT_EXIST);
+				return new GetArtResult(static_cast<unsigned char>(Protocol::ERR_NG_DOES_NOT_EXIST));
 			map<int, Article> &temp_art = news_groups[ng_id].articles;
 			map<int, Article>::iterator it = temp_art.find(art_id);
 			if(it == temp_art.end())
-				return new GetArtResult(Protocol::ERR_ART_DOES_NOT_EXIST);
+				return new GetArtResult(static_cast<unsigned char>(Protocol::ERR_ART_DOES_NOT_EXIST));
 			return new GetArtResult(it->second.title, it->second.author, it->second.text);
 		}
 }
