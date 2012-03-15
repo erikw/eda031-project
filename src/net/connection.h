@@ -65,7 +65,7 @@ namespace net {
 		   to ignore broken pipe. See comment in the constructor */
 		static bool ignoresPipeSignals;
 		
-		/* Initialization from server, receives socket number s */
+		/* Initialization from server, receives socket numbers */
 		void initConnection(int s);
 		
 		/* Server fetches the socket number */

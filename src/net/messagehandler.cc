@@ -131,4 +131,8 @@ namespace net {
 		}
 		return res;
 	}
+
+	void MessageHandler::send_result(db::Result result) { // TODO Does not this one needsa a connection (and thorw some exceptions?)
+
+	}
 }
