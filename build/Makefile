@@ -49,7 +49,8 @@ help :
 clean:
 		$(RM) $(OBJS)
 		$(RM) $(TAGFILE)
-		$(RM) $(DFILES)
+		#$(RM) $(DFILES)
+		find . -iregex '.*\.d\(\.[0-9]+\)?$$' -exec rm \{\} \;
 
 # target: clean - Remove all executables.
 cleaner: clean
