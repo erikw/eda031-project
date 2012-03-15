@@ -1,13 +1,13 @@
 // ------------------------------------------------------------------
 //
-//                 Client/Server communication package
+//				   Client/Server communication package
 //
-//                ConnectionClosedException header file
+//				  ConnectionClosedException header file
 //
 // Change log
-//  020102  PH  Initial version
-//  050113  PH  added deregisterConnection, new registration (vector),
-//              added check for server shutdown, many more changes
+//	020102	PH	Initial version
+//	050113	PH	added deregisterConnection, new registration (vector),
+//				added check for server shutdown, many more changes
 //
 // ------------------------------------------------------------------
 
@@ -15,8 +15,8 @@
 #define CONNECTION_CLOSED_EXCEPTION_H
 
 namespace net {
-    /* ConnectionClosedException is thrown when a connection is closed */
-    struct ConnectionClosedException {};
+	/* ConnectionClosedException is thrown when a connection is closed */
+	struct ConnectionClosedException {};
 }
 
 #endif

@@ -42,9 +42,9 @@ namespace server {
         pending_socket    = -1;
         
         my_socket = socket(AF_INET,SOCK_STREAM, 0);
-        if (my_socket < 0)
+        if (my_socket < 0) {
             my_socket = -1;
-        else {
+	} else {
             sockaddr_in server;
             server.sin_family      = AF_INET;
             server.sin_addr.s_addr = INADDR_ANY;
