@@ -11,7 +11,7 @@ DFILES		= $(patsubst $(SRCDIR)/%.cc,%.d,$(SRCS))
 VPATH		= $(SRCDIR) $(LIBDIR) 
 #DESTDIR	= bin
 THISDIR		= $(shell basename `pwd`)
-TAGFILE		= ../tags
+TAGSFILE	= ../tags
 PROGS		= client/client_main server/server_main
 
 # Compiler and compiler options:
@@ -49,7 +49,7 @@ help :
 # target: clean - Remove all objects.
 clean:
 		$(RM) $(OBJS)
-		$(RM) $(TAGFILE)
+		$(RM) $(TAGSFILE)
 		#$(RM) $(DFILES)
 		find . -iregex '.*\.d\(\.[0-9]+\)?$$' -exec rm \{\} \;
 
@@ -87,7 +87,7 @@ tar-src :
 		tar pvczf ../../$(NAME).src.tar.gz $(SRCDIR)
 # target: tags - Generate tags with ctags for all files.
 tags :
-		ctags -R -f $(TAGFILE) ../
+		ctags -R --tag-relative=yes -f $(TAGSFILE) ../
 
 # target: doc - Generate documentation.
 doc :
