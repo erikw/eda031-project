@@ -21,9 +21,9 @@ OPTLVL		= 2			# Default is 2.
 # Change with make -e DEBUG=false
 DEBUG		= true
 DEBUGOPT	= -ggdb
-ERRFLAGS	= -Wall -W -Wmissing-braces -Wparentheses -Wold-style-cast
-CXXFLAGS	=  -pipe $(OPTI) $(ERRFLAGS) -ansi -pedantic-errors 
-CXXFLAGS	+= $(ERRFLAGS) $(shell find $(SRCDIR) -type d -exec echo "-I" \{\} \;)
+ERRFLAGS	= -Wall -W -Wmissing-braces -Wparentheses
+CXXFLAGS	=  -pipe $(OPTI) -ansi -pedantic-errors 
+CXXFLAGS	+= $(ERRFLAGS) $(shell find $(SRCDIR) -type d -exec echo -I\{\} \;)
 #LDFLAGS	=
 #LDLIBE		=
 
@@ -97,11 +97,11 @@ doc :
 	@set -e; rm -f $@; \
 	mkdir -p $(shell echo $< | sed -e "s/\.\.\/src\/\(.*\)\/[-_[:alnum:]]*\.cc/\1/g"); \
 	$(CXX) -MM $(CXXFLAGS) $< > $@.$$$$; \
-	sed 's,\(.$*\)\.o[ :]*,$(shell echo $< | sed -e "s/\.\.\/src\/\(.*\)\/[-_[:alnum:]]*\.cc/\1/g")\/\1.o $@ : ,g' < $@.$$$$ > $@; \
-	echo -e "\t\$$(CXX) \$$(CXXFLAGS) -c -o \$$@ \$$^" >> $@; \
+	sed 's,\(.*\)\.o[ :]*,$(shell echo $< | sed -e "s/\.\.\/src\/\(.*\)\/[-_[:alnum:]]*\.cc/\1/g")\/\1.o $@ : ,g' < $@.$$$$ > $@; \
+	echo -e "\t\$$(CXX) \$$(CXXFLAGS) -c -o \$$@ \$$<" >> $@; \
 	rm -f $@.$$$$
 include $(DFILES)
 
 # Linking of $(PROGS)
 client/client_main: client/client_main.o
-server/server_main: server/server_main.o
+server/server_main: server/server_main.o server/server.o net/connection.o

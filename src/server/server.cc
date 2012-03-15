@@ -32,6 +32,10 @@
 #include <sys/time.h>    /* select() */
 #include <netinet/in.h>  /* sockaddr_in */
 
+#include "connection.h"
+
+using net::Connection;
+
 namespace server {
     Server::Server(int port) {
         no_of_connections = 0;

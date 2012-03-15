@@ -26,13 +26,15 @@
 
 #include "connectionclosedexception.h"
 
+/* forward declaration of class Server */
+namespace server {
+	class Server;
+}
+
 namespace net {
-    /* forward declaration of class Server */
-    class Server;
-    
     /* A Connection object represents a connection (a socket)  */
     class Connection {
-        friend class Server;
+        friend class server::Server;
         
     public:
         /* Establish a connection to the computer 'host' via

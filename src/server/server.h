@@ -30,7 +30,7 @@
 namespace server {
     /* A server listens to a port and handles multiple connections */
     class Server {
-        friend class Connection;
+        friend class net::Connection;
         
     public:
         /* Create a server that listens to the port 'port' */
@@ -45,14 +45,14 @@ namespace server {
         /* Wait for activity on the port. Returns a previously registered
         connection object if an "old" connection wishes to communicate,
         0 if a new client wishes to communicate */
-        Connection* waitForActivity() const;
+	net::Connection* waitForActivity() const;
         
         /* Register a new connection */
-        void registerConnection(Connection* conn);
+        void registerConnection(net::Connection* conn);
         
         /* Deregister a connection (nothing happens if conns isn't 
         registered */
-        void deregisterConnection(Connection* conn);
+        void deregisterConnection(net::Connection* conn);
         
     protected:
         /* The number of the communication socket */
@@ -62,7 +62,7 @@ namespace server {
         int no_of_connections;
         
         /* List of registered connections */
-        std::vector<Connection*> connections;
+        std::vector<net::Connection*> connections;
         
         /* ? */
         mutable int pending_socket;
