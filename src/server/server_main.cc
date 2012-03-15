@@ -15,7 +15,7 @@ const unsigned int default_port = 1025;
 const string default_db = "memory";
 
 // Usage: $server_main [--db (memory | file) --port portnum]
-int main(int argc, char **argz) {
+int main(int argc, char **argv) {
 	clog << "Server started." << endl;
 	unsigned int port;
 	string db_type;
