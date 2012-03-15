@@ -17,12 +17,13 @@ PROGS		= client/client_main server/server_main
 # Compiler and compiler options:
 CXX		=  g++
 CC		=  $(CXX)		# For implicit linking rule.
-OPTLVL		= 2			# Default is 2.
+OPTLVL		= 3			# Default is 2.
 # Change with make -e DEBUG=false
 DEBUG		= true
 DEBUGOPT	= -ggdb
-ERRFLAGS	= -Wall -W -Wmissing-braces -Wparentheses
-CXXFLAGS	=  -pipe $(OPTI) -ansi -pedantic-errors 
+#ERRFLAGS	= -Wall -W -Wmissing-braces -Wparentheses -Wold-style-cast
+ERRFLAGS	= -Wall -W -Wmissing-braces -Wparentheses 
+CXXFLAGS	= -pipe -ansi -pedantic-errors -fstack-protector-all -z noexecstack
 CXXFLAGS	+= $(ERRFLAGS) $(shell find $(SRCDIR) -type d -exec echo -I\{\} \;)
 #LDFLAGS	=
 #LDLIBE		=
