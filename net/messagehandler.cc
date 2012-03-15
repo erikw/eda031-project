@@ -116,12 +116,19 @@ namespace net {
 	}
 
 	int MessageHandler::read_num(Connection& con) throw (IllegalCommandException, ConnectionClosedException){
-		// TODO
-		return 0;
+		if(con.read() != Protocol::PAR_NUM)
+			throw IllegalCommandException();
+		unsigned int num = read_int(con);
+		return num;
 	}
 
 	int MessageHandler::read_int(Connection& con) throw (ConnectionClosedException){
-		// TODO
-		return 0;
+		unsigned int res;
+		for(unsigned char i = 0; i < 4; ++i){
+			unsigned char tmp = con.read();
+			res <<= 8;
+			res += tmp;
+		}
+		return res;
 	}
 }
