@@ -15,14 +15,14 @@ using namespace net;
 
 namespace db {
 
-		Result* MemoryDb::list_ng(){
+		Result* MemoryDB::list_ng(){
 			vector<pair<int, string> > temp_ng_list;
 			for(map<int,NewsGroup>::iterator it = news_groups.begin(); it!=news_groups.end(); ++it)
 				temp_ng_list.push_back(make_pair(it->first,it->second.name));
 			return new ListNGResult(temp_ng_list);
 		}
 
-		Result* MemoryDb::create_ng(string ng_name){
+		Result* MemoryDB::create_ng(string ng_name){
 			for(map<int,NewsGroup>::iterator it = news_groups.begin(); it!=news_groups.end(); ++it)
 				if(it->second.name==ng_name)
 					return new CreateNGResult(static_cast<unsigned char>(Protocol::ERR_NG_ALREADY_EXISTS));
@@ -32,13 +32,13 @@ namespace db {
 			return new CreateNGResult(static_cast<unsigned char>(Protocol::ANS_ACK));
 		}
 
-		Result* MemoryDb::delete_ng(const int& ng_id){
+		Result* MemoryDB::delete_ng(const int& ng_id){
 			if(news_groups.erase(ng_id)==0)
 				return new DeleteNGResult(static_cast<unsigned char>(Protocol::ERR_NG_DOES_NOT_EXIST));
 			return new DeleteNGResult(static_cast<unsigned char>(Protocol::ANS_ACK));
 		}
 
-		Result* MemoryDb::list_art(const int& ng_id){
+		Result* MemoryDB::list_art(const int& ng_id){
 			if(news_groups.find(ng_id)==news_groups.end())
 				return new ListArtResult(static_cast<unsigned char>(Protocol::ERR_NG_DOES_NOT_EXIST));
 			vector<pair<int, string> > temp_art_list;
@@ -49,7 +49,7 @@ namespace db {
 
 		}
 
-		Result* MemoryDb::create_art(const int& ng_id, string title,
+		Result* MemoryDB::create_art(const int& ng_id, string title,
 						string author, string text){
 			if(news_groups.find(ng_id)==news_groups.end())
 				return new CreateArtResult(static_cast<unsigned char>(Protocol::ERR_NG_DOES_NOT_EXIST));
@@ -62,7 +62,7 @@ namespace db {
 			return new CreateArtResult(static_cast<unsigned char>(Protocol::ANS_ACK));
 		}
 
-		Result* MemoryDb::delete_art(const int& ng_id, const int& art_id){
+		Result* MemoryDB::delete_art(const int& ng_id, const int& art_id){
 			if(news_groups.find(ng_id) == news_groups.end())
 				return new DeleteArtResult(static_cast<unsigned char>(Protocol::ERR_NG_DOES_NOT_EXIST));
 			if(news_groups[ng_id].articles.erase(art_id) == 0)
@@ -71,7 +71,7 @@ namespace db {
 			
 		}
 
-		Result* MemoryDb::get_art(const int& ng_id, const int& art_id){
+		Result* MemoryDB::get_art(const int& ng_id, const int& art_id){
 			if(news_groups.find(ng_id) == news_groups.end())
 				return new GetArtResult(static_cast<unsigned char>(Protocol::ERR_NG_DOES_NOT_EXIST));
 			map<int, Article> &temp_art = news_groups[ng_id].articles;

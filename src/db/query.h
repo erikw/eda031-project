@@ -11,7 +11,7 @@ namespace db {
 			Query(Database& database) : db(database) {}
 			virtual Result* execute() = 0;
 		private:
-			Database db;
+			Database &db;
 	};
 }
 

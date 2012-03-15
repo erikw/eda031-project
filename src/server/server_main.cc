@@ -2,6 +2,9 @@
 #include <cstdlib>
 #include "connection.h"
 #include "server.h"
+#include "database.h"
+#include "memory_db.h"
+#include "messagehandler.h"
 
 using namespace std;
 using namespace net;
@@ -9,11 +12,11 @@ using namespace server;
 using namespace db;
 
 const unsigned int default_port = 1025;
-const unsigned string default_db = "memory"
+const string default_db = "memory";
 
 // Usage: $server_main [--db (memory | file) --port portnum]
-int main(int argc, char **argc) {
-	clog << "Server started." << std::endl;
+int main(int argc, char **argz) {
+	clog << "Server started." << endl;
 	unsigned int port;
 	string db_type;
 	if (argc == 1) {
@@ -21,7 +24,7 @@ int main(int argc, char **argc) {
 		db_type = default_db;
 	} else if (argc == 4) {
 		string db_str;
-		if (!(cin >> db_str && db_str == "--db" && cin >> db_choice && (db_choice == "memory" || db_choice == "file"))) {
+		if (!(cin >> db_str && db_str == "--db" && cin >> db_type && (db_type == "memory" || db_type == "file"))) {
 			cerr << "Bad database parameters.";
 			return EXIT_FAILURE;
 		}
@@ -36,17 +39,17 @@ int main(int argc, char **argc) {
 	}
 
 	clog << "Using port " << port << "and a database type " << db_type << "." << endl;
-	server::Server server(port);
+	Server server(port);
 	if (!server.isReady()) {
 		cerr << "Server could not be initialized correctly." << endl;
 		return EXIT_FAILURE;
 	}
 
-	server::DatabaseAbs *database;
+	Database *database;
 	if (db_type == "memory") {
-		database  = new server::Primdb();
+		database  = new MemoryDB();
 	} else {
-		//database = new server::Filedb(); // TODO not implemented.
+		//database = new Filedb(); // TODO not implemented.
 	}
 	MessageHandler message_handler(*database);
 
@@ -56,7 +59,7 @@ int main(int argc, char **argc) {
 			try {
 				Query *query; // TODO who deallocates, me I guess?
 				try {
-					query = message_handler.recieve_query(connection);
+					query = message_handler.recieve_query(*connection);
 
 				} catch (const IllegalCommandException &ice) {
 					// TODO
@@ -70,7 +73,7 @@ int main(int argc, char **argc) {
 
 		} else {
 			clog << "New incoming connection." << endl;
-			server.registerConnection(new Connection())
+			server.registerConnection(new Connection());
 		}
 	}
 

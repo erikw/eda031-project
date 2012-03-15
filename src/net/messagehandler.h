@@ -28,7 +28,7 @@ namespace net {
 		int read_num(Connection& con) throw (IllegalCommandException, ConnectionClosedException);
 		int read_int(Connection& con) throw (ConnectionClosedException);
 
-		db::Database db;
+		db::Database &db;
 	};
 }
 
