@@ -2,7 +2,8 @@
 #define LISTNGRESULT_H
 
 #include "result.h"
-#include <iostream>
+#include "connection.h"
+#include <string>
 #include <vector>
 
 namespace db {
@@ -10,7 +11,7 @@ namespace db {
 	public:
 		ListNGResult(int err_message) : message(err_message) {};
 		ListNGResult(std::vector<std::pair<int, std::string> > ng) : news_groups(ng) {};
-		printToConnection(Connection& conn);
+		void printToConnection(net::Connection& conn);
 	private:
 		int message;
 		std::vector<std::pair<int, std::string> > news_groups;

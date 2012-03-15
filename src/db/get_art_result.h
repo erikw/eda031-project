@@ -2,7 +2,8 @@
 #define GETARTRESULT_H
 
 #include "result.h"
-#include <iostream>
+#include <string>
+#include "connection.h"
 
 namespace db {
 	class GetArtResult : public Result{
@@ -10,7 +11,7 @@ namespace db {
 		GetArtResult(int err_message) : message(err_message) {};
 		GetArtResult(std::string ti, std::string au, std::string te) : 
 				title(te), author(au), text(te) {};
-		printToConnection(Connection& conn);
+		void printToConnection(net::Connection& conn);
 	private:
 		int message;
 		std::string title;

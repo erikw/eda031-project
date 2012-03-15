@@ -1,10 +1,17 @@
 #include <iostream>
-#include "memory_db.h";
+#include "memory_db.h"
 #include "protocol.h"
+#include "list_ng_result.h"
+#include "create_ng_result.h"
+#include "delete_ng_result.h"
+#include "list_art_result.h"
+#include "create_art_result.h"
+#include "delete_art_result.h"
+#include "get_art_result.h"
 #include <map>
 #include <vector>
 using namespace std;
-using namespace protocol;
+using namespace net;
 
 namespace db {
 
@@ -36,7 +43,7 @@ namespace db {
 				return ListArtResult(Protocol::ERR_NG_DOES_NOT_EXIST);
 			vector<pair<int, string> > temp_art_list;
 			map<int,Article> art_map = news_groups[ng_id].articles;
-			for(map<int,Article>::iterator it = art_map.begin();it<art_map.end();++it)
+			for(map<int,Article>::iterator it = art_map.begin(); it != art_map.end(); ++it)
 				temp_art_list.push_back(make_pair(it->first,it->second.title));
 			return ListArtResult(temp_art_list);
 
@@ -60,7 +67,7 @@ namespace db {
 				return DeleteArtResult(Protocol::ERR_NG_DOES_NOT_EXIST);
 			if(news_groups[ng_id].articles.erase(art_id) == 0)
 				return DeleteArtResult(Protocol::ERR_ART_DOES_NOT_EXIST);
-			return DeteleArtResult(Protocol::ANS_ACK);
+			return DeleteArtResult(Protocol::ANS_ACK);
 			
 		}
 
