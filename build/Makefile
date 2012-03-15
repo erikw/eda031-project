@@ -15,7 +15,7 @@ TAGSFILE	= ../tags
 PROGS		= client/client_main server/server_main
 
 # Compiler and compiler options:
-CXX		=  g++
+CXX		=  $(shell hash clang 2>/dev/null && echo clang || echo g++)
 CC		=  $(CXX)		# For implicit linking rule.
 OPTLVL		= 3			# Default is 2.
 # Change with make -e DEBUG=false
