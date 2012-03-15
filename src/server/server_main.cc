@@ -1,9 +1,9 @@
 #include <iostream>
 #include <cstdlib>
-//#include "connection.h"
+#include "connection.h"
 #include "server.h"
 
-//using namespace net;
+using namespace net;
 using std::clog;
 
 int main() {
