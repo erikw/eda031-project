@@ -9,13 +9,12 @@
 #include "getartquery.h"
 
 namespace net {
-
 	using namespace db;
 	using namespace std;
 	MessageHandler::MessageHandler(Database& database) : db(database) {}
 
 	Query* MessageHandler::recieve_query(Connection& con) throw(IllegalCommandException, ConnectionClosedException){
-		char command_type = con.read();
+		unsigned char command_type = con.read();
 		Query *query;
 		switch (command_type) {
 			case Protocol::COM_LIST_NG:
@@ -46,7 +45,7 @@ namespace net {
 
 	Query* MessageHandler::read_list_ng(Connection& con) throw (IllegalCommandException, ConnectionClosedException){
 		char end_command = con.read();
-		if(end_command != Protocol::COM_END)
+		if (end_command != Protocol::COM_END)
 			throw IllegalCommandException();
 		return new ListNGQuery(db);
 	}
@@ -54,7 +53,7 @@ namespace net {
 	Query* MessageHandler::read_create_ng(Connection& con) throw (IllegalCommandException, ConnectionClosedException){
 		string ng_name = this->read_string(con);
 		char end_command = con.read();
-		if(end_command != Protocol::COM_END)
+		if (end_command != Protocol::COM_END)
 			throw IllegalCommandException();
 		return new CreateNGQuery(db, ng_name);
 	}
@@ -62,7 +61,7 @@ namespace net {
 	Query* MessageHandler::read_delete_ng(Connection& con) throw (IllegalCommandException, ConnectionClosedException){
 		int ng_id = this->read_num(con);
 		char end_command = con.read();
-		if(end_command != Protocol::COM_END)
+		if (end_command != Protocol::COM_END)
 			throw IllegalCommandException();
 		return new DeleteNGQuery(db, ng_id);
 	}
@@ -70,7 +69,7 @@ namespace net {
 	Query* MessageHandler::read_list_art(Connection& con) throw (IllegalCommandException, ConnectionClosedException){
 		int ng_id = this->read_num(con);
 		char end_command = con.read();
-		if(end_command != Protocol::COM_END)
+		if (end_command != Protocol::COM_END)
 			throw IllegalCommandException();
 		return new ListArtQuery(db, ng_id);
 	}
@@ -81,7 +80,7 @@ namespace net {
 		string author = this->read_string(con);
 		string text = this->read_string(con);
 		char end_command = con.read();
-		if(end_command != Protocol::COM_END)
+		if (end_command != Protocol::COM_END)
 			throw IllegalCommandException();
 		return new CreateArtQuery(db, ng_id, title, author, text);
 	}
@@ -90,7 +89,7 @@ namespace net {
 		int ng_id = this->read_num(con);
 		int art_id = this->read_num(con);
 		char end_command = con.read();
-		if(end_command != Protocol::COM_END)
+		if (end_command != Protocol::COM_END)
 			throw IllegalCommandException();
 		return new DeleteArtQuery(db, ng_id, art_id);
 	}
@@ -99,13 +98,13 @@ namespace net {
 		int ng_id = this->read_num(con);
 		int art_id = this->read_num(con);
 		char end_command = con.read();
-		if(end_command != Protocol::COM_END)
+		if (end_command != Protocol::COM_END)
 			throw IllegalCommandException();
 		return new GetArtQuery(db, ng_id, art_id);
 	}
 
 	string MessageHandler::read_string(Connection& con) throw (IllegalCommandException, ConnectionClosedException){
-		if(con.read() != Protocol::PAR_STRING)
+		if (con.read() != Protocol::PAR_STRING)
 			throw IllegalCommandException();
 		int size = read_int(con);
 		string str;
