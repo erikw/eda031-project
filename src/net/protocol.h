@@ -7,7 +7,7 @@
 #ifndef PROTOCOL_H
 #define PROTOCOL_H
 
-namespace protocol {
+namespace net {
   struct Protocol {
     enum {
       /* Command codes, client -> server */

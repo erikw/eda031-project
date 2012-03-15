@@ -1,17 +1,19 @@
+
 #ifndef QUERY_H
-#define QUERRY_H
+#define QUERY_H
 
 #include "result.h"
-#include "databaseabs.h"
+#include "database.h"
 
-namespace net {
+namespace db {
 	class Query {
-	public:
-		Query(DatabaseAbs& db);
-		Result execute();
-	private:
-		DatabaseAbs db;
+		public:
+			Query(Database& database) : db(database) {}
+			virtual Result* execute() = 0;
+		private:
+			Database db;
 	};
 }
+
 
 #endif
