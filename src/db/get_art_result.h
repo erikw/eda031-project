@@ -4,16 +4,18 @@
 #include "result.h"
 #include <string>
 #include "connection.h"
+#include "connectionclosedexception.h"
+#include "protocol.h"
 
 namespace db {
 	class GetArtResult : public Result{
 	public:
-		GetArtResult(int err_message) : message(err_message) {};
+		GetArtResult(unsigned char err_msg) : message(err_msg) {};
 		GetArtResult(std::string ti, std::string au, std::string te) : 
-				title(te), author(au), text(te) {};
+				title(te), author(au), text(te) , message(net::Protocol::ANS_ACK){};
 		void printToConnection(net::Connection& conn);
 	private:
-		int message;
+		unsigned char message;
 		std::string title;
 		std::string author;
 		std::string text;
