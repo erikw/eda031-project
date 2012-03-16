@@ -133,7 +133,7 @@ namespace net {
 		return res;
 	}
 
-	void MessageHandler::send_result(db::Result &result) { // TODO Does not this one needs a connection (and thorw some exceptions?)
+	void MessageHandler::send_result(db::Result &result) { // TODO Does not this one needs a connection (and throw some exceptions?)
 
 	}
 }

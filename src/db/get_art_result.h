@@ -16,10 +16,10 @@ namespace db {
 		void printToConnection(net::Connection &conn);
 
 	private:
-		unsigned char message;
 		std::string title;
 		std::string author;
 		std::string text;
+		unsigned char message;
 	};
 }
 
