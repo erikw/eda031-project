@@ -13,17 +13,21 @@ VPATH		= $(SRCDIR) $(LIBDIR)
 THISDIR		= $(shell basename `pwd`)
 TAGSFILE	= ../tags
 PROGS		= client/client_main server/server_main
+DBOBJS		= db/create_ng_result.o db/delete_ng_result.o db/get_art_result.o db/list_art_result.o db/listngquery.o db/list_ng_result.o db/memory_db.o db/result.o # TODO needed?
 
 # Compiler and compiler options:
-CXX		=  $(shell hash clang 2>/dev/null && echo clang || echo g++)
+CXX		=  $(shell hash clang++ 2>/dev/null && echo clang++ || echo g++)
 CC		=  $(CXX)		# For implicit linking rule.
 OPTLVL		= 3			# Default is 2.
-# Change with make -e DEBUG=false
+# Change with $make -e DEBUG=false
 DEBUG		= true
 DEBUGOPT	= -ggdb
 #ERRFLAGS	= -Wall -W -Wmissing-braces -Wparentheses -Wold-style-cast
 ERRFLAGS	= -Wall -W -Wmissing-braces -Wparentheses 
-CXXFLAGS	= -pipe -ansi -pedantic-errors -fstack-protector-all -z noexecstack
+CXXFLAGS	= -pipe -ansi -pedantic-errors -fstack-protector-all
+ifeq ($(CXX), g++) 
+	CXXFLAGS +=  -z noexecstack
+endif
 CXXFLAGS	+= $(ERRFLAGS) $(shell find $(SRCDIR) -type d -exec echo -I\{\} \;)
 #LDFLAGS	=
 #LDLIBE		=
@@ -106,4 +110,4 @@ include $(DFILES)
 
 # Linking of $(PROGS)
 client/client_main: client/client_main.o
-server/server_main: server/server_main.o server/server.o net/connection.o
+server/server_main: server/server_main.o server/server.o net/connection.o net/messagehandler.o $(DBOBJS)
