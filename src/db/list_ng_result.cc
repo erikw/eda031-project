@@ -1,12 +1,14 @@
 #include <string>
 #include <vector>
 #include "list_ng_result.h"
+#include "net/connectionclosedexception.h"
+#include "net/protocol.h"
 
 using namespace net;
 using namespace std;
 
 namespace db {
-	void ListNGResult::printToConnection(Connection &conn) {
+	void ListNGResult::printToConnection(Connection &conn) throw (ConnectionClosedException){
 		conn.write(Protocol::ANS_LIST_NG);
 		print_int(conn, news_groups.size());
 		for (int i = 0; i < news_groups.size(); ++i) {

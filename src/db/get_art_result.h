@@ -10,10 +10,11 @@
 namespace db {
 	class GetArtResult : public Result {
 	public:
-		GetArtResult(unsigned char err_msg) : message(err_msg) {};
+		GetArtResult(unsigned char err_msg) : message(err_msg) {}
 		GetArtResult(std::string ti, std::string au, std::string te) : 
-				title(te), author(au), text(te) , message(net::Protocol::ANS_ACK){};
+				title(te), author(au), text(te) , message(net::Protocol::ANS_ACK) {}
 		void printToConnection(net::Connection &conn);
+
 	private:
 		unsigned char message;
 		std::string title;

@@ -1,4 +1,3 @@
-
 #ifndef CREATEARTQUERY_H
 #define CREATEARTQUERY_H
 
