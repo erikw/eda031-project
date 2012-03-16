@@ -6,10 +6,10 @@
 #include "connection.h"
 
 namespace db {
-	class DeleteNGResult : public Result{
+	class DeleteNGResult : public Result {
 	public:
 		DeleteNGResult(unsigned char mess) : message(mess) {};
-		void printToConnection(net::Connection& conn) throw(ConnectionClosedException);
+		void printToConnection(net::Connection &conn) throw(net::ConnectionClosedException);
 	private:
 		unsigned char message;
 		

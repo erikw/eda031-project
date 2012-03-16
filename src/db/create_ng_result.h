@@ -7,11 +7,12 @@
 
 namespace db {
 	class CreateNGResult : public Result {
-		public:
-			CreateNGResult(unsigned char mess) : message(mess) {};
-			void printToConnection(net::Connection& conn) throw(ConnectionClosedException);
-		private:
-			unsigned char message;
+	public:
+		CreateNGResult(unsigned char mess) : message(mess) {}
+		void printToConnection(net::Connection &conn) throw(net::ConnectionClosedException);
+
+	private:
+		unsigned char message;
 	};
 }
 

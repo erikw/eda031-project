@@ -3,7 +3,7 @@
 namespace db {
 	using namespace net;
 	
-	void GetArtResult::printToConnection(Connection& con){
+	void GetArtResult::printToConnection(Connection &con){
 		con.write(Protocol::ANS_GET_ART);
 		if(message != Protocol::ANS_ACK){
 			con.write(Protocol::ANS_NAK);

@@ -6,15 +6,15 @@ using namespace net;
 using namespace std;
 
 namespace db {
-	ListArtResult::printToConnection(Connection& conn){
+	void ListArtResult::printToConnection(Connection& conn) {
 		conn.write(Protocol::ANS_LIST_ART);
-		if(message==Protocol::ANS_NACK){		
+		if (message==Protocol::ANS_NACK) {
 			conn.write(Protocol::ANS_NACK);
 			conn.write(message);
-		}else{
+		} else {
 			conn.write(Protocol::ANS_ACK);
 			print_int(conn, articles.size());
-			for(int i = 0; i < articles.size(); ++i){
+			for (int i = 0; i < articles.size(); ++i) {
 				pair<int, string> art = articles[i];
 				print_int(conn, art.first);
 				print_string(conn, art.second);

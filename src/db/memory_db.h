@@ -10,31 +10,33 @@
 namespace db {
 	class MemoryDB : public Database {
 	public:
-		MemoryDB() : ng_count(0){}
-		Result* list_ng() { return 0; }
-		Result* create_ng(std::string ng_name) { return 0; }
-		Result* delete_ng(const int& ng_id) { return 0; }
-		Result* list_art(const int& ng_id) { return 0; }
-		Result* create_art(const int& ng_id, std::string title, std::string author, std::string text) { return 0; }
-		Result* delete_art(const int& ng_id, const int& art_id) { return 0; }
-		Result* get_art(const int& ng_id, const int& art_id) { return 0; }
+		MemoryDB() : ng_count(0) {}
+		Result *list_ng() { return 0; }
+		Result *create_ng(std::string ng_name) { return 0; }
+		Result *delete_ng(const int &ng_id) { return 0; }
+		Result *list_art(const int &ng_id) { return 0; }
+		Result *create_art(const int &ng_id, std::string title, std::string author, std::string text) { return 0; }
+		Result *delete_art(const int &ng_id, const int &art_id) { return 0; }
+		Result *get_art(const int &ng_id, const int &art_id) { return 0; }
 
 	private:
-		struct Article{
+		struct Article {
 			std::string title;
 			std::string author;
 			std::string text;
-		}; 
-		struct NewsGroup{
-			NewsGroup() : art_count(0){};			
+		};
+
+		struct NewsGroup {
+			NewsGroup() : art_count(0){};
+
 			int art_count;
 			std::string name;
-			std::map<int,Article> articles;		
+			std::map<int,Article> articles;
 		};
 
 		int ng_count;
 		std::map<int,NewsGroup> news_groups;
 	};
-		
 }
+
 #endif

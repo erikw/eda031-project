@@ -28,13 +28,13 @@ namespace net {
 	  ANS_CREATE_ART = 24,			// answer create article
 	  ANS_DELETE_ART = 25,			// answer delete article
 	  ANS_GET_ART	 = 26,			// answer get article
-	  ANS_END		 = 27,			// answer end
-	  ANS_ACK		 = 28,			// acknowledge
-	  ANS_NAK		 = 29,			// negative acknowledge
+	  ANS_END	 = 27,			// answer end
+	  ANS_ACK	 = 28,			// acknowledge
+	  ANS_NAK	 = 29,			// negative acknowledge
 		
 	  /* Parameters */
 	  PAR_STRING	 = 40,			// string
-	  PAR_NUM		 = 41,			// number
+	  PAR_NUM	 = 41,			// number
 		
 	  /* Error codes */
 	  ERR_NG_ALREADY_EXISTS  = 50,	// newsgroup already exists
