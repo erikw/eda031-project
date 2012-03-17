@@ -13,8 +13,8 @@ VPATH		= $(SRCDIR) $(LIBDIR)
 THISDIR		= $(shell basename `pwd`)
 TAGSFILE	= ../tags
 PROGS		= client/client_main server/server_main
-DBOBJS		= db/create_ng_result.o db/delete_ng_result.o db/get_art_result.o db/list_art_result.o db/list_ng_query.o db/list_ng_result.o db/memory_db.o db/result.o  db/delete_art_result.o db/create_art_result.o db/get_art_query.o db/delete_ng_query.o db/list_art_query.o db/delete_art_query.o db/create_art_query.o db/create_ng_query.o # TODO needed?
-#DBOBJS		= $(patsubst $(SRCDIR)/%.cc,$(SRCDIR)%.o,$(SRCS))
+
+DBOBJS		= $(patsubst $(SRCDIR)/db/%.cc,$(SRCDIR)/db/%.o,$(wildcard $(SRCDIR)/db/*.cc))
 
 # Compiler and compiler options:
 CXX		=  $(shell hash clang++ 2>/dev/null && echo clang++ || echo g++)
@@ -110,4 +110,4 @@ include $(DFILES)
 
 # Linking of $(PROGS)
 client/client_main: client/client_main.o
-server/server_main: server/server_main.o server/server.o net/connection.o net/messagehandler.o db/memory_db.o $(DBOBJS)
+server/server_main: server/server_main.o server/server.o net/connection.o net/messagehandler.o $(DBOBJS)
