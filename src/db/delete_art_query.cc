@@ -1,4 +1,4 @@
-#include "deleteartquery.h"
+#include "delete_art_query.h"
 #include "result.h"
 
 namespace db {

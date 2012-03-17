@@ -1,4 +1,4 @@
-#include "getartquery.h"
+#include "get_art_query.h"
 #include "result.h"
 
 namespace db {

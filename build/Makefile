@@ -13,7 +13,7 @@ VPATH		= $(SRCDIR) $(LIBDIR)
 THISDIR		= $(shell basename `pwd`)
 TAGSFILE	= ../tags
 PROGS		= client/client_main server/server_main
-DBOBJS		= db/create_ng_result.o db/delete_ng_result.o db/get_art_result.o db/list_art_result.o db/listngquery.o db/list_ng_result.o db/memory_db.o db/result.o  db/delete_art_result.o db/create_art_result.o db/getartquery.o db/deletengquery.o db/listartquery.o db/deleteartquery.o db/createartquery.o db/createngquery.o # TODO needed?
+DBOBJS		= db/create_ng_result.o db/delete_ng_result.o db/get_art_result.o db/list_art_result.o db/list_ng_query.o db/list_ng_result.o db/memory_db.o db/result.o  db/delete_art_result.o db/create_art_result.o db/get_art_query.o db/delete_ng_query.o db/list_art_query.o db/delete_art_query.o db/create_art_query.o db/create_ng_query.o # TODO needed?
 #DBOBJS		= $(patsubst $(SRCDIR)/db/%.cc,$(SRCDIR)/db/%.d,$(SRCS))
 
 # Compiler and compiler options:

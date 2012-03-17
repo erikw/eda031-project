@@ -2,6 +2,7 @@
 #define CREATENGQUERY_H
 
 #include <string>
+#include "query.h"
 #include "result.h"
 
 namespace db {

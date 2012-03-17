@@ -1,12 +1,12 @@
 #include "messagehandler.h"
 #include "protocol.h"
-#include "listngquery.h"
-#include "createngquery.h"
-#include "deletengquery.h"
-#include "listartquery.h"
-#include "createartquery.h"
-#include "deleteartquery.h"
-#include "getartquery.h"
+#include "db/list_ng_query.h"
+#include "db/create_ng_query.h"
+#include "db/delete_ng_query.h"
+#include "db/list_art_query.h"
+#include "db/create_art_query.h"
+#include "db/delete_art_query.h"
+#include "db/get_art_query.h"
 
 namespace net {
 	using namespace db;

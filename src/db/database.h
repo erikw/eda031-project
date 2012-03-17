@@ -17,5 +17,6 @@ namespace db {
 		virtual Result *get_art(const int &ng_id, const int &art_id) = 0;
 	};
 }
+
 #endif	
 
