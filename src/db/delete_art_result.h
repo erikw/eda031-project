@@ -6,12 +6,12 @@
 #include "connection.h"
 
 namespace db {
-	class DeleteArtResult : public Result{
-		public:
-			DeleteArtResult(int mess) : message(mess) {};
-			void printToConnection(net::Connection &conn) throw(net::ConnectionClosedException);
-		private:
-			int message;
+	class DeleteArtResult : public Result {
+	public:
+		DeleteArtResult(int mess) : message(mess) {};
+		void printToConnection(net::Connection &conn) throw(net::ConnectionClosedException);
+	private:
+		int message;
 	};
 }
 

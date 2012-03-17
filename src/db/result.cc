@@ -7,10 +7,10 @@ namespace db {
 
 	void Result::print_int(Connection &con, const int &num) throw(net::ConnectionClosedException){
 		con.write(Protocol::PAR_NUM);
-		con.write((num >> 24) && 0xFF);
-		con.write((num >> 16) && 0xFF);
-		con.write((num >> 8) && 0xFF);
-		con.write(num && 0xFF);
+		con.write((num >> 24) & 0xFF);
+		con.write((num >> 16) & 0xFF);
+		con.write((num >> 8) & 0xFF);
+		con.write(num & 0xFF);
 	}
 
 	void Result::print_string(Connection &con, const string &str) throw(net::ConnectionClosedException){

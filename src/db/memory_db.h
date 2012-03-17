@@ -11,6 +11,7 @@ namespace db {
 	class MemoryDB : public Database {
 	public:
 		MemoryDB() : ng_count(0) {}
+		virtual ~MemoryDB();
 		Result *list_ng();
 		Result *create_ng(std::string ng_name);
 		Result *delete_ng(const int &ng_id);

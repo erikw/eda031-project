@@ -6,11 +6,11 @@
 
 namespace db {
 	class Query {
-		public:
-			Query(Database& database) : db(database) {}
-			virtual Result *execute() = 0;
-		private:
-			Database &db;
+	public:
+		Query(Database& database) : db(database) {}
+		virtual Result *execute() = 0;
+	private:
+		Database &db;
 	};
 }
 

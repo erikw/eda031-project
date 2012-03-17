@@ -7,11 +7,11 @@
 
 namespace db {
 	class CreateArtResult : public Result {
-		public:
-			CreateArtResult(int mess) : message(mess) {};
-			void printToConnection(net::Connection &conn) throw(net::ConnectionClosedException);
-		private:
-			int message;
+	public:
+		CreateArtResult(int mess) : message(mess) {};
+		void printToConnection(net::Connection &conn) throw(net::ConnectionClosedException);
+	private:
+		int message;
 	};
 }
 

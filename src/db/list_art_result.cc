@@ -16,7 +16,7 @@ namespace db {
 		} else {
 			conn.write(Protocol::ANS_ACK);
 			print_int(conn, articles.size());
-			for (int i = 0; i < articles.size(); ++i) {
+			for (size_t i = 0; i < articles.size(); ++i) {
 				pair<int, string> art = articles[i];
 				print_int(conn, art.first);
 				print_string(conn, art.second);

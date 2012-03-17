@@ -24,7 +24,7 @@
 #ifndef CONNECTION_H
 #define CONNECTION_H
 
-#include "connectionclosedexception.h"
+#include "net/connectionclosedexception.h"
 
 /* forward declaration of class Server */
 namespace server {
