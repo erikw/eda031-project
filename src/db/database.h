@@ -7,14 +7,14 @@ namespace db {
 
 	class Database {
 	public:
-		virtual ~Database();
+		virtual ~Database() {  };
 		virtual Result *list_ng() = 0;
 		virtual Result *create_ng(std::string ng_name) = 0;
-		virtual Result *delete_ng(const int &ng_id) = 0;
-		virtual Result *list_art(const int &ng_id) = 0;
-		virtual Result *create_art(const int &ng_id, std::string title, std::string author, std::string text) = 0;
-		virtual Result *delete_art(const int &ng_id, const int &art_id) = 0;
-		virtual Result *get_art(const int &ng_id, const int &art_id) = 0;
+		virtual Result *delete_ng(int ng_id) = 0;
+		virtual Result *list_art(int ng_id) = 0;
+		virtual Result *create_art(int ng_id, std::string title, std::string author, std::string text) = 0;
+		virtual Result *delete_art(int ng_id, int art_id) = 0;
+		virtual Result *get_art(int ng_id, int art_id) = 0;
 	};
 }
 

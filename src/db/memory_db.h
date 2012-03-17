@@ -11,14 +11,13 @@ namespace db {
 	class MemoryDB : public Database {
 	public:
 		MemoryDB() : ng_count(0) {}
-		virtual ~MemoryDB();
 		Result *list_ng();
 		Result *create_ng(std::string ng_name);
-		Result *delete_ng(const int &ng_id);
-		Result *list_art(const int &ng_id);
-		Result *create_art(const int &ng_id, std::string title, std::string author, std::string text);
-		Result *delete_art(const int &ng_id, const int &art_id);
-		Result *get_art(const int &ng_id, const int &art_id);
+		Result *delete_ng(int ng_id);
+		Result *list_art(int ng_id);
+		Result *create_art(int ng_id, std::string title, std::string author, std::string text);
+		Result *delete_art(int ng_id, int art_id);
+		Result *get_art(int ng_id, int art_id);
 
 	private:
 		struct Article {
@@ -28,7 +27,7 @@ namespace db {
 		};
 
 		struct NewsGroup {
-			NewsGroup() : art_count(0){}
+			NewsGroup() : art_count(0) {}
 
 			int art_count;
 			std::string name;

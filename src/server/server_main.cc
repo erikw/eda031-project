@@ -39,7 +39,7 @@ int main(int argc, char **argv) {
 		return EXIT_FAILURE;
 	}
 
-	clog << "Using port " << port << "and a database type " << db_type << "." << endl;
+	clog << "Using port " << port << " and a database type " << db_type << "." << endl;
 	Server server(port);
 	if (!server.isReady()) {
 		cerr << "Server could not be initialized correctly." << endl;
