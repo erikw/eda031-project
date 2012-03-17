@@ -17,35 +17,22 @@ using namespace db;
 const unsigned int default_port = 1025;
 const string default_db = "memory";
 
-// Usage: $server_main [--db (memory | file) --port portnum]
-int main(int argc, char **argv) {
-	unsigned int port = default_port;
-	string db_type = default_db;
-	if (argc == 1) {
-		// Do nothing, using defaults.
-	} else if (argc == 5) {
-		cout << argv[1] << " : " << argv[2] << endl;
-		if (!strcmp(argv[1], "--db") && (!strcmp(argv[2], "memory") || !strcmp(argv[2], "file"))) {
-			db_type = argv[2];
-		} else {
-			cerr << "Bad database parameters." << endl;
-			return EXIT_FAILURE;
+bool read_args(unsigned int &port, string &db_type, size_t argc, char **argv); 
 
-		}
-		if (!(!strcmp(argv[3], "--port") && (port = atoi(argv[4])) && port > 1024)) {
-			cerr << "Bad port option (must be > 1024)." << endl;
-			return EXIT_FAILURE;
-		}
-	} else {
-		cerr << "Usage: $server_main [--db (memory | file) --port portnum]" << endl;
+int main(int argc, char **argv) {
+	unsigned int port;
+	string db_type;
+	if (!read_args(port, db_type, argc, argv)) {
 		return EXIT_FAILURE;
 	}
 
+	clog << "Starting server on port " << port << " with a " << db_type << " database..." << endl;
 	Server server(port);
-	clog << "Server started on port " << port << " with a " << db_type << " database." << endl;
 	if (!server.isReady()) {
 		cerr << "Server could not be initialized correctly." << endl;
 		return EXIT_FAILURE;
+	} else {
+		cout << "Server is running." << endl;
 	}
 
 	Database *database;
@@ -83,4 +70,42 @@ int main(int argc, char **argv) {
 
 	delete database; // TODO will this happen if server is quited with interrupt signal?
 	return EXIT_SUCCESS;
+}
+
+const char *arg_usage = "Usage: $server_main [--db (memory | file)] [--port portnum]";
+
+bool read_args(unsigned int &port, string &db_type, size_t argc, char **argv) {
+	port = default_port;
+	db_type = default_db;
+	bool error = false;
+	if (argc == 1) {
+		// Use defaults.
+	} else if (!(argc == 3 || argc == 5)) {
+		error = true;
+		cerr << arg_usage << endl;
+	} else {
+		for (size_t i = 1; i < argc; i += 2) {
+			if (!strcmp(argv[i], "--db")) {
+				if (!strcmp(argv[i + 1], "memory") || !strcmp(argv[i + 1], "file")) {
+					db_type = argv[i + 1];
+				 } else {
+					 error = true;
+					 cerr << "The database type \"" << argv[i + 1] << "\"is not recognized." << endl;
+				 }
+			} else if (!strcmp(argv[i], "--port")) {
+				unsigned int read_port = atoi(argv[i + 1]);
+					if (read_port == 0 || read_port < 1025) {
+						error = true;
+						cerr << "Port must be > 1024" << endl;
+					} else {
+						port = read_port;
+					}
+			} else {
+				error = true;
+				cerr << "Parameter \"" << argv[i] << "\" is unrecognized." << endl;
+				cerr << arg_usage << endl;
+			}
+		}
+	}
+	return !error;
 }
