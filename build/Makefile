@@ -23,7 +23,7 @@ OPTLVL		= 3			# Default is 2.
 # Change with $make -e DEBUG=false
 DEBUG		= true
 DEBUGOPT	= -ggdb
-ERRFLAGS	= -Wall -W -Wmissing-braces -Wparentheses -Wold-style-cast
+ERRFLAGS	= -Wall -Wextra -Wmissing-braces -Wparentheses -Wold-style-cast
 CXXFLAGS	= -pipe -ansi -pedantic-errors -fstack-protector-all
 ifeq ($(CXX), g++) 
 	CXXFLAGS +=  -z noexecstack

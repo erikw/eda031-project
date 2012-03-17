@@ -1,6 +1,7 @@
 #include <iostream>
 #include <sstream>
 #include <cstdlib>
+#include <cstring>
 
 #include "server/server.h"
 #include "net/connection.h"
@@ -18,30 +19,30 @@ const string default_db = "memory";
 
 // Usage: $server_main [--db (memory | file) --port portnum]
 int main(int argc, char **argv) {
-	clog << "Server started." << endl;
-	unsigned int port;
-	string db_type;
+	unsigned int port = default_port;
+	string db_type = default_db;
 	if (argc == 1) {
-		port = default_port;
-		db_type = default_db;
-	} else if (argc == 4) {
-		string db_str;
-		if (!(cin >> db_str && db_str == "--db" && cin >> db_type && (db_type == "memory" || db_type == "file"))) {
-			cerr << "Bad database parameters.";
+		// Do nothing, using defaults.
+	} else if (argc == 5) {
+		cout << argv[1] << " : " << argv[2] << endl;
+		if (!strcmp(argv[1], "--db") && (!strcmp(argv[2], "memory") || !strcmp(argv[2], "file"))) {
+			db_type = argv[2];
+		} else {
+			cerr << "Bad database parameters." << endl;
 			return EXIT_FAILURE;
+
 		}
-		string port_str;
-		if (!(cin >> port_str && port_str == "--port" && cin >> port && port > 1024)) {
+		if (!(!strcmp(argv[3], "--port") && (port = atoi(argv[4])) && port > 1024)) {
 			cerr << "Bad port option (must be > 1024)." << endl;
 			return EXIT_FAILURE;
-		} 
+		}
 	} else {
 		cerr << "Usage: $server_main [--db (memory | file) --port portnum]" << endl;
 		return EXIT_FAILURE;
 	}
 
-	clog << "Using port " << port << " and a database type " << db_type << "." << endl;
 	Server server(port);
+	clog << "Server started on port " << port << " with a " << db_type << " database." << endl;
 	if (!server.isReady()) {
 		cerr << "Server could not be initialized correctly." << endl;
 		return EXIT_FAILURE;
