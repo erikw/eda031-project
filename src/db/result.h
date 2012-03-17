@@ -1,8 +1,8 @@
 #ifndef RESULT_H
 #define RESULT_H
+#include <string>
 #include "net/connection.h"
 #include "net/connectionclosedexception.h"
-#include <string>
 
 namespace db {
 	class Result {

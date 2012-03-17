@@ -21,7 +21,6 @@
 //
 // ------------------------------------------------------------------
 
-#include "server.h"
 
 #include <iostream>
 #include <algorithm>
@@ -32,7 +31,8 @@
 #include <sys/time.h>	 /* select() */
 #include <netinet/in.h>  /* sockaddr_in */
 
-#include "connection.h"
+#include "server/server.h"
+#include "net/connection.h"
 
 using net::Connection;
 

@@ -1,8 +1,8 @@
 #ifndef DELETEARTQUERY_H
 #define DELETEARTQUERY_H
 
-#include "query.h"
-#include "result.h"
+#include "db/query.h"
+#include "db/result.h"
 
 namespace db {
 	class DeleteArtQuery : public Query {

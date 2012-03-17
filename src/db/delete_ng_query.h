@@ -1,8 +1,8 @@
 #ifndef DELETENGQUERY_H
 #define DELETENGQUERY_H
 
-#include "query.h"
-#include "result.h"
+#include "db/query.h"
+#include "db/result.h"
 
 namespace db {
 	class DeleteNGQuery : public Query {

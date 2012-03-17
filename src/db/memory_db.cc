@@ -1,15 +1,16 @@
 #include <iostream>
-#include "memory_db.h"
-#include "protocol.h"
-#include "list_ng_result.h"
-#include "create_ng_result.h"
-#include "delete_ng_result.h"
-#include "list_art_result.h"
-#include "create_art_result.h"
-#include "delete_art_result.h"
-#include "get_art_result.h"
 #include <map>
 #include <vector>
+
+#include "net/protocol.h"
+#include "db/memory_db.h"
+#include "db/list_ng_result.h"
+#include "db/create_ng_result.h"
+#include "db/delete_ng_result.h"
+#include "db/list_art_result.h"
+#include "db/create_art_result.h"
+#include "db/delete_art_result.h"
+#include "db/get_art_result.h"
 
 using namespace std;
 using namespace net;

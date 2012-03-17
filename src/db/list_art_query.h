@@ -1,7 +1,7 @@
 #ifndef LISTARTQUERY_H
 #define LISTARTQUERY_H
 
-#include "query.h"
+#include "db/query.h"
 
 namespace db {
 	class ListArtQuery : public Query {

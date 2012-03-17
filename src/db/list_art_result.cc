@@ -1,8 +1,9 @@
-#include "list_art_result.h"
 #include <string>
 #include <vector>
-#include "protocol.h"
-#include "connectionclosedexception.h"
+
+#include "db/list_art_result.h"
+#include "net/protocol.h"
+#include "net/connectionclosedexception.h"
 
 using namespace net;
 using namespace std;

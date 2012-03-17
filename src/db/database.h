@@ -1,7 +1,7 @@
 #ifndef DATABASEABS_H
 #define DATABASEABS_H
 
-#include "result.h"
+#include "db/result.h"
 #include <string>
 namespace db {
 

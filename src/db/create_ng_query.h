@@ -2,8 +2,8 @@
 #define CREATENGQUERY_H
 
 #include <string>
-#include "query.h"
-#include "result.h"
+#include "db/query.h"
+#include "db/result.h"
 
 namespace db {
 	class CreateNGQuery : public Query {

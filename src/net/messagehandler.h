@@ -2,10 +2,10 @@
 #define MESSAGEHANDLER_H
 
 #include <string>
-#include "connection.h"
-#include "result.h"
-#include "query.h"
-#include "database.h"
+#include "net/connection.h"
+#include "db/result.h"
+#include "db/query.h"
+#include "db/database.h"
 
 namespace net {
 	struct IllegalCommandException {};

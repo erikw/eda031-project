@@ -28,7 +28,8 @@ CXXFLAGS	= -pipe -ansi -pedantic-errors -fstack-protector-all
 ifeq ($(CXX), g++) 
 	CXXFLAGS +=  -z noexecstack
 endif
-CXXFLAGS	+= $(ERRFLAGS) $(shell find $(SRCDIR) -type d -exec echo -I\{\} \;)
+#CXXFLAGS	+= $(ERRFLAGS) $(shell find $(SRCDIR) -type d -exec echo -I\{\} \;)
+CXXFLAGS	+= $(ERRFLAGS) -I$(SRCDIR)
 #LDFLAGS	=
 #LDLIBE		=
 

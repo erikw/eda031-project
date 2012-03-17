@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cstdlib>
 
-//using namespace server;
 using std::clog;
 
 int main() {

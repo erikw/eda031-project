@@ -3,8 +3,8 @@
 
 #include <string>
 #include <map>
-#include "result.h"
-#include "database.h"
+#include "db/result.h"
+#include "db/database.h"
 
 
 namespace db {

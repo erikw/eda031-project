@@ -3,9 +3,9 @@
 
 #include <string>
 #include <vector>
-#include "connectionclosedexception.h"
-#include "result.h"
-#include "connection.h"
+#include "db/result.h"
+#include "net/connection.h"
+#include "net/connectionclosedexception.h"
 
 namespace db {
 	class ListArtResult : public Result {

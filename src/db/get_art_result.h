@@ -2,10 +2,10 @@
 #define GETARTRESULT_H
 
 #include <string>
-#include "result.h"
-#include "connection.h"
-#include "connectionclosedexception.h"
-#include "protocol.h"
+#include "db/result.h"
+#include "net/connection.h"
+#include "net/connectionclosedexception.h"
+#include "net/protocol.h"
 
 namespace db {
 	class GetArtResult : public Result {

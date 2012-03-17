@@ -1,11 +1,12 @@
 #include <iostream>
 #include <sstream>
 #include <cstdlib>
-#include "connection.h"
-#include "server.h"
-#include "database.h"
-#include "memory_db.h"
-#include "messagehandler.h"
+
+#include "server/server.h"
+#include "net/connection.h"
+#include "net/messagehandler.h"
+#include "db/database.h"
+#include "db/memory_db.h"
 
 using namespace std;
 using namespace net;

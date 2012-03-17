@@ -1,5 +1,5 @@
-#include "delete_art_query.h"
-#include "result.h"
+#include "db/delete_art_query.h"
+#include "db/result.h"
 
 namespace db {
 	Result *DeleteArtQuery::execute() {

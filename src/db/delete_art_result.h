@@ -1,9 +1,9 @@
 #ifndef DELETEARTRESULT_H
 #define DELETEARTRESULT_H
 
-#include "connectionclosedexception.h"
-#include "result.h"
-#include "connection.h"
+#include "net/connection.h"
+#include "net/connectionclosedexception.h"
+#include "db/result.h"
 
 namespace db {
 	class DeleteArtResult : public Result {

@@ -1,5 +1,5 @@
-#include "result.h"
-#include "protocol.h"
+#include "db/result.h"
+#include "net/protocol.h"
 
 namespace db {
 	using namespace std;

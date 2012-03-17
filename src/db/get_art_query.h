@@ -1,8 +1,8 @@
 #ifndef GETARTQUERY_H
 #define GETARTQUERY_H
 
-#include "query.h"
-#include "result.h"
+#include "db/query.h"
+#include "db/result.h"
 
 namespace db {
 	class GetArtQuery : public Query {

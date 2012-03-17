@@ -1,5 +1,6 @@
-#include "delete_ng_result.h"
 #include <string>
+
+#include "db/delete_ng_result.h"
 #include "net/connectionclosedexception.h"
 #include "net/protocol.h"
 

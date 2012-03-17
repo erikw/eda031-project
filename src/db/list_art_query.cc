@@ -1,5 +1,5 @@
-#include "list_art_query.h"
-#include "result.h"
+#include "db/list_art_query.h"
+#include "db/result.h"
 
 namespace db {
 	Result *ListArtQuery::execute() {

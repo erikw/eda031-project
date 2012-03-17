@@ -1,5 +1,5 @@
-#include "get_art_query.h"
-#include "result.h"
+#include "db/get_art_query.h"
+#include "db/result.h"
 
 namespace db {
 	Result *GetArtQuery::execute() {

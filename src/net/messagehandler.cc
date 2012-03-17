@@ -1,5 +1,5 @@
-#include "messagehandler.h"
-#include "protocol.h"
+#include "net/messagehandler.h"
+#include "net/protocol.h"
 #include "db/list_ng_query.h"
 #include "db/create_ng_query.h"
 #include "db/delete_ng_query.h"

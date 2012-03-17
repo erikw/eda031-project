@@ -1,9 +1,9 @@
 #ifndef CREATEARTRESULT_H
 #define CREATEARTRESULT_H
 
-#include "connectionclosedexception.h"
-#include "result.h"
-#include "connection.h"
+#include "db/result.h"
+#include "net/connectionclosedexception.h"
+#include "net/connection.h"
 
 namespace db {
 	class CreateArtResult : public Result {

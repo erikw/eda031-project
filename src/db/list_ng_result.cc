@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
-#include "list_ng_result.h"
+
+#include "db/list_ng_result.h"
 #include "net/connectionclosedexception.h"
 #include "net/protocol.h"
 

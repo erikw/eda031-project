@@ -1,11 +1,12 @@
 #ifndef LISTNGRESULT_H
 #define LISTNGRESULT_H
 
-#include "connectionclosedexception.h"
-#include "result.h"
-#include "connection.h"
 #include <string>
 #include <vector>
+
+#include "db/result.h"
+#include "net/connectionclosedexception.h"
+#include "net/connection.h"
 
 namespace db {
 	class ListNGResult : public Result {

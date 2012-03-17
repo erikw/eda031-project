@@ -1,7 +1,7 @@
 #ifndef CREATEARTQUERY_H
 #define CREATEARTQUERY_H
 
-#include "query.h"
+#include "db/query.h"
 
 namespace db {
 	class CreateArtQuery : public Query {

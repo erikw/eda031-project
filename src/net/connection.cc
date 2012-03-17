@@ -22,9 +22,6 @@
 //
 // ------------------------------------------------------------------
 
-#include "connection.h"
-#include "connectionclosedexception.h"
-
 #include <iostream>
 #include <cstdlib>		 /* exit() */
 #include <cstring>		 /* memcpy() */
@@ -36,6 +33,9 @@
 #include <unistd.h>		 /* close(), read(), write() */
 #include <sys/uio.h>	 /* read(), write() */
 #include <netinet/in.h>  /* sockaddr_in */
+
+#include "net/connection.h"
+#include "net/connectionclosedexception.h"
 
 namespace net {
 	bool Connection::ignoresPipeSignals = false;

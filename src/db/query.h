@@ -1,8 +1,8 @@
 #ifndef QUERY_H
 #define QUERY_H
 
-#include "result.h"
-#include "database.h"
+#include "db/result.h"
+#include "db/database.h"
 
 namespace db {
 	class Query {
