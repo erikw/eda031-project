@@ -41,7 +41,7 @@ namespace db {
 		}
 
 		Result *MemoryDB::list_art(int ng_id) {
-			if (news_groups.find(ng_id)==news_groups.end()){
+			if (news_groups.find(ng_id) == news_groups.end()){
 				return new ListArtResult(static_cast<unsigned char>(Protocol::ERR_NG_DOES_NOT_EXIST));
 			}
 			vector<pair<int, string> > temp_art_list;
