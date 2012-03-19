@@ -1,6 +1,7 @@
 #include "db/delete_art_result.h"
 #include "net/connectionclosedexception.h"
 #include "net/connection.h"
+#include "net/protocol.h"
 
 using namespace net;
 
