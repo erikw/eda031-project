@@ -3,13 +3,15 @@
 #include "net/connection.h"
 #include "net/protocol.h"
 
-using namespace net;
-
 namespace db {
+
+	using namespace net;
+
 	void CreateArtResult::printToConnection(Connection &conn) throw(ConnectionClosedException) {
-		conn.write(Protocol::ANS_CREATE_ART);		
-		if (message != Protocol::ANS_ACK)
+		conn.write(Protocol::ANS_CREATE_ART);
+		if(message != Protocol::ANS_ACK) {
 			conn.write(Protocol::ANS_NAK);
+		}
 		conn.write(message);
 		conn.write(Protocol::ANS_END);
 	}
