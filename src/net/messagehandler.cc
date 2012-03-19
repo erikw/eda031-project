@@ -11,9 +11,9 @@
 namespace net {
 	using namespace db;
 	using namespace std;
-	MessageHandler::MessageHandler(Database& database) : db(database) {}
+	MessageHandler::MessageHandler(Database &database) : db(database) {}
 
-	Query* MessageHandler::recieve_query(Connection& con) throw(IllegalCommandException, ConnectionClosedException){
+	Query *MessageHandler::recieve_query(Connection &con) throw(IllegalCommandException, ConnectionClosedException){
 		unsigned char command_type = con.read();
 		Query *query;
 		switch (command_type) {
@@ -44,14 +44,14 @@ namespace net {
 		return query;
 	}
 
-	Query* MessageHandler::read_list_ng(Connection& con) throw (IllegalCommandException, ConnectionClosedException){
+	Query *MessageHandler::read_list_ng(Connection &con) throw (IllegalCommandException, ConnectionClosedException){
 		char end_command = con.read();
 		if (end_command != Protocol::COM_END)
 			throw IllegalCommandException();
 		return new ListNGQuery(db);
 	}
 
-	Query* MessageHandler::read_create_ng(Connection& con) throw (IllegalCommandException, ConnectionClosedException){
+	Query *MessageHandler::read_create_ng(Connection &con) throw (IllegalCommandException, ConnectionClosedException){
 		string ng_name = this->read_string(con);
 		char end_command = con.read();
 		if (end_command != Protocol::COM_END)
@@ -59,7 +59,7 @@ namespace net {
 		return new CreateNGQuery(db, ng_name);
 	}
 
-	Query* MessageHandler::read_delete_ng(Connection& con) throw (IllegalCommandException, ConnectionClosedException){
+	Query *MessageHandler::read_delete_ng(Connection &con) throw (IllegalCommandException, ConnectionClosedException){
 		int ng_id = this->read_num(con);
 		char end_command = con.read();
 		if (end_command != Protocol::COM_END)
@@ -67,7 +67,7 @@ namespace net {
 		return new DeleteNGQuery(db, ng_id);
 	}
 
-	Query* MessageHandler::read_list_art(Connection& con) throw (IllegalCommandException, ConnectionClosedException){
+	Query *MessageHandler::read_list_art(Connection &con) throw (IllegalCommandException, ConnectionClosedException){
 		int ng_id = this->read_num(con);
 		char end_command = con.read();
 		if (end_command != Protocol::COM_END)
@@ -75,7 +75,7 @@ namespace net {
 		return new ListArtQuery(db, ng_id);
 	}
 
-	Query* MessageHandler::read_create_art(Connection& con) throw (IllegalCommandException, ConnectionClosedException){
+	Query *MessageHandler::read_create_art(Connection &con) throw (IllegalCommandException, ConnectionClosedException){
 		int ng_id = this->read_num(con);
 		string title = this->read_string(con);
 		string author = this->read_string(con);
@@ -86,7 +86,7 @@ namespace net {
 		return new CreateArtQuery(db, ng_id, title, author, text);
 	}
 
-	Query* MessageHandler::read_delete_art(Connection& con) throw (IllegalCommandException, ConnectionClosedException){
+	Query *MessageHandler::read_delete_art(Connection &con) throw (IllegalCommandException, ConnectionClosedException){
 		int ng_id = this->read_num(con);
 		int art_id = this->read_num(con);
 		char end_command = con.read();
@@ -95,7 +95,7 @@ namespace net {
 		return new DeleteArtQuery(db, ng_id, art_id);
 	}
 
-	Query* MessageHandler::read_get_art(Connection& con) throw (IllegalCommandException, ConnectionClosedException){
+	Query* MessageHandler::read_get_art(Connection &con) throw (IllegalCommandException, ConnectionClosedException){
 		int ng_id = this->read_num(con);
 		int art_id = this->read_num(con);
 		char end_command = con.read();
@@ -104,7 +104,7 @@ namespace net {
 		return new GetArtQuery(db, ng_id, art_id);
 	}
 
-	string MessageHandler::read_string(Connection& con) throw (IllegalCommandException, ConnectionClosedException){
+	string MessageHandler::read_string(Connection &con) throw (IllegalCommandException, ConnectionClosedException){
 		if (con.read() != Protocol::PAR_STRING)
 			throw IllegalCommandException();
 		int size = read_int(con);
@@ -116,14 +116,14 @@ namespace net {
 		return str;
 	}
 
-	int MessageHandler::read_num(Connection& con) throw (IllegalCommandException, ConnectionClosedException){
+	int MessageHandler::read_num(Connection &con) throw (IllegalCommandException, ConnectionClosedException){
 		if(con.read() != Protocol::PAR_NUM)
 			throw IllegalCommandException();
 		unsigned int num = read_int(con);
 		return num;
 	}
 
-	int MessageHandler::read_int(Connection& con) throw (ConnectionClosedException){
+	int MessageHandler::read_int(Connection &con) throw (ConnectionClosedException){
 		unsigned int res;
 		for(unsigned char i = 0; i < 4; ++i){
 			unsigned char tmp = con.read();

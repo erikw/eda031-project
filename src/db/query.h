@@ -7,10 +7,10 @@
 namespace db {
 	class Query {
 	public:
-		Query(Database& database) : db(database) {}
+		Query(Database& db) : database(db) {}
 		virtual Result *execute() = 0;
-	private:
-		Database &db;
+	protected:
+		Database &database;
 	};
 }
 
