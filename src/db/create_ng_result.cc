@@ -1,5 +1,3 @@
-#include <string>
-
 #include "net/protocol.h"
 #include "net/connectionclosedexception.h"
 #include "db/create_ng_result.h"
