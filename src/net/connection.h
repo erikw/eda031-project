@@ -57,6 +57,9 @@ namespace net {
 		/* Read a character */
 		unsigned char read() const throw(ConnectionClosedException);
 		
+		/* Server fetches the socket number */
+		int getSocket() const;
+		
 	protected:
 		/* The socket number that this connections communicates on */
 		int my_socket;
@@ -67,9 +70,6 @@ namespace net {
 		
 		/* Initialization from server, receives socket numbers */
 		void initConnection(int s);
-		
-		/* Server fetches the socket number */
-		int getSocket() const;
 		
 		/* Print error message and exit */
 		void error(const char* msg) const;
