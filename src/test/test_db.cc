@@ -4,6 +4,7 @@
 #include "net/protocol.h"
 #include <string>
 #include <iostream>
+
 using namespace std;
 using namespace db;
 using namespace net;
@@ -59,7 +60,8 @@ void set_up(){
 
 void tear_down(){
 	delete mdb;
-	con_output.clear();
+	//con_output.clear();
+	con_output = string();
 }
 
 void test_create_ng(){
@@ -143,7 +145,7 @@ void test_delete_ng(){
 	set_up();
 	Result *res;
 	string del_exp;
-	cout << "Test delete signle newsgroup." << endl;
+	cout << "Test delete single newsgroup." << endl;
 	res = mdb->create_ng("test_ng1");
 	delete res;
 	res = mdb->delete_ng(1);
@@ -275,6 +277,78 @@ void test_list_no_ng_art(){
 	tear_down();
 }
 
+void test_get_art() {
+	set_up();
+	Result *res;
+	string exp;
+	cout << "Test to get an article from a news group." << endl;
+	int group_id = 1;
+	delete mdb->create_ng("ng1");
+	string title("Title");
+	string author("Author");
+	string text("content-text.");
+	delete mdb->create_art(group_id, title, author, text);
+	res = mdb->get_art(group_id, 1); // First entry should have ID 1.
+	res->printToConnection(con);
+
+	exp += Protocol::ANS_GET_ART;
+	exp += Protocol::PAR_STRING;
+	convert(exp, title);
+	exp += Protocol::PAR_STRING;
+	convert(exp, author);
+	exp += Protocol::PAR_STRING;
+	convert(exp, text);
+	exp += Protocol::ANS_END;
+
+	assertEquals("Get article.", exp, con_output);
+	delete res;
+	tear_down();
+}
+
+void test_get_no_art() {
+	set_up();
+	Result *res;
+	string exp;
+	cout << "Test to get an article that does not exists." << endl;
+	delete mdb->create_ng("ng1");
+	int group_id = 1;
+	string title("Title");
+	string author("Author");
+	string text("content-text.");
+	delete mdb->create_art(group_id, title, author, text);
+	res = mdb->get_art(group_id, 2); // First entry should have ID 1.
+	res->printToConnection(con);
+	exp += Protocol::ANS_GET_ART;
+	exp += Protocol::ANS_NAK;
+	exp += Protocol::ERR_ART_DOES_NOT_EXIST;
+	exp += Protocol::ANS_END;
+	assertEquals("Get inexisting article.", exp, con_output);
+	delete res;
+	tear_down();
+}
+
+void test_get_art_no_ng() {
+	set_up();
+	Result *res;
+	string exp;
+	cout << "Test to get an article from inexisting news group." << endl;
+	delete mdb->create_ng("ng1");
+	int group_id = 1;
+	string title("Title");
+	string author("Author");
+	string text("content-text.");
+	delete mdb->create_art(group_id, title, author, text);
+	res = mdb->get_art(1, 1); // First entry should have ID 1. Group 1 should not exist now.
+	res->printToConnection(con);
+	exp += Protocol::ANS_GET_ART;
+	exp += Protocol::ANS_NAK;
+	exp += Protocol::ERR_NG_DOES_NOT_EXIST;
+	exp += Protocol::ANS_END;
+	assertEquals("Get article from inexisting news group.", exp, con_output);
+	delete res;
+	tear_down();
+}
+
 int main() {
 	test_create_ng();
 	test_create_exist_ng();
@@ -286,4 +360,7 @@ int main() {
 	test_create_no_ng_art();
 	test_list_art();
 	test_list_no_ng_art();
+	test_get_art();
+	test_get_no_art();
+	test_get_art_no_ng();
 }
