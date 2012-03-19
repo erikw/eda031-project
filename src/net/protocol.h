@@ -18,7 +18,7 @@ namespace net {
 	  COM_CREATE_ART = 5,			// create article
 	  COM_DELETE_ART = 6,			// delete article
 	  COM_GET_ART	 = 7,			// get article
-	  COM_END		 = 8,			// command end
+	  COM_END	 = 8,			// command end
 		
 	  /* Answer codes, server -> client */
 	  ANS_LIST_NG	 = 20,			// answer list newsgroups

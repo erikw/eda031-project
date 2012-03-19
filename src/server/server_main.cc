@@ -17,7 +17,7 @@ using namespace db;
 const unsigned int default_port = 1025;
 const string default_db = "memory";
 
-bool read_args(unsigned int &port, string &db_type, size_t argc, char **argv); 
+bool read_args(unsigned int &port, string &db_type, size_t argc, char **argv);
 
 int main(int argc, char **argv) {
 	unsigned int port;
@@ -39,36 +39,43 @@ int main(int argc, char **argv) {
 	if (db_type == "memory") {
 		database  = new MemoryDB();
 	} else {
-		//database = new Filedb(); // TODO not implemented.
+		//database = new FileDB(); // TODO not implemented.
 	}
 	MessageHandler message_handler(*database);
 
 	while (true) {
+		clog << "Waiting for activity." << endl;
 		Connection *connection = server.waitForActivity();
 		if (connection) {
-			try {
-				Query *query; // TODO who deallocates, me I guess?
+				Query *query = 0;
+				Result *result = 0;
 				try {
 					query = message_handler.recieve_query(*connection);
+					clog << "Query received." << endl;
 
+					Result *result = query->execute();
+					clog << "Query executed." << endl;
+
+					result->printToConnection(*connection);
+					clog << "Result sent." << endl;
 				} catch (const IllegalCommandException &ice) {
-					// TODO
+					cerr << "Illegal commando from socket " << connection->getSocket() << ". Disconnecting it." << endl;
+					server.deregisterConnection(connection);
+					delete connection;
+				} catch (const ConnectionClosedException &cce) {
+					clog << "Socket " << connection->getSocket() << " disconnected." << endl;
+					server.deregisterConnection(connection);
+					delete connection;
 				}
-
-				query->execute();
-
-			} catch (const ConnectionClosedException &cce) {
-				// TODO delete this connection.
-			}
+				delete result;
+				delete query;
 
 		} else {
 			clog << "New incoming connection." << endl;
 			server.registerConnection(new Connection());
 		}
 	}
-
-
-	delete database; // TODO will this happen if server is quited with interrupt signal?
+	delete database;
 	return EXIT_SUCCESS;
 }
 

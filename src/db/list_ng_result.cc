@@ -9,7 +9,7 @@ using namespace net;
 using namespace std;
 
 namespace db {
-	void ListNGResult::printToConnection(Connection &conn) throw (ConnectionClosedException){
+	void ListNGResult::printToConnection(Connection &conn) throw (net::ConnectionClosedException) {
 		conn.write(Protocol::ANS_LIST_NG);
 		print_num(conn, news_groups.size());
 		for (size_t i = 0; i < news_groups.size(); ++i) {

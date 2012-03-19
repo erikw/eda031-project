@@ -9,7 +9,7 @@ using namespace net;
 using namespace std;
 
 namespace db {
-	void ListArtResult::printToConnection(Connection& conn) throw (ConnectionClosedException){
+	void ListArtResult::printToConnection(Connection& conn) throw (net::ConnectionClosedException){
 		conn.write(Protocol::ANS_LIST_ART);
 		if (message == Protocol::ANS_NAK) {
 			conn.write(Protocol::ANS_NAK);

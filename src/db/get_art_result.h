@@ -13,7 +13,7 @@ namespace db {
 		GetArtResult(unsigned char err_msg) : message(err_msg) {}
 		GetArtResult(std::string ti, std::string au, std::string te) : 
 				title(ti), author(au), text(te) , message(net::Protocol::ANS_ACK) {}
-		void printToConnection(net::Connection &conn);
+		void printToConnection(net::Connection &conn) throw (net::ConnectionClosedException);
 
 	private:
 		std::string title;
