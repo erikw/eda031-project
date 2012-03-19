@@ -11,11 +11,9 @@
 namespace db {
 	class ListNGResult : public Result {
 	public:
-		ListNGResult(unsigned char err_message) : message(err_message) {}
 		ListNGResult(std::vector<std::pair<int, std::string> > ng) : news_groups(ng) {}
 		void printToConnection(net::Connection &conn) throw(net::ConnectionClosedException);
 	private:
-		unsigned char message;
 		std::vector<std::pair<int, std::string> > news_groups;
 	};
 }
