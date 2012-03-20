@@ -12,10 +12,6 @@ namespace db {
 			con.write(Protocol::ANS_NAK);
 			con.write(message);
 		} else {
-			std::cout << "HERE" << std::endl;
-			std::cout << "title: " << title << std::endl;
-			std::cout << "author: " << author << std::endl;
-			std::cout << "text: " << text << std::endl;
 			con.write(Protocol::ANS_ACK);
 			print_string(con, title);
 			print_string(con, author);

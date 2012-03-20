@@ -31,11 +31,11 @@ namespace db {
 
 			int art_count;
 			std::string name;
-			std::map<int,Article> articles;
+			std::map<int, Article> articles;
 		};
 
 		int ng_count;
-		std::map<int,NewsGroup> news_groups;
+		std::map<int, NewsGroup> news_groups;
 	};
 }
 

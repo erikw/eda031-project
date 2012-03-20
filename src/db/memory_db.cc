@@ -25,9 +25,11 @@ namespace db {
 		}
 
 		Result *MemoryDB::create_ng(string ng_name) {
-			for (map<int,NewsGroup>::iterator it = news_groups.begin(); it!=news_groups.end(); ++it)
-				if (it->second.name==ng_name)
+			for (map<int,NewsGroup>::iterator it = news_groups.begin(); it != news_groups.end(); ++it) {
+				if (it->second.name == ng_name) {
 					return new CreateNGResult(static_cast<unsigned char>(Protocol::ERR_NG_ALREADY_EXISTS));
+				}
+			}
 			NewsGroup ng;
 			ng.name = ng_name;
 			news_groups[++ng_count] = ng;
@@ -52,7 +54,7 @@ namespace db {
 		}
 
 		Result *MemoryDB::create_art(int ng_id, string title, string author, string text) {
-			if (news_groups.find(ng_id)==news_groups.end())
+			if (news_groups.find(ng_id) == news_groups.end())
 				return new CreateArtResult(static_cast<unsigned char>(Protocol::ERR_NG_DOES_NOT_EXIST));
 			Article art;
 			int art_id = ++news_groups[ng_id].art_count;
