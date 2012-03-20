@@ -51,14 +51,14 @@ help :
 # target: clean - Remove all objects.
 clean:
 	$(RM) $(OBJS)
-	$(RM) $(TAGSFILE)
 	#$(RM) $(DFILES)
 	find . -iregex '.*\.d\(\.[0-9]+\)?$$' -exec rm \{\} \;
 
 # target: clean - Remove all executables.
 cleaner: clean
 	$(RM) $(PROGS)
-	#$(RM) -r $(fileter $(shell find . -type d),.) # Useless with include($(DFILES)).
+	$(RM) $(TAGSFILE)
+	find . -type d -delete
 
 # target: install - Installs executables and libraries.
 install: $(PROGS)
