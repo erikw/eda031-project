@@ -1,6 +1,5 @@
-!build/Makefile
 build/
+!build/Makefile
 tags
 *.gch
-*.o
 *.swp
