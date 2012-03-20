@@ -39,7 +39,7 @@ endif
 
 
 ## Targets ##
-.PHONY: all clean help list tar doc install uninstall
+.PHONY: all test run-test clean help list tar doc install uninstall
 
 # target: all - Make all executable programs.
 all: $(PROGS)
@@ -48,6 +48,11 @@ all: $(PROGS)
 help :
 		@egrep "#\starget:" [Mm]akefile	| cut -d " " -f3-
 
+# target: test - Compile all tests
+test: test/test_db
+
+run-test: test
+	./test/test_db
 # target: clean - Remove all objects.
 clean:
 		$(RM) $(OBJS)
@@ -109,3 +114,6 @@ include $(DFILES)
 # Linking of $(PROGS)
 client/client_main: client/client_main.o
 server/server_main: server/server_main.o server/server.o net/connection.o net/messagehandler.o $(DBOBJS)
+
+# Linking of tests
+test/test_db: test/test_db.o net/connection.o $(DBOBJS)

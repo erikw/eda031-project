@@ -3,6 +3,7 @@
 #include "db/delete_ng_result.h"
 #include "net/connectionclosedexception.h"
 #include "net/protocol.h"
+#include "net/connection.h"
 
 using namespace net;
 using namespace std;

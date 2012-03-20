@@ -49,13 +49,13 @@ namespace net {
 		virtual ~Connection();
 		
 		/* Returns true if the connection has been established */
-		bool isConnected() const;
+		virtual bool isConnected() const;
 		
 		/* Write a character */
-		void write(unsigned char ch) const throw(ConnectionClosedException);
+		virtual void write(unsigned char ch) const throw(ConnectionClosedException);
 		
 		/* Read a character */
-		unsigned char read() const throw(ConnectionClosedException);
+		virtual unsigned char read() const throw(ConnectionClosedException);
 		
 		/* Server fetches the socket number */
 		int getSocket() const;
