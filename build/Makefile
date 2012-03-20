@@ -93,7 +93,7 @@ tags :
 	ctags -R --tag-relative=yes -f $(TAGSFILE) ../
 
 # target: help - Run all tests.
-test: test
+test:
 	test/test_db
 
 # target: doc - Generate documentation.
