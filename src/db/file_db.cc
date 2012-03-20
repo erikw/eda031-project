@@ -18,12 +18,12 @@ using namespace net;
 
 namespace db {
 
-	FileDB::FileDB() dir(DB_ROOT) {
+	FileDB::FileDB() : dir(DB_ROOT) {
 		// TODO create if DB_ROOT does not exists?
-		ng_count(count_ng());
+		ng_count = count_ng();
 	}
 
-	const string FileDB::DB_ROOT = "./db";
+	const string FileDB::DB_ROOT = "./news_db";
 
 	Result *FileDB::list_ng() {
 		return 0;
