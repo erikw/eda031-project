@@ -278,18 +278,18 @@ void test_list_art(){
 void test_list_no_art(){
 	set_up();
 	Result *res;
-	string exp;
+	vector<char> exp;
 	cout << "Test list no articles." << endl;
 	res = mdb->create_ng("test_ng1");
 	delete res;
 	res = mdb->list_art(1);
 	res->printToConnection(con);
-	exp += Protocol::ANS_LIST_ART;
-	exp += Protocol::ANS_ACK;
-	exp += Protocol::PAR_NUM;
+	exp.push_back(Protocol::ANS_LIST_ART);
+	exp.push_back(Protocol::ANS_ACK);
+	exp.push_back(Protocol::PAR_NUM);
 	convert(exp, 0);
-	exp += Protocol::ANS_END;
-	assertEquals("List article should be empty", exp, con_output);
+	exp.push_back(Protocol::ANS_END);
+	assertEquals("List article should be empty", exp, con.get_output());
 	delete res;
 	tear_down();
 }
@@ -389,7 +389,7 @@ void test_get_art_no_ng() {
 void test_delete_art(){
 	set_up();
 	Result *res;
-	string exp;
+	vector<char> exp;
 	cout << "Test delete articles." << endl;
 	res = mdb->create_ng("test_ng1");
 	delete res;
@@ -399,23 +399,23 @@ void test_delete_art(){
 	res = mdb->create_art(1, title, author, text);
 	delete res;
 	res = mdb->delete_art(1, 1);
-	con_output = string();
+	con.clear_output();
 	res->printToConnection(con);
-	exp += Protocol::ANS_DELETE_ART;
-	exp += Protocol::ANS_ACK;
-	exp += Protocol::ANS_END;
-	assertEquals("Delete article", exp, con_output);
+	exp.push_back(Protocol::ANS_DELETE_ART);
+	exp.push_back(Protocol::ANS_ACK);
+	exp.push_back(Protocol::ANS_END);
+	assertEquals("Delete article", exp, con.get_output());
 	delete res;
-	con_output = string();
-	exp = string();
+	con.clear_output();
+	exp.clear();;
 	res = mdb->list_art(1);
 	res->printToConnection(con);
-	exp += Protocol::ANS_LIST_ART;
-	exp += Protocol::ANS_ACK;
-	exp += Protocol::PAR_NUM;
+	exp.push_back(Protocol::ANS_LIST_ART);
+	exp.push_back(Protocol::ANS_ACK);
+	exp.push_back(Protocol::PAR_NUM);
 	convert(exp, 0);
-	exp += Protocol::ANS_END;
-	assertEquals("List article should be empty", exp, con_output);
+	exp.push_back(Protocol::ANS_END);
+	assertEquals("List article should be empty", exp, con.get_output());
 	delete res;
 	tear_down();
 }
@@ -423,15 +423,15 @@ void test_delete_art(){
 void test_delete_art_no_ng(){
 	set_up();
 	Result *res;
-	string exp;
+	vector<char> exp;
 	cout << "Test delete article without newsgroup." << endl;
 	res = mdb->delete_art(1, 1);
 	res->printToConnection(con);
-	exp += Protocol::ANS_DELETE_ART;
-	exp += Protocol::ANS_NAK;
-	exp += Protocol::ERR_NG_DOES_NOT_EXIST;
-	exp += Protocol::ANS_END;
-	assertEquals("Delete no ng article", exp, con_output);
+	exp.push_back(Protocol::ANS_DELETE_ART);
+	exp.push_back(Protocol::ANS_NAK);
+	exp.push_back(Protocol::ERR_NG_DOES_NOT_EXIST);
+	exp.push_back(Protocol::ANS_END);
+	assertEquals("Delete no ng article", exp, con.get_output());
 	delete res;
 	tear_down();
 }
@@ -439,17 +439,17 @@ void test_delete_art_no_ng(){
 void test_delete_art_no_art(){
 	set_up();
 	Result *res;
-	string exp;
+	vector<char> exp;
 	cout << "Test delete nonexisting article." << endl;
 	res = mdb->create_ng("test_ng1");
 	delete res;
 	res = mdb->delete_art(1, 1);
 	res->printToConnection(con);
-	exp += Protocol::ANS_DELETE_ART;
-	exp += Protocol::ANS_NAK;
-	exp += Protocol::ERR_ART_DOES_NOT_EXIST;
-	exp += Protocol::ANS_END;
-	assertEquals("Delete no ng article", exp, con_output);
+	exp.push_back(Protocol::ANS_DELETE_ART);
+	exp.push_back(Protocol::ANS_NAK);
+	exp.push_back(Protocol::ERR_ART_DOES_NOT_EXIST);
+	exp.push_back(Protocol::ANS_END);
+	assertEquals("Delete no ng article", exp, con.get_output());
 	delete res;
 	tear_down();
 }
