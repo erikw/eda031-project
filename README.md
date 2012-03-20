@@ -10,12 +10,15 @@ Compile and run by typing the following commands:
 	$make
 	$server/server_main [--db (memory | file)] [--port portnum] &
 	$client/client_main
-	<queries>
+	> <query>
+	<result>
+	> <query>
+	.
 	.
 	.
 	^D
 
-With <query> as described in the specification.
+With <query> and <result> as described in the specification.
 
 ##Contributors
 
