@@ -1,5 +1,5 @@
-#ifndef PRIMDB_H
-#define PRIMDB_H
+#ifndef FILEDB_H
+#define FILEDB_H
 
 #include <string>
 #include <map>
@@ -9,9 +9,9 @@
 
 
 namespace db {
-	class MemoryDB : public Database {
+	class FileDB : public Database {
 	public:
-		MemoryDB() : ng_count(0) {}
+		FileDB() : ng_count(count_ng()) {}
 		Result *list_ng();
 		Result *create_ng(std::string ng_name);
 		Result *delete_ng(int ng_id);
@@ -21,23 +21,12 @@ namespace db {
 		Result *get_art(int ng_id, int art_id);
 
 	private:
-		struct Article {
-			std::string title;
-			std::string author;
-			std::string text;
-		};
+		size_t count_ng();
 
-		struct NewsGroup {
-			NewsGroup() : art_count(0) {}
-
-			int art_count;
-			std::string name;
-			std::map<int, Article> articles;
-		};
-
+		static const std::string DB_ROOT;
 		int ng_count;
-		std::map<int, NewsGroup> news_groups;
 	};
+
 }
 
 #endif

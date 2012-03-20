@@ -8,6 +8,7 @@
 #include "net/messagehandler.h"
 #include "db/database.h"
 #include "db/memory_db.h"
+#include "db/file_db.h"
 
 using namespace std;
 using namespace net;
@@ -39,7 +40,7 @@ int main(int argc, char **argv) {
 	if (db_type == "memory") {
 		database  = new MemoryDB();
 	} else {
-		//database = new FileDB(); // TODO not implemented.
+		//database = new FileDB();
 	}
 	MessageHandler message_handler(*database);
 

@@ -1,6 +1,7 @@
 #include <iostream>
 #include <map>
 #include <vector>
+#include <string>
 
 #include "net/protocol.h"
 #include "db/memory_db.h"
