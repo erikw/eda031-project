@@ -6,12 +6,13 @@
 
 #include "db/result.h"
 #include "db/database.h"
+#include "db/directory.h"
 
 
 namespace db {
 	class FileDB : public Database {
 	public:
-		FileDB() : ng_count(count_ng()) {}
+		FileDB();
 		Result *list_ng();
 		Result *create_ng(std::string ng_name);
 		Result *delete_ng(int ng_id);
@@ -24,6 +25,7 @@ namespace db {
 		size_t count_ng();
 
 		static const std::string DB_ROOT;
+		Directory dir;
 		int ng_count;
 	};
 

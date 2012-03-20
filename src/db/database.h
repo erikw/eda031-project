@@ -7,7 +7,7 @@ namespace db {
 
 	class Database {
 	public:
-		virtual ~Database() {  };
+		virtual ~Database() {};
 		virtual Result *list_ng() = 0;
 		virtual Result *create_ng(std::string ng_name) = 0;
 		virtual Result *delete_ng(int ng_id) = 0;

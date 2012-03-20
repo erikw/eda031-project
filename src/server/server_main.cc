@@ -40,7 +40,7 @@ int main(int argc, char **argv) {
 	if (db_type == "memory") {
 		database  = new MemoryDB();
 	} else {
-		//database = new FileDB();
+		database = new FileDB();
 	}
 	MessageHandler message_handler(*database);
 
