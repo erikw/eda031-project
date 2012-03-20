@@ -19,4 +19,8 @@ namespace db {
 		}
 		con.write(Protocol::ANS_END);
 	}
+
+	void GetArtResult::printToCout() {
+		; // TODO
+	}
 }

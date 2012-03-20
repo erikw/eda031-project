@@ -10,7 +10,7 @@ DFILES		= $(patsubst $(SRCDIR)/%.cc,%.d,$(SRCS))
 VPATH		= $(SRCDIR) $(LIBDIR) 
 THISDIR		= $(shell basename `pwd`)
 TAGSFILE	= ../tags
-PROGS		= client/client_main server/server_main
+PROGS		= client/client_main server/server_main test/test_db
 
 DBOBJS		= $(patsubst $(SRCDIR)/db/%.cc,$(SRCDIR)/db/%.o,$(wildcard $(SRCDIR)/db/*.cc))
 
@@ -39,7 +39,7 @@ endif
 
 
 ## Targets ##
-.PHONY: all test run-test clean help list tar doc install uninstall
+.PHONY: all clean help list tar test doc install uninstall
 
 # target: all - Make all executable programs.
 all: $(PROGS)
@@ -48,11 +48,6 @@ all: $(PROGS)
 help :
 		@egrep "#\starget:" [Mm]akefile	| cut -d " " -f3-
 
-# target: test - Compile all tests
-test: test/test_db
-
-run-test: test
-	./test/test_db
 # target: clean - Remove all objects.
 clean:
 		$(RM) $(OBJS)
@@ -95,6 +90,9 @@ tar-src :
 # target: tags - Generate tags with ctags for all files.
 tags :
 		ctags -R --tag-relative=yes -f $(TAGSFILE) ../
+# target: help - Run all tests.
+test: test
+	test/test_db
 
 # target: doc - Generate documentation.
 doc :
@@ -114,6 +112,4 @@ include $(DFILES)
 # Linking of $(PROGS)
 client/client_main: client/client_main.o
 server/server_main: server/server_main.o server/server.o net/connection.o net/messagehandler.o $(DBOBJS)
-
-# Linking of tests
 test/test_db: test/test_db.o net/connection.o $(DBOBJS)

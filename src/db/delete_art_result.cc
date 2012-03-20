@@ -13,5 +13,9 @@ namespace db {
 		conn.write(message);
 		conn.write(Protocol::ANS_END);
 	}
+
+	void DeleteArtResult::printToCout() {
+		; // TODO
+	}
 }
 

@@ -14,7 +14,6 @@ namespace net {
 	public:
 		MessageHandler(db::Database &database);
 		db::Query* recieve_query(Connection &con) throw(IllegalCommandException, ConnectionClosedException);
-		void send_result(db::Result &res) ;
 	private:
 		db::Query *read_list_ng(Connection &con) throw(IllegalCommandException, ConnectionClosedException);
 		db::Query *read_create_ng(Connection &con) throw(IllegalCommandException, ConnectionClosedException);

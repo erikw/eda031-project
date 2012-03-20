@@ -30,12 +30,12 @@ using namespace std;
 		conn.write(Protocol::ANS_END);
 	}
 	
-	void ListArtResult::printToCout(){
+	void ListArtResult::printToCout() {
 		if (message == Protocol::ANS_ACK){
 			cout << "ERROR: Newsgroup doesn't exist" << endl;
-		}else{
+		} else {
 			pair<int, string> current_pair;
-			for(size_t i; i < articles.size(); ++i){
+			for (size_t i = 0; i < articles.size(); ++i) {
 				current_pair = articles[i];
 				cout << current_pair.first << ". " << current_pair.second << endl;
 			}

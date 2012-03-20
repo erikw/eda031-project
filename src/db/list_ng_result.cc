@@ -21,9 +21,9 @@ namespace db {
 		conn.write(Protocol::ANS_END);
 	}
 	
-	void ListNGResult::printToCout(){
+	void ListNGResult::printToCout() {
 		pair<int, string> current_pair;
-		for(size_t i; i < news_groups.size(); ++i){
+		for (size_t i = 0; i < news_groups.size(); ++i) {
 			current_pair = news_groups[i];
 			cout << current_pair.first << ". " << current_pair.second << endl;
 		}

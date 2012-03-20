@@ -19,7 +19,7 @@ namespace db {
 		conn.write(Protocol::ANS_END);
 	}
 
-	void DeleteNGResult::printToCout(){
+	void DeleteNGResult::printToCout() {
 		if (message == Protocol::ANS_ACK)
 			cout << "Newsgroup successfully deleted" << endl;
 		else 	
