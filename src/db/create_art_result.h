@@ -10,6 +10,7 @@ namespace db {
 	public:
 		CreateArtResult(int mess) : message(mess) {};
 		void printToConnection(net::Connection &conn) throw(net::ConnectionClosedException);
+		void printToCout();
 	private:
 		int message;
 	};

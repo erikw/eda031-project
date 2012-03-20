@@ -4,6 +4,6 @@
 
 namespace db {
 	Result *CreateNGQuery::execute() {
-		return 0;
+		return database.create_ng(newsgroup_name);
 	}
 }

@@ -1,9 +1,11 @@
 #include <string>
+#include <iostream>
 
 #include "db/delete_ng_result.h"
 #include "net/connectionclosedexception.h"
 #include "net/protocol.h"
 #include "net/connection.h"
+
 
 using namespace net;
 using namespace std;
@@ -16,4 +18,12 @@ namespace db {
 		conn.write(message);
 		conn.write(Protocol::ANS_END);
 	}
+
+	void DeleteNGResult::printToCout(){
+		if (message == Protocol::ANS_ACK)
+			cout << "Newsgroup successfully deleted" << endl;
+		else 	
+			cout << "ERROR: Newsgroup doesn't exist" << endl;
+	}
+
 }

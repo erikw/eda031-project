@@ -1,3 +1,5 @@
+#include <iostream>
+
 #include "net/protocol.h"
 #include "net/connectionclosedexception.h"
 #include "db/create_ng_result.h"
@@ -12,5 +14,12 @@ namespace db {
 			conn.write(Protocol::ANS_NAK);
 		conn.write(message);
 		conn.write(Protocol::ANS_END);
+	}
+
+	void CreateNGResult::printToCout(){
+		if (message == Protocol::ANS_ACK)
+			cout << "Newsgroup successfully created" << endl;
+		else 	
+			cout << "ERROR: Newsgroup already exists" << endl;
 	}
 }

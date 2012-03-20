@@ -14,6 +14,7 @@ namespace db {
 		ListArtResult(unsigned char err_message) : message(err_message) {};
 		ListArtResult(std::vector<std::pair<int, std::string> > art) : message(net::Protocol::ANS_ACK), articles(art) {};
 		void printToConnection(net::Connection &conn) throw(net::ConnectionClosedException);
+		void printToCout();
 	private:
 		unsigned char message;
 		std::vector<std::pair<int, std::string> > articles;

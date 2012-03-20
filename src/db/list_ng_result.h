@@ -13,6 +13,7 @@ namespace db {
 	public:
 		ListNGResult(std::vector<std::pair<int, std::string> > ng) : news_groups(ng) {}
 		void printToConnection(net::Connection &conn) throw(net::ConnectionClosedException);
+		void printToCout();
 	private:
 		std::vector<std::pair<int, std::string> > news_groups;
 	};

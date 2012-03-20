@@ -14,7 +14,7 @@ namespace db {
 		GetArtResult(std::string ti, std::string au, std::string te) : 
 				title(ti), author(au), text(te) , message(net::Protocol::ANS_ACK) {}
 		void printToConnection(net::Connection &conn) throw (net::ConnectionClosedException);
-
+		void printToCout();
 	private:
 		std::string title;
 		std::string author;

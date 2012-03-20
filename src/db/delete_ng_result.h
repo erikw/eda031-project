@@ -10,6 +10,7 @@ namespace db {
 	public:
 		DeleteNGResult(unsigned char mess) : message(mess) {};
 		void printToConnection(net::Connection &conn) throw(net::ConnectionClosedException);
+		void printToCout();
 	private:
 		unsigned char message;
 		

@@ -3,6 +3,6 @@
 
 namespace db {
 	Result *ListArtQuery::execute() {
-		return 0;
+		return database.list_art(newsgroup_id);
 	}
 }

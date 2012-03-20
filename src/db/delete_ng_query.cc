@@ -3,6 +3,6 @@
 
 namespace db {
 	Result *DeleteNGQuery::execute() {
-		return 0;
+		return database.delete_ng(newsgroup_id);
 	}
 }
