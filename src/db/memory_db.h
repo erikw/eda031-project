@@ -35,7 +35,7 @@ namespace db {
 		};
 
 		int ng_count;
-		std::map<int,NewsGroup> news_groups;
+		std::map<int, NewsGroup> news_groups;
 	};
 }
 
