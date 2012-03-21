@@ -17,16 +17,12 @@ using namespace std;
 using namespace net;
 
 namespace db {
-
-	FileDB::FileDB() : dir(DB_ROOT) {
-		// TODO create if DB_ROOT does not exists?
-		ng_count = count_ng();
-	}
-
-	const string FileDB::DB_ROOT = "./news_db";
+	const string FileDB::DB_ROOT = "news_db";
+	//const string FileDB::DB_ROOT = "db/news_db";
 	const string FileDB::DB_INFO_NAME = "db_info";
 
 	Result *FileDB::list_ng() {
+		
 		return 0;
 	}
 
@@ -34,27 +30,27 @@ namespace db {
 		return 0;
 	}
 
-	Result *FileDB::delete_ng(int ng_id) {
+	Result *FileDB::delete_ng(size_t ng_id) {
 		return 0;
 	}
 
-	Result *FileDB::list_art(int ng_id) {
+	Result *FileDB::list_art(size_t ng_id) {
 		return 0;
 	}
 
-	Result *FileDB::create_art(int ng_id, std::string title, std::string author, std::string text) {
+	Result *FileDB::create_art(size_t ng_id, std::string title, std::string author, std::string text) {
 		return 0;
 	}
 
-	Result *FileDB::delete_art(int ng_id, int art_id) {
+	Result *FileDB::delete_art(size_t ng_id, size_t art_id) {
 		return 0;
 	}
 
-	Result *FileDB::get_art(int ng_id, int art_id) {
+	Result *FileDB::get_art(size_t ng_id, size_t art_id) {
 		return 0;
 	}
 
-	size_t FileDB::count_ng() {
-		return distance(dir.begin(), dir.end()) - 2; // '.' and '..'.
-	}
+	//size_t FileDB::count_ng() {
+		//return distance(dir.begin(), dir.end()) - 2; // '.' and '..'. // TODO is it so?
+	//}
 }

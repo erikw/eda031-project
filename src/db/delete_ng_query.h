@@ -7,10 +7,10 @@
 namespace db {
 	class DeleteNGQuery : public Query {
 	public:
-		DeleteNGQuery(Database &db, int ng_id) : Query(db), newsgroup_id(ng_id) {}
+		DeleteNGQuery(Database &db, size_t ng_id) : Query(db), newsgroup_id(ng_id) {}
 		Result *execute();
 	private:
-		int newsgroup_id;
+		size_t newsgroup_id;
 	};
 
 }

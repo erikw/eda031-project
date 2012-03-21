@@ -11,10 +11,10 @@
 namespace db {
 	class ListNGResult : public Result {
 	public:
-		ListNGResult(std::vector<std::pair<int, std::string> > ng) : news_groups(ng) {}
+		ListNGResult(std::vector<std::pair<size_t, std::string> > ng) : news_groups(ng) {}
 		void printToConnection(net::Connection &conn) throw(net::ConnectionClosedException);
 	private:
-		std::vector<std::pair<int, std::string> > news_groups;
+		std::vector<std::pair<size_t, std::string> > news_groups;
 	};
 }
 

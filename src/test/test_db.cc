@@ -1,10 +1,11 @@
-#include "db/memory_db.h"
-#include "net/connection.h"
-#include "net/protocol.h"
 #include <string>
 #include <iostream>
 #include <vector>
 #include <algorithm>
+
+#include "db/memory_db.h"
+#include "net/connection.h"
+#include "net/protocol.h"
 
 using namespace std;
 using namespace db;

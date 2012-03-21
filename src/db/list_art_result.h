@@ -12,11 +12,11 @@ namespace db {
 	class ListArtResult : public Result {
 	public:
 		ListArtResult(unsigned char err_message) : message(err_message) {};
-		ListArtResult(std::vector<std::pair<int, std::string> > art) : message(net::Protocol::ANS_ACK), articles(art) {};
+		ListArtResult(std::vector<std::pair<size_t, std::string> > art) : message(net::Protocol::ANS_ACK), articles(art) {};
 		void printToConnection(net::Connection &conn) throw(net::ConnectionClosedException);
 	private:
 		unsigned char message;
-		std::vector<std::pair<int, std::string> > articles;
+		std::vector<std::pair<size_t, std::string> > articles;
 	};
 }
 

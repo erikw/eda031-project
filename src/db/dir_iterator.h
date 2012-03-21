@@ -1,5 +1,6 @@
 #ifndef DIR_ITERATOR_H
 #define DIR_ITERATOR_H
+
 #include <sys/types.h>
 #include <dirent.h>
 #include <iterator>

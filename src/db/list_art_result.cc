@@ -21,8 +21,8 @@ using namespace std;
 			conn.write(Protocol::ANS_ACK);
 			print_num(conn, articles.size());
 			
-			for (vector<pair<int, string> >::iterator iter = articles.begin(); iter != articles.end(); ++iter) {
-				vector<pair<int, string> >::value_type art = *iter;
+			for (vector<pair<size_t, string> >::iterator iter = articles.begin(); iter != articles.end(); ++iter) {
+				vector<pair<size_t, string> >::value_type art = *iter;
 				print_num(conn, art.first);
 				print_string(conn, art.second);
 			}

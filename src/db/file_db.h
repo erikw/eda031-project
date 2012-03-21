@@ -11,32 +11,34 @@
 namespace db {
 	class FileDB : public Database {
 	public:
-		FileDB();
+		FileDB() : dir_root(DB_ROOT) {}
+
 		Result *list_ng();
 		Result *create_ng(std::string ng_name);
-		Result *delete_ng(int ng_id);
-		Result *list_art(int ng_id);
-		Result *create_art(int ng_id, std::string title, std::string author, std::string text);
-		Result *delete_art(int ng_id, int art_id);
-		Result *get_art(int ng_id, int art_id);
+		Result *delete_ng(size_t ng_id);
+		Result *list_art(size_t ng_id);
+		Result *create_art(size_t ng_id, std::string title, std::string author, std::string text);
+		Result *delete_art(size_t ng_id, size_t art_id);
+		Result *get_art(size_t ng_id, size_t art_id);
 
 	private:
 		// Read the id count for the given path. Is article ID count for all path != DB_ROOT.
-		size_t read_id_cnt(const string &path); 
+		size_t read_id_cnt(const std::string &path); 
 
 		// Increment the number in the DB_INFO_FILE at the given path.
-		void increment_id_cnt(const string &path); 
+		void increment_id_cnt(const std::string &path); 
 
-		std::parir<size_t, std::string> split_ng(std::vector<strig> full_names);
-
+		// Split the stored news group name to components.
+		std::pair<size_t, std::string> split_ng(std::vector<std::string> full_names);
 
 		//  Check if a news group with the given name exists.
-		bool exists_ng(const string &ng_name);
+		bool exists_ng(const std::string &ng_name);
+
+		//  Check if an article in a specific group exists.
+		bool exists_art(const std::string &ng_name, const std::string &art_name);
 
 		// Return the full name "id_name".
-		std::string get_ng_name(size_t ng_idconst std::string &ng_name); 
-
-		bool exists_art(const string &art_name);
+		std::string get_ng_name(size_t ng_idconst, std::string &ng_name); 
 
 		// The root directory for all files.
 		static const std::string DB_ROOT;	
