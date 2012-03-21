@@ -1,6 +1,7 @@
 !build/Makefile
 build/
 tags
+Session.vim
 *.gch
 *.o
 *.swp

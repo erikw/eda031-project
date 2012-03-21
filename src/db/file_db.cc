@@ -24,6 +24,7 @@ namespace db {
 	}
 
 	const string FileDB::DB_ROOT = "./news_db";
+	const string FileDB::DB_INFO_NAME = "db_info";
 
 	Result *FileDB::list_ng() {
 		return 0;
