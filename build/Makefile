@@ -31,6 +31,7 @@ CXXFLAGS	+= $(ERRFLAGS) -I$(SRCDIR)
 #LDFLAGS	=
 #LDLIBE		=
 
+# Enable debug options.
 ifeq ($(DEBUG), true)
 		CXXFLAGS += $(DEBUGOPT)
 		LDFLAGS  += $(DEBUGOPT)
@@ -38,6 +39,11 @@ else
 		CXXFLAGS += -O$(OPTLVL)
 endif
 
+# Enable instrumented compilation.
+ifeq ($(COVERAGE), true) 
+	CXXFLAGS += --coverage
+	LDFLAGS  += --coverage
+endif
 
 ## Targets ##
 .PHONY: all clean help list tar test doc install uninstall
