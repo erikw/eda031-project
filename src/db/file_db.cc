@@ -1,4 +1,8 @@
 #include <string>
+#include <vector>
+#include <iostream>
+#include <sstream>
+#include <utility>
 
 #include "db/file_db.h"
 #include "db/result.h"
@@ -22,8 +26,13 @@ namespace db {
 	const string FileDB::DB_INFO_NAME = "db_info";
 
 	Result *FileDB::list_ng() {
-		
-		return 0;
+		vector<string> dir_content = root_dir.list_content();
+		for (vector<string>::iterator it = dir_content.begin(); it != dir_content.end(); ++it) {
+			clog << "	Listing news group: " << *it << endl;
+		}
+		vector<pair<size_t, string> > news_groups;
+		 split_ng(news_groups, dir_content);
+		return new ListNGResult(news_groups);
 	}
 
 	Result *FileDB::create_ng(string ng_name) {
@@ -48,6 +57,22 @@ namespace db {
 
 	Result *FileDB::get_art(size_t ng_id, size_t art_id) {
 		return 0;
+	}
+
+	void FileDB::split_ng(vector<pair<size_t, string> > &pairs, const vector<string> &full_names) const {
+		for (vector<string>::const_iterator it = full_names.begin(); it != full_names.end(); ++it) {
+			string full_name = *it;
+			string::size_type skid_pos = full_name.find_first_of('_');
+			string str_id = full_name.substr(0, skid_pos);
+			string name = full_name.substr(skid_pos + 1); // Skip skid.
+
+			size_t id = 0;
+			istringstream iss(str_id);
+			if (!(iss >> id))
+				cerr << "Bad ID for newsgroup found: \"" << str_id << "\"" << endl;
+			
+			pairs.push_back(make_pair(id, name));
+		}
 	}
 
 	//size_t FileDB::count_ng() {

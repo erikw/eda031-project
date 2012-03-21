@@ -3,6 +3,7 @@
 #include <dirent.h>
 #include <errno.h>
 #include <cstdio>
+#include <cstring>
 #include <cstdlib>
 #include <string>
 #include <iostream>
@@ -34,8 +35,14 @@ namespace db {
 		}
 	}
 
-	std::vector<string> Directory::list_content() {
-		return vector<string>();
+	vector<string> Directory::list_content() {
+		vector<string> contents;
+		for (Directory::iterator it = begin(); it != end(); ++it) {
+			if ((*it)->d_type == DT_DIR && strcmp((*it)->d_name, ".") && strcmp((*it)->d_name, "..")) {
+				contents.push_back((*it)->d_name);
+			}
+		}
+		return contents;
 	}
 
 	void Directory::delete_file(const string &file_name) {

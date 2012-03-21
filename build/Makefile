@@ -12,7 +12,7 @@ THISDIR		= $(shell basename `pwd`)
 TAGSFILE	= ../tags
 PROGS		= client/client_main server/server_main
 
-DBOBJS		= $(patsubst $(SRCDIR)/db/%.cc,$(SRCDIR)/db/%.o,$(wildcard $(SRCDIR)/db/*.cc))
+DBOBJS		= $(patsubst $(SRCDIR)/db/%.cc,db/%.o,$(wildcard $(SRCDIR)/db/*.cc))
 
 # Compiler and compiler options:
 CXX		=  $(shell hash clang++ 2>/dev/null && echo clang++ || echo g++)

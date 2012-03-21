@@ -7,7 +7,7 @@
 
 namespace db {
 	class DirIterator : public std::iterator<std::forward_iterator_tag, int> {
-		friend bool operator!=(const DirIterator &lhs, const DirIterator &rhs);
+		friend bool operator==(const DirIterator &lhs, const DirIterator &rhs);
 	public:
 		DirIterator(DIR *dir);
 		dirent *operator*() { return dir_entity; }
@@ -19,7 +19,7 @@ namespace db {
 
 	};
 
-	bool operator==(const DirIterator &lhs, const DirIterator &rhs);
+	bool operator!=(const DirIterator &lhs, const DirIterator &rhs);
 }
 
 #endif
