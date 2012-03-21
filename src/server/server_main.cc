@@ -2,6 +2,7 @@
 #include <sstream>
 #include <cstdlib>
 #include <cstring>
+#include <signal.h>
 
 #include "server/server.h"
 #include "net/connection.h"
@@ -16,11 +17,24 @@ using namespace db;
 
 const unsigned int default_port = 1025;
 const string default_db = "memory";
+bool forever = true;
+unsigned int port;
 
 bool read_args(unsigned int &port, string &db_type, size_t argc, char **argv);
 
+void sighandler(int sig) {
+	forever = false;
+	Connection c("localhost", port); //no better way to end server.waitForActivity()?
+}
+
+
 int main(int argc, char **argv) {
-	unsigned int port;
+
+	signal(SIGABRT, &sighandler);
+	signal(SIGTERM, &sighandler);
+	signal(SIGINT, &sighandler);
+
+
 	string db_type;
 	if (!read_args(port, db_type, argc, argv)) {
 		return EXIT_FAILURE;
@@ -35,7 +49,7 @@ int main(int argc, char **argv) {
 		cout << "Server is running." << endl;
 	}
 
-	Database *database;
+	Database* database;
 	if (db_type == "memory") {
 		database  = new MemoryDB();
 	} else {
@@ -43,7 +57,7 @@ int main(int argc, char **argv) {
 	}
 	MessageHandler message_handler(*database);
 
-	while (true) {
+	while (forever) {
 		clog << "Waiting for activity." << endl;
 		Connection *connection = server.waitForActivity();
 		if (connection) {
@@ -53,11 +67,12 @@ int main(int argc, char **argv) {
 					query = message_handler.recieve_query(*connection);
 					clog << "Query received." << endl;
 
-					Result *result = query->execute();
+					result = query->execute();
 					clog << "Query executed." << endl;
 
 					result->printToConnection(*connection);
 					clog << "Result sent." << endl;
+					
 				} catch (const IllegalCommandException &ice) {
 					cerr << "Illegal commando from socket " << connection->getSocket() << ". Disconnecting it." << endl;
 					server.deregisterConnection(connection);
@@ -70,11 +85,12 @@ int main(int argc, char **argv) {
 				delete result;
 				delete query;
 
-		} else {
+		} else if(forever) {
 			clog << "New incoming connection." << endl;
 			server.registerConnection(new Connection());
 		}
 	}
+	cout << "Terminating server" << endl;
 	delete database;
 	return EXIT_SUCCESS;
 }

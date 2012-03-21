@@ -16,6 +16,7 @@ DBOBJS		= $(patsubst $(SRCDIR)/db/%.cc,db/%.o,$(wildcard $(SRCDIR)/db/*.cc))
 
 # Compiler and compiler options:
 CXX		=  $(shell hash clang++ 2>/dev/null && echo clang++ || echo g++)
+CXX		= g++
 CC		=  $(CXX)		# For implicit linking rule.
 OPTLVL		= 2			# Default is 2.
 # Change with $make -e DEBUG=false
