@@ -8,11 +8,11 @@
 namespace db {
 	class CreateArtResult : public Result {
 	public:
-		CreateArtResult(int mess) : message(mess) {};
+		CreateArtResult(unsigned char mess) : message(mess) {};
 		void printToConnection(net::Connection &conn) throw(net::ConnectionClosedException);
 		void printToCout();
 	private:
-		int message;
+		unsigned char message;
 	};
 }
 
