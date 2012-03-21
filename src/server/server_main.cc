@@ -24,7 +24,7 @@ bool read_args(unsigned int &port, string &db_type, size_t argc, char **argv);
 
 void sighandler(int sig) {
 	forever = false;
-	Connection c("localhost", port); //no better way to end server.waitForActivity()?
+	Connection c("localhost", port); // TODO no better way to end server.waitForActivity()?
 }
 
 
@@ -61,36 +61,34 @@ int main(int argc, char **argv) {
 		clog << "Waiting for activity." << endl;
 		Connection *connection = server.waitForActivity();
 		if (connection) {
-				Query *query = 0;
-				Result *result = 0;
-				try {
-					query = message_handler.recieve_query(*connection);
-					clog << "Query received." << endl;
+			Query *query = 0;
+			Result *result = 0;
+			try {
+				query = message_handler.recieve_query(*connection);
+				clog << "Query received." << endl;
 
-					result = query->execute();
-					clog << "Query executed." << endl;
+				result = query->execute();
+				clog << "Query executed." << endl;
 
-					result->printToConnection(*connection);
-					clog << "Result sent." << endl;
-					
-				} catch (const IllegalCommandException &ice) {
-					cerr << "Illegal commando from socket " << connection->getSocket() << ". Disconnecting it." << endl;
-					server.deregisterConnection(connection);
-					delete connection;
-				} catch (const ConnectionClosedException &cce) {
-					clog << "Socket " << connection->getSocket() << " disconnected." << endl;
-					server.deregisterConnection(connection);
-					delete connection;
-				}
-				delete result;
-				delete query;
-
+				result->printToConnection(*connection);
+				clog << "Result sent." << endl;
+			} catch (const IllegalCommandException &ice) {
+				cerr << "Illegal commando from socket " << connection->getSocket() << ". Disconnecting it." << endl;
+				server.deregisterConnection(connection);
+				delete connection;
+			} catch (const ConnectionClosedException &cce) {
+				clog << "Socket " << connection->getSocket() << " disconnected." << endl;
+				server.deregisterConnection(connection);
+				delete connection;
+			}
+			delete result;
+			delete query;
 		} else if(forever) {
 			clog << "New incoming connection." << endl;
 			server.registerConnection(new Connection());
 		}
 	}
-	cout << "Terminating server" << endl;
+	cout << "Terminating..." << endl;
 	delete database;
 	return EXIT_SUCCESS;
 }
