@@ -57,7 +57,7 @@ namespace db {
 	}
 
 	bool Directory::file_exists(const string &file_name) {
-		iterator res = find(begin(), end(), bind2nd(equal_file_name(), file_name));
+		iterator res = find_if(begin(), end(), bind2nd(equal_file_name(), file_name));
 		return res != end();
 	}
 }

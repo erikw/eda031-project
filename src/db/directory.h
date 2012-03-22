@@ -5,6 +5,7 @@
 #include <string>
 #include <vector>
 #include <functional>
+#include <dirent.h>
 
 #include "db/dir_iterator.h"
 
@@ -25,9 +26,9 @@ namespace db {
 		void mk_dir(const std::string &name);
 		bool file_exists(const std::string &file_name);
 	private:
-		struct equal_file_name : std::binary_function<dirent*, std::string, bool> {
-			bool operator()(dirent *file, std::string file_name) {
-				return file->d_name == file_name;
+		struct equal_file_name : std::binary_function<dirent *, std::string, bool> {
+			bool operator()(dirent *dirp, std::string file_name) const {
+				return dirp->d_name == file_name;
 			}
 		};
 

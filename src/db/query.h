@@ -8,6 +8,7 @@ namespace db {
 	class Query {
 	public:
 		Query(Database& db) : database(db) {}
+		virtual ~Query() {}
 		virtual Result *execute() = 0;
 	protected:
 		Database &database;
