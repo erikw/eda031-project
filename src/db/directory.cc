@@ -8,6 +8,7 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <algorithm>
 
 #include "db/directory.h"
 
@@ -53,5 +54,10 @@ namespace db {
 			ostr << "Error deleting  \"" << full_name << "\"";
 			perror(ostr.str().c_str());
 		}
+	}
+
+	bool Directory::file_exists(const string &file_name) {
+		iterator res = find(begin(), end(), bind2nd(equal_file_name(), file_name));
+		return res != end();
 	}
 }

@@ -7,7 +7,6 @@
 #include "db/result.h"
 #include "db/database.h"
 
-
 namespace db {
 	class MemoryDB : public Database {
 	public:

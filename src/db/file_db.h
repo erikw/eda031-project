@@ -22,17 +22,13 @@ namespace db {
 		Result *get_art(size_t ng_id, size_t art_id);
 
 	private:
-		// Read the id count for the given path. Is article ID count for all path != DB_ROOT.
-		size_t read_id_cnt(const std::string &path) const; 
-
-		// Increment the number in the DB_INFO_FILE at the given path.
-		void increment_id_cnt(const std::string &path) const; 
+		size_t next_id();
 
 		// Split the stored news group name to (pair) components.
 		 void split_ng(std::vector<std::pair<size_t, std::string> > &pairs, const std::vector<std::string> &full_names) const;
 
 		//  Check if a news group with the given name exists.
-		bool exists_ng(const std::string &ng_name) const;
+		bool exists_ng(const std::string &ng_name);
 
 		//  Check if an article in a specific group exists.
 		bool exists_art(const std::string &ng_name, const std::string &art_name);

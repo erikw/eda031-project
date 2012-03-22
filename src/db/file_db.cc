@@ -16,6 +16,7 @@
 #include "db/create_art_result.h"
 #include "db/delete_art_result.h"
 #include "db/get_art_result.h"
+#include "db/file_ng.h"
 
 using namespace std;
 using namespace net;
@@ -27,16 +28,28 @@ namespace db {
 
 	Result *FileDB::list_ng() {
 		vector<string> dir_content = root_dir.list_content();
-		for (vector<string>::iterator it = dir_content.begin(); it != dir_content.end(); ++it) {
-			clog << "	Listing news group: " << *it << endl;
-		}
+		//for (vector<string>::iterator it = dir_content.begin(); it != dir_content.end(); ++it) {
+			//clog << "	Listing news group: " << *it << endl;
+		//}
 		vector<pair<size_t, string> > news_groups;
 		 split_ng(news_groups, dir_content);
 		return new ListNGResult(news_groups);
 	}
 
 	Result *FileDB::create_ng(string ng_name) {
-		return 0;
+		Result *result = 0;
+		if (exists_ng(ng_name)) {
+			result = new CreateNGResult(static_cast<unsigned char>(Protocol::ERR_NG_ALREADY_EXISTS));
+
+		} else {
+			ostringstream ostr;
+			ostr << DB_ROOT << "/" << next_id() << "_" << ng_name;
+			string ng_file_path = ostr.str();
+
+			FileNG ng((Directory(ng_file_path)));
+			result = new CreateNGResult(static_cast<unsigned char>(Protocol::ANS_ACK));
+		}
+		return result;
 	}
 
 	Result *FileDB::delete_ng(size_t ng_id) {
@@ -73,6 +86,26 @@ namespace db {
 			
 			pairs.push_back(make_pair(id, name));
 		}
+	}
+
+
+	bool FileDB::exists_ng(const std::string &ng_name) {
+		vector<string> dir_content = root_dir.list_content();
+		vector<pair<size_t, string> > news_groups;
+		split_ng(news_groups, dir_content);
+		bool found = false;
+		vector<pair<size_t, string> >::iterator it = news_groups.begin();
+		while (!found && it != news_groups.end()) { // TODO use std::find(....)
+			if (it->second == ng_name) {
+				found = true;
+			}
+			++it;
+		}
+		return found;
+	}
+
+	size_t FileDB::next_id() {
+		return 1;
 	}
 
 	//size_t FileDB::count_ng() {
