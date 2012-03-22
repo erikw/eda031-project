@@ -22,14 +22,9 @@ namespace db {
 			ostringstream ostr;
 			ostr << "Error opening path \"" << path << "\"";
 			perror(ostr.str().c_str());
-			
 			if (errno == ENOENT) { // No directory.
-				errno = 0;
-				mkdir(p.c_str(), 0777); // Whatever perms in umask.
-				clog << "Directory \"" << path << "\" is mkdir'd." << endl;
+				mk_dir_helper(path);
 				dir = opendir(path.c_str());
-				if (errno)
-					exit(errno); // Unrecoverable.
 			} else {
 				exit(errno); // Unrecoverable.
 			}
@@ -46,6 +41,10 @@ namespace db {
 		return contents;
 	}
 
+	void Directory::mk_dir(const std::string &name) {
+		mk_dir_helper(path + "/" + name);
+	}
+
 	void Directory::delete_file(const string &file_name) {
 		errno = 0;
 		string full_name = path + "/" + file_name;
@@ -59,5 +58,18 @@ namespace db {
 	bool Directory::file_exists(const string &file_name) {
 		iterator res = find_if(begin(), end(), bind2nd(equal_file_name(), file_name));
 		return res != end();
+	}
+
+	void Directory::mk_dir_helper(std::string full_path) {
+		errno = 0;
+		mkdir(full_path.c_str(), 0777); // Whatever perms in umask.
+		if (errno) {
+			ostringstream ostr;
+			ostr << "Error creating directory \"" << full_path << "\"";
+			perror(ostr.str().c_str());
+			exit(errno); // Unrecoverable.
+		} else {
+			clog << "Directory \"" << path << "\" is mkdir'd." << endl;
+		}
 	}
 }

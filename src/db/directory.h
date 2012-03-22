@@ -23,6 +23,8 @@ namespace db {
 		std::string get_path() { return path; }
 		std::vector<std::string> list_content();
 		void delete_file(const std::string &file_name);
+		
+		// Create a directory in this directory.
 		void mk_dir(const std::string &name);
 		bool file_exists(const std::string &file_name);
 	private:
@@ -31,6 +33,8 @@ namespace db {
 				return dirp->d_name == file_name;
 			}
 		};
+
+		void mk_dir_helper(std::string full_path);
 
 		std::string path;
 		DIR *dir;
