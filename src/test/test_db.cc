@@ -4,6 +4,8 @@
 #include <algorithm>
 
 #include "db/memory_db.h"
+#include "db/file_db.h"
+#include "db/database.h"
 #include "net/connection.h"
 #include "net/protocol.h"
 
@@ -40,7 +42,7 @@ class MockConnection : public Connection {
 		mutable vector<char> output;
 };
 
-MemoryDB *mdb;
+Database *mdb;
 MockConnection con = MockConnection();
 
 template<typename T>
@@ -74,8 +76,19 @@ void convert(vector<char>& out, string str){
 	}
 }
 
+enum {MEMORY_DB, FILE_DB};
+
+char db_type = MEMORY_DB;
+
 void set_up(){
-	mdb = new MemoryDB();
+	switch(db_type){
+	case MEMORY_DB:
+		mdb = new MemoryDB();
+		break;
+	case FILE_DB:
+		mdb = new FileDB();
+		break;
+	}
 	con = MockConnection();
 }
 
@@ -456,6 +469,25 @@ void test_delete_art_no_art(){
 }
 
 int main() {
+	test_create_ng();
+	test_create_exist_ng();
+	test_list_ng();
+	test_list_no_ng();
+	test_delete_ng();
+	test_delete_nonexist_ng();
+	test_create_art();
+	test_create_no_ng_art();
+	test_list_art();
+	test_list_no_art();
+	test_list_no_ng_art();
+	test_delete_art();
+	test_delete_art_no_ng();
+	test_delete_art_no_art();
+	test_get_art();
+	test_get_no_art();
+	test_get_art_no_ng();
+
+	db_type = FILE_DB;
 	test_create_ng();
 	test_create_exist_ng();
 	test_list_ng();
