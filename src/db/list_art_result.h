@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 #include "db/result.h"
-#include "net/connection.h"
+#include "net/messagehandler.h"
 #include "net/protocol.h"
 #include "net/connectionclosedexception.h"
 
@@ -13,7 +13,7 @@ namespace db {
 	public:
 		ListArtResult(unsigned char err_message) : message(err_message) {};
 		ListArtResult(std::vector<std::pair<int, std::string> > art) : message(net::Protocol::ANS_ACK), articles(art) {};
-		void printToConnection(net::Connection &conn) throw(net::ConnectionClosedException);
+		void printToConnection(net::MessageHandler &mh) throw(net::ConnectionClosedException);
 		void printToCout();
 	private:
 		unsigned char message;

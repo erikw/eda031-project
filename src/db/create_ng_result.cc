@@ -8,18 +8,18 @@ using namespace net;
 using namespace std;
 
 namespace db {
-	void CreateNGResult::printToConnection(Connection &conn) throw(ConnectionClosedException) {
-		conn.write(Protocol::ANS_CREATE_NG);
+	void CreateNGResult::printToConnection(MessageHandler &mh) throw(ConnectionClosedException) {
+		mh.print_byte(Protocol::ANS_CREATE_NG);
 		if (message != Protocol::ANS_ACK)
-			conn.write(Protocol::ANS_NAK);
-		conn.write(message);
-		conn.write(Protocol::ANS_END);
+			mh.print_byte(Protocol::ANS_NAK);
+		mh.print_byte(message);
+		mh.print_byte(Protocol::ANS_END);
 	}
 
 	void CreateNGResult::printToCout(){
 		if (message == Protocol::ANS_ACK)
 			cout << "Newsgroup successfully created" << endl;
-		else 	
+		else
 			cout << "ERROR: Newsgroup already exists" << endl;
 	}
 }

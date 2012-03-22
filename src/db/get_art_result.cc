@@ -5,22 +5,30 @@
 
 namespace db {
 	using namespace net;
-	
-	void GetArtResult::printToConnection(Connection &con) throw(net::ConnectionClosedException) {
-		con.write(Protocol::ANS_GET_ART);
+	using namespace std;
+
+	void GetArtResult::printToConnection(MessageHandler &mh) throw(net::ConnectionClosedException) {
+		mh.print_byte(Protocol::ANS_GET_ART);
 		if (message != Protocol::ANS_ACK){
-			con.write(Protocol::ANS_NAK);
-			con.write(message);
+			mh.print_byte(Protocol::ANS_NAK);
+			mh.print_byte(message);
 		} else {
-			con.write(Protocol::ANS_ACK);
-			print_string(con, title);
-			print_string(con, author);
-			print_string(con, text);
+			mh.print_byte(Protocol::ANS_ACK);
+			mh.print_string(title);
+			mh.print_string(author);
+			mh.print_string(text);
 		}
-		con.write(Protocol::ANS_END);
+		mh.print_byte(Protocol::ANS_END);
 	}
 
 	void GetArtResult::printToCout() {
-		; // TODO
+		if(message == Protocol::ANS_ACK){
+			cout << title << "\tFrom: " << author << endl;
+			cout << text << endl;
+		} else if(message == Protocol::ERR_ART_DOES_NOT_EXIST) {
+			cout << "ERROR: Article doesn't exist" << endl;
+		} else {
+			cout << "ERROR: News group doesn't exist" << endl;
+		}
 	}
 }

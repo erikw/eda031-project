@@ -1,22 +1,27 @@
+#include <iostream>
 #include "db/create_art_result.h"
 #include "net/connectionclosedexception.h"
 #include "net/connection.h"
 #include "net/protocol.h"
 
 using namespace net;
+using namespace std;
 
 namespace db {
 
-	void CreateArtResult::printToConnection(Connection &conn) throw(ConnectionClosedException) {
-		conn.write(Protocol::ANS_CREATE_ART);
+	void CreateArtResult::printToConnection(MessageHandler &mh) throw(ConnectionClosedException) {
+		mh.print_byte(Protocol::ANS_CREATE_ART);
 		if(message != Protocol::ANS_ACK) {
-			conn.write(Protocol::ANS_NAK);
+			mh.print_byte(Protocol::ANS_NAK);
 		}
-		conn.write(message);
-		conn.write(Protocol::ANS_END);
+		mh.print_byte(message);
+		mh.print_byte(Protocol::ANS_END);
 	}
 
 	void CreateArtResult::printToCout() {
-		; // TODO
+		if (message == Protocol::ANS_ACK)
+			cout << "Article successfully created" << endl;
+		else
+			cout << "ERROR: Article already exists" << endl;
 	}
 }

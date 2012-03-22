@@ -16,7 +16,7 @@ DBOBJS		= $(patsubst $(SRCDIR)/db/%.cc,db/%.o,$(wildcard $(SRCDIR)/db/*.cc))
 
 # Compiler and compiler options:
 CXX		=  $(shell hash clang++ 2>/dev/null && echo clang++ || echo g++)
-CXX		= g++
+CXX		=  g++
 CC		=  $(CXX)		# For implicit linking rule.
 OPTLVL		= 2			# Default is 2.
 # Change with $make -e DEBUG=false
@@ -120,5 +120,5 @@ include $(DFILES)
 
 # Linking of $(PROGS)
 client/client_main: client/client_main.o
-server/server_main: server/server_main.o server/server.o net/connection.o net/messagehandler.o $(DBOBJS)
-test/test_db: test/test_db.o net/connection.o $(DBOBJS)
+server/server_main: server/server_main.o server/server_message_interpreter.o server/server.o net/connection.o net/messagehandler.o $(DBOBJS)
+test/test_db: test/test_db.o net/messagehandler.o net/connection.o $(DBOBJS)

@@ -2,13 +2,14 @@
 #define CREATEARTQUERY_H
 
 #include "db/query.h"
-
+#include "net/messagehandler.h"
 namespace db {
 	class CreateArtQuery : public Query {
 	public:
-		CreateArtQuery(Database &db, int ng_id, std::string title, std::string author, std::string text) :
-		Query(db), newsgroup_id(ng_id), art_title(title), art_author(author), art_text(text) {}
-		Result *execute();
+		CreateArtQuery(int ng_id, std::string title, std::string author, std::string text) :
+		newsgroup_id(ng_id), art_title(title), art_author(author), art_text(text) {}
+		Result *getResult(Database &db);
+		void send(net::MessageHandler& mh);
 	private:
 		int newsgroup_id;
 		std::string art_title;

@@ -3,31 +3,23 @@
 
 #include <string>
 #include "net/connection.h"
-#include "db/result.h"
-#include "db/query.h"
-#include "db/database.h"
 
 namespace net {
-	struct IllegalCommandException {};
-	
+    struct IllegalCommandException {};
+
 	class MessageHandler {
 	public:
-		MessageHandler(db::Database &database);
-		db::Query* recieve_query(Connection &con) throw(IllegalCommandException, ConnectionClosedException);
-	private:
-		db::Query *read_list_ng(Connection &con) throw(IllegalCommandException, ConnectionClosedException);
-		db::Query *read_create_ng(Connection &con) throw(IllegalCommandException, ConnectionClosedException);
-		db::Query *read_delete_ng(Connection &con) throw(IllegalCommandException, ConnectionClosedException);
-		db::Query *read_list_art(Connection &con) throw(IllegalCommandException, ConnectionClosedException);
-		db::Query *read_create_art(Connection &con) throw(IllegalCommandException, ConnectionClosedException);
-		db::Query *read_delete_art(Connection &con) throw(IllegalCommandException, ConnectionClosedException);
-		db::Query *read_get_art(Connection &con) throw(IllegalCommandException, ConnectionClosedException);
-
-		std::string read_string(Connection &con) throw (IllegalCommandException, ConnectionClosedException);
-		int read_num(Connection &con) throw (IllegalCommandException, ConnectionClosedException);
-		int read_int(Connection &con) throw (ConnectionClosedException);
-
-		db::Database &db;
+		MessageHandler(net::Connection &conn);
+		unsigned char read_byte() throw (ConnectionClosedException);
+		std::string read_string() throw (IllegalCommandException, ConnectionClosedException);
+		int read_num() throw (IllegalCommandException, ConnectionClosedException);
+		int read_int() throw (ConnectionClosedException);
+		void print_byte(const unsigned char &b) throw (ConnectionClosedException);
+		void print_string(const std::string &s) throw (ConnectionClosedException);
+		void print_num(const int &num) throw (ConnectionClosedException);
+		void print_int(const int &i) throw (ConnectionClosedException);
+    private:
+		net::Connection &con;
 	};
 }
 

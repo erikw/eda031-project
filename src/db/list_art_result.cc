@@ -12,24 +12,24 @@ namespace db {
 using namespace net;
 using namespace std;
 
-	void ListArtResult::printToConnection(Connection& conn) throw (ConnectionClosedException){
-		conn.write(Protocol::ANS_LIST_ART);
+	void ListArtResult::printToConnection(MessageHandler &mh) throw (ConnectionClosedException){
+		mh.print_byte(Protocol::ANS_LIST_ART);
 		if (message != Protocol::ANS_ACK) {
-			conn.write(Protocol::ANS_NAK);
-			conn.write(message);
+			mh.print_byte(Protocol::ANS_NAK);
+			mh.print_byte(message);
 		} else {
-			conn.write(Protocol::ANS_ACK);
-			print_num(conn, articles.size());
-			
+			mh.print_byte(Protocol::ANS_ACK);
+			mh.print_num(articles.size());
+
 			for (vector<pair<int, string> >::iterator iter = articles.begin(); iter != articles.end(); ++iter) {
 				vector<pair<int, string> >::value_type art = *iter;
-				print_num(conn, art.first);
-				print_string(conn, art.second);
+				mh.print_num(art.first);
+				mh.print_string(art.second);
 			}
-		}	
-		conn.write(Protocol::ANS_END);
+		}
+		mh.print_byte(Protocol::ANS_END);
 	}
-	
+
 	void ListArtResult::printToCout() {
 		if (message == Protocol::ANS_ACK){
 			cout << "ERROR: Newsgroup doesn't exist" << endl;
@@ -39,7 +39,7 @@ using namespace std;
 				current_pair = articles[i];
 				cout << current_pair.first << ". " << current_pair.second << endl;
 			}
-		}		
+		}
 	}
 
 }

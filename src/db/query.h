@@ -3,15 +3,15 @@
 
 #include "db/result.h"
 #include "db/database.h"
+#include "net/messagehandler.h"
 
 namespace db {
 	class Query {
 	public:
-		Query(Database& db) : database(db) {}
+		Query() {}
 		virtual ~Query() {}
-		virtual Result *execute() = 0;
-	protected:
-		Database &database;
+		virtual Result *getResult(Database &db) = 0;
+		virtual void send(net::MessageHandler &mh) = 0;
 	};
 }
 

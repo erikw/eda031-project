@@ -6,13 +6,13 @@
 
 #include "db/result.h"
 #include "net/connectionclosedexception.h"
-#include "net/connection.h"
+#include "net/messagehandler.h"
 
 namespace db {
 	class ListNGResult : public Result {
 	public:
 		ListNGResult(std::vector<std::pair<int, std::string> > ng) : news_groups(ng) {}
-		void printToConnection(net::Connection &conn) throw(net::ConnectionClosedException);
+		void printToConnection(net::MessageHandler &mh) throw(net::ConnectionClosedException);
 		void printToCout();
 	private:
 		std::vector<std::pair<int, std::string> > news_groups;

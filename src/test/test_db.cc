@@ -1,6 +1,7 @@
 #include "db/memory_db.h"
 #include "net/connection.h"
 #include "net/protocol.h"
+#include "net/messagehandler.h"
 #include <string>
 #include <iostream>
 #include <vector>
@@ -41,6 +42,7 @@ class MockConnection : public Connection {
 
 MemoryDB *mdb;
 MockConnection con = MockConnection();
+MessageHandler *mh;
 
 template<typename T>
 void assertEquals(const string& if_neq, const T& expected, const T& value) {
@@ -76,17 +78,19 @@ void convert(vector<char>& out, string str){
 void set_up(){
 	mdb = new MemoryDB();
 	con = MockConnection();
+	mh = new MessageHandler(con);
 }
 
 void tear_down(){
 	delete mdb;
+	delete mh;
 }
 
 void test_create_ng(){
 	set_up();
 	cout << "Test create newsgroup" << endl;
 	Result *res = mdb->create_ng("test_ng1");
-	res->printToConnection(con);
+	res->printToConnection(*mh);
 	vector<char> exp;
 	exp.push_back(Protocol::ANS_CREATE_NG);
 	exp.push_back(Protocol::ANS_ACK);
@@ -103,7 +107,7 @@ void test_create_exist_ng(){
 	res = mdb->create_ng("test_ng1");
 	delete res;
 	res = mdb->create_ng("test_ng1");
-	res->printToConnection(con);
+	res->printToConnection(*mh);
 	vector<char> exp;
 	exp.push_back(Protocol::ANS_CREATE_NG);
 	exp.push_back(Protocol::ANS_NAK);
@@ -125,7 +129,7 @@ void test_list_ng(){
 	res = mdb->create_ng("test_ng2");
 	delete res;
 	res = mdb->list_ng();
-	res->printToConnection(con);
+	res->printToConnection(*mh);
 	exp.push_back(Protocol::ANS_LIST_NG);
 	exp.push_back(Protocol::PAR_NUM);
 	convert(exp, 2);
@@ -149,7 +153,7 @@ void test_list_no_ng(){
 	vector<char> exp;
 	cout << "Test list no newsgroup." << endl;
 	res = mdb->list_ng();
-	res->printToConnection(con);
+	res->printToConnection(*mh);
 	exp.push_back(Protocol::ANS_LIST_NG);
 	exp.push_back(Protocol::PAR_NUM);
 	convert(exp, 0);
@@ -167,7 +171,7 @@ void test_delete_ng(){
 	res = mdb->create_ng("test_ng1");
 	delete res;
 	res = mdb->delete_ng(1);
-	res->printToConnection(con);
+	res->printToConnection(*mh);
 	del_exp.push_back(Protocol::ANS_DELETE_NG);
 	del_exp.push_back(Protocol::ANS_ACK);
 	del_exp.push_back(Protocol::ANS_END);
@@ -176,7 +180,7 @@ void test_delete_ng(){
 	vector<char> list_exp;
 	res = mdb->list_ng();
 	con.clear_output();
-	res->printToConnection(con);
+	res->printToConnection(*mh);
 	list_exp.push_back(Protocol::ANS_LIST_NG);
 	list_exp.push_back(Protocol::PAR_NUM);
 	convert(list_exp, 0);
@@ -191,7 +195,7 @@ void test_delete_nonexist_ng(){
 	vector<char> del_exp;
 	cout << "Test delete non-existing newsgroup." << endl;
 	res = mdb->delete_ng(1);
-	res->printToConnection(con);
+	res->printToConnection(*mh);
 	del_exp.push_back(Protocol::ANS_DELETE_NG);
 	del_exp.push_back(Protocol::ANS_NAK);
 	del_exp.push_back(Protocol::ERR_NG_DOES_NOT_EXIST);
@@ -212,7 +216,7 @@ void test_create_art(){
 	string author("test_author");
 	string text("test_text");
 	res = mdb->create_art(1, title, author, text);
-	res->printToConnection(con);
+	res->printToConnection(*mh);
 	exp.push_back(Protocol::ANS_CREATE_ART);
 	exp.push_back(Protocol::ANS_ACK);
 	exp.push_back(Protocol::ANS_END);
@@ -230,7 +234,7 @@ void test_create_no_ng_art(){
 	string author("test_author");
 	string text("test_text");
 	res = mdb->create_art(1, title, author, text);
-	res->printToConnection(con);
+	res->printToConnection(*mh);
 	exp.push_back(Protocol::ANS_CREATE_ART);
 	exp.push_back(Protocol::ANS_NAK);
 	exp.push_back(Protocol::ERR_NG_DOES_NOT_EXIST);
@@ -256,7 +260,7 @@ void test_list_art(){
 	res = mdb->create_art(1, title2, author, text);
 	delete res;
 	res = mdb->list_art(1);
-	res->printToConnection(con);
+	res->printToConnection(*mh);
 	exp.push_back(Protocol::ANS_LIST_ART);
 	exp.push_back(Protocol::ANS_ACK);
 	exp.push_back(Protocol::PAR_NUM);
@@ -283,7 +287,7 @@ void test_list_no_art(){
 	res = mdb->create_ng("test_ng1");
 	delete res;
 	res = mdb->list_art(1);
-	res->printToConnection(con);
+	res->printToConnection(*mh);
 	exp.push_back(Protocol::ANS_LIST_ART);
 	exp.push_back(Protocol::ANS_ACK);
 	exp.push_back(Protocol::PAR_NUM);
@@ -303,7 +307,7 @@ void test_list_no_ng_art(){
 	string author("test_author");
 	string text("test_text");
 	res = mdb->list_art(1);
-	res->printToConnection(con);
+	res->printToConnection(*mh);
 	exp.push_back(Protocol::ANS_LIST_ART);
 	exp.push_back(Protocol::ANS_NAK);
 	exp.push_back(Protocol::ERR_NG_DOES_NOT_EXIST);
@@ -325,7 +329,7 @@ void test_get_art() {
 	string text("content-text.");
 	delete mdb->create_art(group_id, title, author, text);
 	res = mdb->get_art(group_id, 1); // First entry should have ID 1.
-	res->printToConnection(con);
+	res->printToConnection(*mh);
 
 	exp.push_back(Protocol::ANS_GET_ART);
 	exp.push_back(Protocol::ANS_ACK);
@@ -354,7 +358,7 @@ void test_get_no_art() {
 	string text("content-text.");
 	delete mdb->create_art(group_id, title, author, text);
 	res = mdb->get_art(group_id, 2); // First entry should have ID 1.
-	res->printToConnection(con);
+	res->printToConnection(*mh);
 	exp.push_back(Protocol::ANS_GET_ART);
 	exp.push_back(Protocol::ANS_NAK);
 	exp.push_back(Protocol::ERR_ART_DOES_NOT_EXIST);
@@ -376,7 +380,7 @@ void test_get_art_no_ng() {
 	string text("content-text.");
 	delete mdb->create_art(group_id, title, author, text);
 	res = mdb->get_art(2, 1);
-	res->printToConnection(con);
+	res->printToConnection(*mh);
 	exp.push_back(Protocol::ANS_GET_ART);
 	exp.push_back(Protocol::ANS_NAK);
 	exp.push_back(Protocol::ERR_NG_DOES_NOT_EXIST);
@@ -400,7 +404,7 @@ void test_delete_art(){
 	delete res;
 	res = mdb->delete_art(1, 1);
 	con.clear_output();
-	res->printToConnection(con);
+	res->printToConnection(*mh);
 	exp.push_back(Protocol::ANS_DELETE_ART);
 	exp.push_back(Protocol::ANS_ACK);
 	exp.push_back(Protocol::ANS_END);
@@ -409,7 +413,7 @@ void test_delete_art(){
 	con.clear_output();
 	exp.clear();;
 	res = mdb->list_art(1);
-	res->printToConnection(con);
+	res->printToConnection(*mh);
 	exp.push_back(Protocol::ANS_LIST_ART);
 	exp.push_back(Protocol::ANS_ACK);
 	exp.push_back(Protocol::PAR_NUM);
@@ -426,7 +430,7 @@ void test_delete_art_no_ng(){
 	vector<char> exp;
 	cout << "Test delete article without newsgroup." << endl;
 	res = mdb->delete_art(1, 1);
-	res->printToConnection(con);
+	res->printToConnection(*mh);
 	exp.push_back(Protocol::ANS_DELETE_ART);
 	exp.push_back(Protocol::ANS_NAK);
 	exp.push_back(Protocol::ERR_NG_DOES_NOT_EXIST);
@@ -444,7 +448,7 @@ void test_delete_art_no_art(){
 	res = mdb->create_ng("test_ng1");
 	delete res;
 	res = mdb->delete_art(1, 1);
-	res->printToConnection(con);
+	res->printToConnection(*mh);
 	exp.push_back(Protocol::ANS_DELETE_ART);
 	exp.push_back(Protocol::ANS_NAK);
 	exp.push_back(Protocol::ERR_ART_DOES_NOT_EXIST);

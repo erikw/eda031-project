@@ -4,15 +4,16 @@
 #include <cstring>
 #include <signal.h>
 
+#include "server/server_message_interpreter.h"
 #include "server/server.h"
 #include "net/connection.h"
 #include "net/messagehandler.h"
 #include "db/database.h"
 #include "db/memory_db.h"
 
+using namespace server;
 using namespace std;
 using namespace net;
-using namespace server;
 using namespace db;
 
 const unsigned int default_port = 1025;
@@ -55,22 +56,23 @@ int main(int argc, char **argv) {
 	} else {
 		//database = new FileDB(); // TODO not implemented.
 	}
-	MessageHandler message_handler(*database);
+	ServerMessageInterpreter interpreter;
 
 	while (forever) {
 		clog << "Waiting for activity." << endl;
 		Connection *connection = server.waitForActivity();
+		MessageHandler mh(*connection);
 		if (connection) {
 			Query *query = 0;
 			Result *result = 0;
 			try {
-				query = message_handler.recieve_query(*connection);
+				query = interpreter.recieve_query(mh);
 				clog << "Query received." << endl;
 
-				result = query->execute();
+				result = query->getResult(*database);
 				clog << "Query executed." << endl;
 
-				result->printToConnection(*connection);
+				result->printToConnection(mh);
 				clog << "Result sent." << endl;
 			} catch (const IllegalCommandException &ice) {
 				cerr << "Illegal commando from socket " << connection->getSocket() << ". Disconnecting it." << endl;
