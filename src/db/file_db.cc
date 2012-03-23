@@ -32,7 +32,7 @@ namespace db {
 			//clog << "	Listing news group: " << *it << endl;
 		//}
 		vector<pair<size_t, string> > news_groups;
-		 split_ng(news_groups, dir_content);
+		split_ng(news_groups, dir_content);
 		return new ListNGResult(news_groups);
 	}
 
@@ -53,6 +53,7 @@ namespace db {
 	}
 
 	Result *FileDB::delete_ng(size_t ng_id) {
+
 		return 0;
 	}
 
@@ -88,20 +89,27 @@ namespace db {
 		}
 	}
 
+	template<>
+	struct FileDB::compare_ng<size_t> : std::binary_function<std::pair<size_t, std::string>, const size_t, bool> {
+		bool operator()(std::pair<size_t, std::string> &ng, const size_t id) const {
+			return ng.first == id;
+		}
+	};
 
-	bool FileDB::exists_ng(const std::string &ng_name) {
+	template<>
+	struct FileDB::compare_ng<std::string> : std::binary_function<std::pair<size_t, std::string>, const std::string, bool> {
+		bool operator()(std::pair<size_t, std::string> &ng, const std::string name) const {
+			return ng.second == name;
+		}
+	};
+
+	template<typename U>
+	bool FileDB::exists_ng(const U &identifier) {
 		vector<string> dir_content = root_dir.list_content();
 		vector<pair<size_t, string> > news_groups;
 		split_ng(news_groups, dir_content);
-		bool found = false;
-		vector<pair<size_t, string> >::iterator it = news_groups.begin();
-		while (!found && it != news_groups.end()) { // TODO use std::find(....)
-			if (it->second == ng_name) {
-				found = true;
-			}
-			++it;
-		}
-		return found;
+		vector<pair<size_t, string> >::iterator found = find_if(news_groups.begin(), news_groups.end(), bind2nd(compare_ng<U>(), identifier));
+		return found != news_groups.end();
 	}
 
 	size_t FileDB::next_id() {
