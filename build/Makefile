@@ -32,7 +32,7 @@ CXXFLAGS	+= $(ERRFLAGS) -I$(SRCDIR)
 #LDLIBE		=
 
 ifeq ($(DEBUG), true)
-		CXXFLAGS += $(DEBUGOPT)
+		CXXFLAGS += $(DEBUGOPT) -O0
 		LDFLAGS  += $(DEBUGOPT)
 else
 		CXXFLAGS += -O$(OPTLVL)
