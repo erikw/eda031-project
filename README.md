@@ -9,7 +9,7 @@ Compile and run by typing the following commands:
 	$cd eda031_project/build/
 	$make
 	$server/server_main [--db (memory | file)] [--port portnum] &
-	$client/client_main
+	$client/client_main [--host hostname] [--port portnum]
 	> <query>
 	<result>
 	> <query>
