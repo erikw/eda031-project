@@ -12,14 +12,13 @@ namespace db {
 		// Write in a readable format.
 		friend std::ostream &operator<<(std::ostream &out, const FileArt &file_art);
 	public:
-		FileArt() : id(0) {} // Is to be initialized with operator>>.
-		FileArt(size_t i, std::string ti, std::string au, std::string te) : id(i), title(ti), author(au), text(te) {}
+		FileArt() {} // Is to be initialized with operator>>.
+		FileArt( std::string ti, std::string au, std::string te) : title(ti), author(au), text(te) {}
 
 		std::string get_title() { return title; }
 		std::string get_author() { return author; }
 		std::string get_text() { return text; }
 	private:
-		size_t id;
 		std::string title;
 		std::string author;
 		std::string text;

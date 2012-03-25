@@ -37,7 +37,6 @@ namespace db {
 
 			ifstream input(dir.full_path(file_name).c_str());
 			string id_str;
-			getline(input, id_str); // Skipping first line.
 			string title;
 			getline(input, title); 
 			articles.push_back(make_pair(id, title));
@@ -63,9 +62,9 @@ namespace db {
 
 	void FileNG::add_art(const string &title, const string &author, const string &text) {
 		size_t id = next_id();
-		FileArt article(id, title, author, text);
+		FileArt article(title, author, text);
 		ostringstream ostr;
-		ostr << id; // TODO should not be written, who uses it?
+		ostr << id; 
 		ofstream ofs(dir.full_path(ostr.str()).c_str());
 		ofs << article;
 		ofs.close();
