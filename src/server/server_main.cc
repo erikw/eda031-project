@@ -16,7 +16,7 @@ using namespace server;
 using namespace db;
 
 const unsigned int default_port = 1025;
-const string default_db = "memory";
+const string default_db = "file";
 
 bool read_args(unsigned int &port, string &db_type, size_t argc, char **argv);
 

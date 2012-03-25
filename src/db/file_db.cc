@@ -27,7 +27,7 @@ namespace db {
 	const string FileDB::DB_INFO_NAME = "db_info";
 
 	Result *FileDB::list_ng() {
-		vector<string> dir_content = root_dir.list_content();
+		vector<string> dir_content = root_dir.list_dirs();
 		vector<pair<size_t, string> > news_groups;
 		split_ng(news_groups, dir_content);
 		return new ListNGResult(news_groups);
@@ -40,9 +40,8 @@ namespace db {
 
 		} else {
 			ostringstream ostr;
-			ostr << DB_ROOT << "/" << next_id() << "_" << ng_name;
-			string ng_file_path = ostr.str();
-
+			ostr << next_id() << "_" << ng_name;
+			string ng_file_path = root_dir.full_path(ostr.str());
 			FileNG ng((Directory(ng_file_path)));
 			result = new CreateNGResult(static_cast<unsigned char>(Protocol::ANS_ACK));
 		}
@@ -63,7 +62,14 @@ namespace db {
 	}
 
 	Result *FileDB::list_art(size_t ng_id) {
-		return 0;
+		Result *result = 0;
+		try {
+			FileNG ng = get_ng(ng_id);	
+			result = new ListArtResult(ng.list_arts());
+		} catch (const InexistingNG &ing) {
+			result = new ListArtResult(static_cast<unsigned char>(Protocol::ERR_NG_DOES_NOT_EXIST));
+		}
+		return result;
 	}
 
 	Result *FileDB::create_art(size_t ng_id, std::string title, std::string author, std::string text) {
@@ -107,7 +113,7 @@ namespace db {
 
 	template<typename I>
 	bool FileDB::exists_ng(const I &identifier) {
-		vector<string> dir_content = root_dir.list_content();
+		vector<string> dir_content = root_dir.list_dirs();
 		vector<pair<size_t, string> > news_groups;
 		split_ng(news_groups, dir_content);
 		vector<pair<size_t, string> >::iterator found = find_if(news_groups.begin(), news_groups.end(), bind2nd(compare_ng<I>(), identifier));
@@ -116,7 +122,7 @@ namespace db {
 	
 	template<typename I>
 	FileNG FileDB::get_ng(const I &identifier) throw(InexistingNG) {
-		vector<string> dir_content = root_dir.list_content();
+		vector<string> dir_content = root_dir.list_dirs();
 		vector<pair<size_t, string> > news_groups;
 		split_ng(news_groups, dir_content);
 		vector<pair<size_t, string> >::iterator found = find_if(news_groups.begin(), news_groups.end(), bind2nd(compare_ng<I>(), identifier));
@@ -130,7 +136,7 @@ namespace db {
 	}
 
 	size_t FileDB::next_id() {
-		return 1;
+		return 1; // TODO read and/or increment value in DB_INFO_NAME.
 	}
 
 	template<>

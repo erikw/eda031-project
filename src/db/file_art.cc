@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 #include <iterator>
 #include <algorithm>
 #include <string>
@@ -9,9 +10,15 @@ using namespace std;
 
 namespace db {
 	istream &operator>>(istream &in, FileArt &file_art) {
-		in >> file_art.id; // TODO will skip to next line properly?
+		//in >> file_art.id; // TODO will skip to next line properly?
+		string id_str;
+		getline(in, id_str);
+		istringstream istr(id_str);
+		istr >> file_art.id;
 		getline(in, file_art.title);
 		getline(in, file_art.author);
+		//in.unset(ios::noskipws);
+		in >> noskipws;
 		file_art.text = string((istream_iterator<char>(in)), istream_iterator<char>());
 		return in;
 	}

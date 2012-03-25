@@ -16,29 +16,18 @@ using namespace std;
 
 namespace db {
 	Directory::Directory(const string &p) : path(p) {
-		errno = 0;
-		dir = opendir(path.c_str());
-		if (!dir) {
-			ostringstream ostr;
-			ostr << "Error opening path \"" << path << "\"";
-			perror(ostr.str().c_str());
-			if (errno == ENOENT) { // No directory.
-				mk_dir_helper(path);
-				dir = opendir(path.c_str());
-			} else {
-				exit(errno); // Unrecoverable.
-			}
-		}
+		closedir(open_dir()); // Create and check access.
+	}
+	Directory::iterator Directory::begin() { 
+		return DirIterator(open_dir()); 
 	}
 
-	vector<string> Directory::list_content() {
-		vector<string> contents;
-		for (Directory::iterator it = begin(); it != end(); ++it) {
-			if ((*it)->d_type == DT_DIR && strcmp((*it)->d_name, ".") && strcmp((*it)->d_name, "..")) {
-				contents.push_back((*it)->d_name);
-			}
-		}
-		return contents;
+	std::vector<std::string> Directory::list_files() {
+		return list_type(DT_REG);
+	}
+
+	std::vector<std::string> Directory::list_dirs() {
+		return list_type(DT_DIR);
 	}
 
 	void Directory::mk_dir(const std::string &name) {
@@ -80,5 +69,33 @@ namespace db {
 		} else {
 			clog << "Directory \"" << path << "\" is mkdir'd." << endl;
 		}
+	}
+
+	DIR *Directory::open_dir() {
+		errno = 0;
+		DIR *dir = opendir(path.c_str()); // Check for availability of the directory.
+		if (!dir) {
+			ostringstream ostr;
+			ostr << "Error opening path \"" << path << "\"";
+			perror(ostr.str().c_str());
+			if (errno == ENOENT) { // No directory.
+				mk_dir_helper(path);
+				dir = opendir(path.c_str());
+			} else {
+				exit(errno); // Unrecoverable.
+			}
+		}
+		return dir;
+	}
+
+	vector<string> Directory::list_type(unsigned int ent_type) {
+		vector<string> contents;
+		for (Directory::iterator it = begin(); it != end(); ++it) {
+			dirent *entity = *it;
+			if (entity->d_type == ent_type && strcmp(entity->d_name, ".") && strcmp(entity->d_name, "..")) {
+				contents.push_back(entity->d_name);
+			}
+		}
+		return contents;
 	}
 }

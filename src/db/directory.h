@@ -13,17 +13,23 @@ namespace db {
 	class Directory {
 	public:
 		Directory(const std::string &p);
-		~Directory() { closedir(dir); }
+		//~Directory() { closedir(dir); }
 		typedef DirIterator iterator ;
 		//typedef const DirIterator const_iterator; // TODO needed?
-		iterator begin() { return DirIterator(dir); }
+		iterator begin(); 
+
 		//const_iterator begin() const { return DirIterator(dir); }
 		iterator end() { return DirIterator(0); }
 		//const_iterator end() const { return DirIterator(0); }
 		std::string get_path() { return path; }
 
-		// Get a list of contents in the directory.
-		std::vector<std::string> list_content();
+		// Construct the full path to the given file.
+		std::string full_path(std::string filename) { return path + "/" + filename; } // TODO use this.
+
+		// List all files in directory.
+		std::vector<std::string> list_files();
+		// List all subdirectories.
+		std::vector<std::string> list_dirs();
 
 		// Delete this directory.
 		void delete_dir();
@@ -36,6 +42,7 @@ namespace db {
 
 		// Check if a file(directory) exists in this directory.
 		bool file_exists(const std::string &file_name);
+
 	private:
 		struct equal_file_name : std::binary_function<dirent *, std::string, bool> {
 			bool operator()(dirent *dirp, std::string file_name) const {
@@ -43,10 +50,16 @@ namespace db {
 			}
 		};
 
+		// List entities in this directory of dirent.d_type type.
+		std::vector<std::string> list_type(unsigned int ent_type);
+
+		// Open directory.
+		DIR *open_dir();
+
 		void mk_dir_helper(std::string full_path);
 
+		// Path to this directory.
 		std::string path;
-		DIR *dir;
 	};
 }
 #endif
