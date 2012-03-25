@@ -50,8 +50,16 @@ namespace db {
 	}
 
 	Result *FileDB::delete_ng(size_t ng_id) {
+		Result *result = 0;
+		try {
+			FileNG ng = get_ng(ng_id);
+			ng.del_ng();
+			result = new DeleteNGResult(static_cast<unsigned char>(Protocol::ANS_ACK));
+		} catch (const InexistingNG &ing) {
+			result = new DeleteNGResult(static_cast<unsigned char>(Protocol::ERR_NG_DOES_NOT_EXIST));
+		}
 
-		return 0;
+		return result;
 	}
 
 	Result *FileDB::list_art(size_t ng_id) {

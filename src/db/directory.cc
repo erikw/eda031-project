@@ -45,6 +45,16 @@ namespace db {
 		mk_dir_helper(path + "/" + name);
 	}
 
+	void Directory::delete_dir() {
+		//errno = 0;
+		//if (remove(path.c_str()) != 0) {
+			//ostringstream ostr;
+			//ostr << "Error deleting  \"" << full_name << "\"";
+			//perror(ostr.str().c_str());
+		//}
+		delete_file("");
+	}
+
 	void Directory::delete_file(const string &file_name) {
 		errno = 0;
 		string full_name = path + "/" + file_name;

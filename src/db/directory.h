@@ -21,11 +21,20 @@ namespace db {
 		iterator end() { return DirIterator(0); }
 		//const_iterator end() const { return DirIterator(0); }
 		std::string get_path() { return path; }
+
+		// Get a list of contents in the directory.
 		std::vector<std::string> list_content();
+
+		// Delete this directory.
+		void delete_dir();
+
+		// Delete file in this directory.
 		void delete_file(const std::string &file_name);
 		
 		// Create a directory in this directory.
 		void mk_dir(const std::string &name);
+
+		// Check if a file(directory) exists in this directory.
 		bool file_exists(const std::string &file_name);
 	private:
 		struct equal_file_name : std::binary_function<dirent *, std::string, bool> {

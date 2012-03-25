@@ -56,4 +56,14 @@ namespace db {
 		} 
 		return article;
 	}
+
+	void FileNG::del_art(size_t id) {
+		ostringstream ostr;
+		ostr << id;
+		dir.delete_file(ostr.str());
+	}
+
+	void FileNG::del_ng() {
+		dir.delete_dir();
+	}
 }

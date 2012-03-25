@@ -15,6 +15,7 @@ namespace db {
 		FileArt *get_art(size_t id); 	// Get Article from file or null if inexisting.
 		void add_art(const FileArt &art);
 		void del_art(size_t id);
+		void del_ng();
 
 		// Exception.
 		struct InexistingArticle {};
