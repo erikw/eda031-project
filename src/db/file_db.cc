@@ -43,6 +43,7 @@ namespace db {
 			return ng.second == name;
 		}
 	};
+
 	FileDB::FileDB() : root_dir(DB_ROOT) {
 		if (!root_dir.file_exists(DB_INFO_NAME)){
 			ofstream info(root_dir.full_path(DB_INFO_NAME).c_str());

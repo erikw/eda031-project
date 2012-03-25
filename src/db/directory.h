@@ -51,7 +51,7 @@ namespace db {
 		};
 
 		// Recursively delete directories and files.
-		void delete_dir(const std::string &path);
+		void delete_dir_rec();
 
 		// List entities in this directory of dirent.d_type type.
 		std::vector<std::string> list_type(unsigned int ent_type);

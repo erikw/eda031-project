@@ -8,9 +8,11 @@
 #include "db/database.h"
 #include "db/directory.h"
 #include "db/file_ng.h"
+#include "test/test_db.h"
 
 namespace db {
 	class FileDB : public Database {
+		friend void test::tear_down();
 	public:
 		FileDB();
 		Result *list_ng();

@@ -35,7 +35,7 @@ namespace db {
 	}
 
 	void Directory::delete_dir() {
-		delete_dir(path); // Recursive.
+		delete_dir_rec();
 		errno = 0;
 		if (remove(path.c_str()) != 0 ) {
 			ostringstream ostr;
@@ -55,7 +55,7 @@ namespace db {
 		}
 	}
 
-	void Directory::delete_dir(const string &path) {
+	void Directory::delete_dir_rec() {
 		for (iterator it = begin(); it != end(); ++it) {
 			dirent *entity = *it;
 			if (entity->d_type == DT_DIR && strcmp(entity->d_name, ".") && strcmp(entity->d_name, "..")) {
