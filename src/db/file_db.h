@@ -25,8 +25,8 @@ namespace db {
 		// Read and increment ID counter.
 		size_t next_id();
 
-		// Split the stored news group name to (pair) components.
-		 void split_ng(std::vector<std::pair<size_t, std::string> > &pairs, const std::vector<std::string> &full_names) const;
+		// Read news groups from DB_INFO_NAME.
+		void read_ngs(std::vector<std::pair<size_t, std::string> > &news_groups);
 
 		//  Check if a news group with the given name exists.
 		// T is news group name or ID.

@@ -10,7 +10,7 @@
 using namespace std; //TODO placing this below in ns db, will it be used in all ns db in other files?
 
 namespace db {
-	const string FileNG::NG_INFO_NAME = "db_info";
+	const string FileNG::NG_INFO_NAME = "ng_info";
 
 	FileNG::FileNG(Directory d) : dir(d) {
 		if (!dir.file_exists(NG_INFO_NAME)){

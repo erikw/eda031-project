@@ -27,6 +27,22 @@ namespace db {
 	const string FileDB::DB_ROOT = "news_db";
 	const string FileDB::DB_INFO_NAME = "db_info";
 
+
+	// Must be declared before usage since there is no general template, 
+	// only specializations.
+	template<>
+	struct FileDB::compare_ng<size_t> : binary_function<pair<size_t, string>, const size_t, bool> {
+		bool operator()(pair<size_t, string> &ng, const size_t id) const {
+			return ng.first == id;
+		}
+	};
+
+	template<>
+	struct FileDB::compare_ng<string> : binary_function<pair<size_t, string>, const string, bool> {
+		bool operator()(pair<size_t, string> &ng, const string name) const {
+			return ng.second == name;
+		}
+	};
 	FileDB::FileDB() : root_dir(DB_ROOT) {
 		if (!root_dir.file_exists(DB_INFO_NAME)){
 			ofstream info(root_dir.full_path(DB_INFO_NAME).c_str());
@@ -40,9 +56,8 @@ namespace db {
 	}
 
 	Result *FileDB::list_ng() {
-		vector<string> dir_content = root_dir.list_dirs();
 		vector<pair<size_t, string> > news_groups;
-		split_ng(news_groups, dir_content);
+		read_ngs(news_groups);
 		return new ListNGResult(news_groups);
 	}
 
@@ -53,8 +68,16 @@ namespace db {
 
 		} else {
 			ostringstream ostr;
-			ostr << next_id() << "_" << ng_name;
-			string ng_file_path = root_dir.full_path(ostr.str());
+			ostr << next_id();
+			string id_str = ostr.str();
+
+			ofstream ofs;
+			ofs.open(root_dir.full_path(DB_INFO_NAME).c_str(), ofstream::out | ofstream::app);
+		vector<pair<size_t, string> > news_groups;
+			ofs << id_str << " " << ng_name << endl;
+			ofs.close();
+
+			string ng_file_path = root_dir.full_path(id_str);
 			FileNG ng((Directory(ng_file_path)));
 			result = new CreateNGResult(static_cast<unsigned char>(Protocol::ANS_ACK));
 		}
@@ -65,6 +88,21 @@ namespace db {
 		Result *result = 0;
 		try {
 			FileNG ng = get_ng(ng_id);
+
+			ifstream ifst((root_dir.full_path(DB_INFO_NAME)).c_str());
+			size_t id;
+			ifst >> id;
+			ifst.close();
+			vector<pair<size_t, string> > news_groups; 
+			read_ngs(news_groups);
+			binder2nd<compare_ng<size_t> > comp = bind2nd<compare_ng<size_t>, size_t>(compare_ng<size_t>(), ng_id);
+			vector<pair<size_t, string> >::iterator end = remove_if(news_groups.begin(), news_groups.end(), comp);;
+			ofstream ofst((root_dir.full_path(DB_INFO_NAME)).c_str());
+			ofst << id << endl;
+			for (vector<pair<size_t, string> >::const_iterator it = news_groups.begin(); it != end; ++it) {
+				ofst << it->first << " " << it->second << endl;
+			}
+			ofst.close();
 			ng.del_ng();
 			result = new DeleteNGResult(static_cast<unsigned char>(Protocol::ANS_ACK));
 		} catch (const InexistingNG &ing) {
@@ -126,69 +164,59 @@ namespace db {
 		return result;
 	}
 
-	// TODO duplication of FileNG::next_ID, refactor!
 	size_t FileDB::next_id() { // TODO should be possible to do with only fstream. I tried with seekp(0) after reading etc. but did not work.
 		ifstream ifst((root_dir.full_path(DB_INFO_NAME)).c_str());
 		size_t id;
 		ifst >> id;
 		ifst.close();
+		vector<pair<size_t, string> > news_groups; // TODO should not be needed to rewrite while file.
+		read_ngs(news_groups);
 		++id;
 		ofstream ofst((root_dir.full_path(DB_INFO_NAME)).c_str());
 		ofst << id << endl;
+		for (vector<pair<size_t, string> >::const_iterator it = news_groups.begin(); it != news_groups.end(); ++it) {
+			ofst << it->first << " " << it->second << endl;
+		}
 		ofst.close();
 		return id;
 	}
-	void FileDB::split_ng(vector<pair<size_t, string> > &pairs, const vector<string> &full_names) const {
-		for (vector<string>::const_iterator it = full_names.begin(); it != full_names.end(); ++it) {
-			string full_name = *it;
-			string::size_type skid_pos = full_name.find_first_of('_');
-			string str_id = full_name.substr(0, skid_pos);
-			string name = full_name.substr(skid_pos + 1); // Skip skid.
 
-			size_t id = 0;
-			istringstream iss(str_id);
-			if (!(iss >> id))
-				cerr << "Bad ID for newsgroup found: \"" << str_id << "\"" << endl;
-			
-			pairs.push_back(make_pair(id, name));
+	void FileDB::read_ngs(std::vector<std::pair<size_t, std::string> > &news_groups) {
+		ifstream ifst((root_dir.full_path(DB_INFO_NAME)).c_str());
+		string line;
+		getline(ifst, line); // Skip id counter.
+		while (getline(ifst, line)) {
+			istringstream istr(line);
+			size_t id;
+			istr >> id;
+			istr >> noskipws;
+			string ng_name = string((istream_iterator<char>(istr)), istream_iterator<char>());
+			// Trim spaces.
+			ng_name.erase(ng_name.begin(), find_if(ng_name.begin(), ng_name.end(), not1(ptr_fun<int, int>(isspace))));
+			news_groups.push_back(make_pair(id, ng_name));
 		}
 	}
 
 	template<typename I>
 	bool FileDB::exists_ng(const I &identifier) {
-		vector<string> dir_content = root_dir.list_dirs();
 		vector<pair<size_t, string> > news_groups;
-		split_ng(news_groups, dir_content);
+		read_ngs(news_groups);
 		vector<pair<size_t, string> >::iterator found = find_if(news_groups.begin(), news_groups.end(), bind2nd(compare_ng<I>(), identifier));
 		return found != news_groups.end();
 	}
 	
 	template<typename I>
 	FileNG FileDB::get_ng(const I &identifier) throw(InexistingNG) {
-		vector<string> dir_content = root_dir.list_dirs();
 		vector<pair<size_t, string> > news_groups;
-		split_ng(news_groups, dir_content);
+		read_ngs(news_groups);
 		vector<pair<size_t, string> >::iterator found = find_if(news_groups.begin(), news_groups.end(), bind2nd(compare_ng<I>(), identifier));
 		if (found != news_groups.end()) {
 			ostringstream ostr;
-			ostr << root_dir.get_path() << "/" << found->first << "_" << found->second;
-			return FileNG(Directory(ostr.str()));
+			ostr << found->first;
+			//return FileNG(Directory(ostr.str()));
+			return FileNG(Directory(root_dir.full_path(ostr.str())));
 		} else {
 			throw InexistingNG();
 		}
 	}
-
-	template<>
-	struct FileDB::compare_ng<size_t> : binary_function<pair<size_t, string>, const size_t, bool> {
-		bool operator()(pair<size_t, string> &ng, const size_t id) const {
-			return ng.first == id;
-		}
-	};
-
-	template<>
-	struct FileDB::compare_ng<string> : binary_function<pair<size_t, string>, const string, bool> {
-		bool operator()(pair<size_t, string> &ng, const string name) const {
-			return ng.second == name;
-		}
-	};
 }
