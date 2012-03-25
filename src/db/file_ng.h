@@ -11,16 +11,21 @@ namespace db {
 	class FileNG {
 	public:
 		FileNG(Directory d);
+		
+		// Exception.
+		struct InexistingArticle {};
+
 		std::vector<std::pair<size_t, std::string> > list_arts();
-		FileArt *get_art(size_t id); 	// Get Article from file or null if inexisting.
+		FileArt *get_art(size_t id) throw(InexistingArticle);
+		void add_art(const std::string &title, const std::string &author, const std::string &text);
 		void add_art(const FileArt &art);
 		void del_art(size_t id);
 		void del_ng();
 
-		// Exception.
-		struct InexistingArticle {};
 	private:
 
+		// Read and increment ID counter.
+		size_t next_id();
 		static const std::string NG_INFO_NAME;
 		Directory dir;
 	};

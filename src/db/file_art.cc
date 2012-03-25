@@ -10,8 +10,7 @@ using namespace std;
 
 namespace db {
 	istream &operator>>(istream &in, FileArt &file_art) {
-		//in >> file_art.id; // TODO will skip to next line properly?
-		string id_str;
+		string id_str; // TODO id should not be saved in the file, redundant.
 		getline(in, id_str);
 		istringstream istr(id_str);
 		istr >> file_art.id;

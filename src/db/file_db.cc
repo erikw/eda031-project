@@ -1,6 +1,7 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <fstream>
 #include <sstream>
 #include <utility>
 
@@ -25,6 +26,18 @@ using namespace net;
 namespace db {
 	const string FileDB::DB_ROOT = "news_db";
 	const string FileDB::DB_INFO_NAME = "db_info";
+
+	FileDB::FileDB() : root_dir(DB_ROOT) {
+		if (!root_dir.file_exists(DB_INFO_NAME)){
+			ofstream info(root_dir.full_path(DB_INFO_NAME).c_str());
+			if (info){
+				info << 0;
+				info.close();
+			} else {
+				exit(EXIT_FAILURE);
+			}
+		}
+	}
 
 	Result *FileDB::list_ng() {
 		vector<string> dir_content = root_dir.list_dirs();
@@ -72,12 +85,30 @@ namespace db {
 		return result;
 	}
 
-	Result *FileDB::create_art(size_t ng_id, std::string title, std::string author, std::string text) {
-		return 0;
+	Result *FileDB::create_art(size_t ng_id, const string &title, const string &author, const string &text) {
+		Result *result = 0;
+		try {
+			FileNG ng = get_ng(ng_id);
+			ng.add_art(title, author, text);
+			result =  new CreateArtResult(static_cast<unsigned char>(Protocol::ANS_ACK));
+		} catch (const InexistingNG &ing) {
+			result =  new CreateArtResult(static_cast<unsigned char>(Protocol::ERR_NG_DOES_NOT_EXIST));
+		}
+		return result;
 	}
 
 	Result *FileDB::delete_art(size_t ng_id, size_t art_id) {
-		return 0;
+		Result *result = 0;
+		try {
+			FileNG ng = get_ng(ng_id);
+			ng.del_art(art_id);
+			result =  new DeleteArtResult(static_cast<unsigned char>(Protocol::ANS_ACK));
+		} catch (const InexistingNG &ing) {
+			result =  new DeleteArtResult(static_cast<unsigned char>(Protocol::ERR_NG_DOES_NOT_EXIST));
+		} catch (const FileNG::InexistingArticle &ina) {
+			result = new DeleteArtResult(static_cast<unsigned char>(Protocol::ERR_ART_DOES_NOT_EXIST));
+		}
+		return result;
 	}
 
 	Result *FileDB::get_art(size_t ng_id, size_t art_id) {
@@ -95,6 +126,18 @@ namespace db {
 		return result;
 	}
 
+	// TODO duplication of FileNG::next_ID, refactor!
+	size_t FileDB::next_id() { // TODO should be possible to do with only fstream. I tried with seekp(0) after reading etc. but did not work.
+		ifstream ifst((root_dir.full_path(DB_INFO_NAME)).c_str());
+		size_t id;
+		ifst >> id;
+		ifst.close();
+		++id;
+		ofstream ofst((root_dir.full_path(DB_INFO_NAME)).c_str());
+		ofst << id << endl;
+		ofst.close();
+		return id;
+	}
 	void FileDB::split_ng(vector<pair<size_t, string> > &pairs, const vector<string> &full_names) const {
 		for (vector<string>::const_iterator it = full_names.begin(); it != full_names.end(); ++it) {
 			string full_name = *it;
@@ -135,20 +178,16 @@ namespace db {
 		}
 	}
 
-	size_t FileDB::next_id() {
-		return 1; // TODO read and/or increment value in DB_INFO_NAME.
-	}
-
 	template<>
-	struct FileDB::compare_ng<size_t> : std::binary_function<std::pair<size_t, std::string>, const size_t, bool> {
-		bool operator()(std::pair<size_t, std::string> &ng, const size_t id) const {
+	struct FileDB::compare_ng<size_t> : binary_function<pair<size_t, string>, const size_t, bool> {
+		bool operator()(pair<size_t, string> &ng, const size_t id) const {
 			return ng.first == id;
 		}
 	};
 
 	template<>
-	struct FileDB::compare_ng<std::string> : std::binary_function<std::pair<size_t, std::string>, const std::string, bool> {
-		bool operator()(std::pair<size_t, std::string> &ng, const std::string name) const {
+	struct FileDB::compare_ng<string> : binary_function<pair<size_t, string>, const string, bool> {
+		bool operator()(pair<size_t, string> &ng, const string name) const {
 			return ng.second == name;
 		}
 	};

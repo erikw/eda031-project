@@ -54,7 +54,7 @@ namespace db {
 			return new ListArtResult(temp_art_list);
 		}
 
-		Result *MemoryDB::create_art(size_t ng_id, string title, string author, string text) {
+		Result *MemoryDB::create_art(size_t ng_id, const string &title, const string &author, const string &text) {
 			if (news_groups.find(ng_id) == news_groups.end())
 				return new CreateArtResult(static_cast<unsigned char>(Protocol::ERR_NG_DOES_NOT_EXIST));
 			Article art;

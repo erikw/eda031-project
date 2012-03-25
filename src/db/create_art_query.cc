@@ -3,6 +3,6 @@
 
 namespace db {
 	Result *CreateArtQuery::execute() {
-		return 0;
+		return database.create_art(newsgroup_id, art_title, art_author, art_text);
 	}
 }

@@ -45,18 +45,30 @@ namespace db {
 		return articles;
 	}
 
-	FileArt *FileNG::get_art(size_t id) {
-		FileArt *article = 0;
+	FileArt *FileNG::get_art(size_t id) throw(InexistingArticle) {
 		ostringstream ostr;
 		ostr << id;
 		string file_name = ostr.str();
 		if (dir.file_exists(file_name)) {
 			ifstream ifs(dir.full_path(file_name).c_str());
+			FileArt *article;
 			article = new FileArt();
 			ifs >> *article;
 			ifs.close();
-		} 
-		return article;
+			return article;
+		}  else {
+			throw InexistingArticle();
+		}
+	}
+
+	void FileNG::add_art(const string &title, const string &author, const string &text) {
+		size_t id = next_id();
+		FileArt article(id, title, author, text);
+		ostringstream ostr;
+		ostr << id; // TODO should not be written, who uses it?
+		ofstream ofs(dir.full_path(ostr.str()).c_str());
+		ofs << article;
+		ofs.close();
 	}
 
 	void FileNG::del_art(size_t id) {
@@ -67,5 +79,17 @@ namespace db {
 
 	void FileNG::del_ng() {
 		dir.delete_dir();
+	}
+
+	size_t FileNG::next_id() { // TODO should be possible to do with only fstream. I tried with seekp(0) after reading etc. but did not work.
+		ifstream ifst((dir.full_path(NG_INFO_NAME)).c_str());
+		size_t id;
+		ifst >> id;
+		ifst.close();
+		++id;
+		ofstream ofst((dir.full_path(NG_INFO_NAME)).c_str());
+		ofst << id << endl;
+		ofst.close();
+		return id;
 	}
 }

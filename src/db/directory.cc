@@ -22,15 +22,15 @@ namespace db {
 		return DirIterator(open_dir()); 
 	}
 
-	std::vector<std::string> Directory::list_files() {
+	vector<string> Directory::list_files() {
 		return list_type(DT_REG);
 	}
 
-	std::vector<std::string> Directory::list_dirs() {
+	vector<string> Directory::list_dirs() {
 		return list_type(DT_DIR);
 	}
 
-	void Directory::mk_dir(const std::string &name) {
+	void Directory::mk_dir(const string &name) {
 		mk_dir_helper(path + "/" + name);
 	}
 
@@ -47,6 +47,7 @@ namespace db {
 	void Directory::delete_file(const string &file_name) {
 		errno = 0;
 		string full_name = path + "/" + file_name;
+		clog << "will delete path:" << full_name << endl;
 		if (remove(full_name.c_str()) != 0 ) {
 			ostringstream ostr;
 			ostr << "Error deleting  \"" << full_name << "\"";
@@ -58,7 +59,7 @@ namespace db {
 		return find_if(begin(), end(), bind2nd(equal_file_name(), file_name)) != end();
 	}
 
-	void Directory::mk_dir_helper(std::string full_path) {
+	void Directory::mk_dir_helper(string full_path) {
 		errno = 0;
 		mkdir(full_path.c_str(), 0777); // Whatever perms in umask.
 		if (errno) {

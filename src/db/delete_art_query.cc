@@ -3,6 +3,6 @@
 
 namespace db {
 	Result *DeleteArtQuery::execute() {
-		return 0;
+		return database.delete_art(newsgroup_id, article_id);
 	}
 }

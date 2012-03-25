@@ -15,7 +15,7 @@ namespace db {
 		Result *create_ng(std::string ng_name);
 		Result *delete_ng(size_t ng_id);
 		Result *list_art(size_t ng_id);
-		Result *create_art(size_t ng_id, std::string title, std::string author, std::string text);
+		Result *create_art(size_t ng_id, const std::string &title, const std::string &author, const std::string &text);
 		Result *delete_art(size_t ng_id, size_t art_id);
 		Result *get_art(size_t ng_id, size_t art_id);
 
