@@ -35,23 +35,38 @@ namespace db {
 	}
 
 	void Directory::delete_dir() {
-		//errno = 0;
-		//if (remove(path.c_str()) != 0) {
-			//ostringstream ostr;
-			//ostr << "Error deleting  \"" << full_name << "\"";
-			//perror(ostr.str().c_str());
-		//}
-		delete_file("");
+		delete_dir(path); // Recursive.
+		errno = 0;
+		if (remove(path.c_str()) != 0 ) {
+			ostringstream ostr;
+			ostr << "Error deleting  \"" << path << "\".";
+			perror(ostr.str().c_str());
+		}
 	}
-
+	
 	void Directory::delete_file(const string &file_name) {
 		errno = 0;
-		string full_name = path + "/" + file_name;
-		clog << "will delete path:" << full_name << endl;
-		if (remove(full_name.c_str()) != 0 ) {
+		string path = full_path(file_name);
+		clog << "Deleting file:" << path << endl;
+		if (remove(path.c_str()) != 0 ) {
 			ostringstream ostr;
-			ostr << "Error deleting  \"" << full_name << "\"";
+			ostr << "Error deleting  \"" << path << "\".";
 			perror(ostr.str().c_str());
+		}
+	}
+
+	void Directory::delete_dir(const string &path) {
+		for (iterator it = begin(); it != end(); ++it) {
+			dirent *entity = *it;
+			if (entity->d_type == DT_DIR && strcmp(entity->d_name, ".") && strcmp(entity->d_name, "..")) {
+				Directory d(full_path(entity->d_name));
+				d.delete_dir();
+			} else if (entity->d_type == DT_REG) {
+				delete_file(entity->d_name);
+			} else if (strcmp(entity->d_name, ".") && strcmp(entity->d_name, "..")) {
+				cerr << "Could not delete file \"" << entity->d_name << "\"." << endl;
+				exit(EXIT_FAILURE);
+			}
 		}
 	}
 
