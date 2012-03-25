@@ -18,10 +18,11 @@ namespace db {
 		mh.print_byte(Protocol::ANS_END);
 	}
 
-	void CreateArtResult::printToCout() {
-		if (message == Protocol::ANS_ACK)
-			cout << "Article successfully created" << endl;
-		else
-			cout << "ERROR: Article already exists" << endl;
+	void CreateArtResult::toString(ostream &out) const {
+		if (message == Protocol::ANS_ACK) {
+			out << "Article successfully created" << endl;
+		} else {
+			out << "ERROR: Article already exists" << endl;
+		}
 	}
 }

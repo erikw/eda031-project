@@ -11,7 +11,7 @@ namespace db {
 	public:
 		CreateNGQuery(std::string ng_name) : newsgroup_name(ng_name) {}
 		Result *getResult(Database &db);
-		void send(net::MessageHandler& mh);
+		void send(net::MessageHandler &mh);
 	private:
 		std::string newsgroup_name;
 	};

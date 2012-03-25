@@ -1,6 +1,8 @@
 #ifndef DELETEARTRESULT_H
 #define DELETEARTRESULT_H
 
+#include <iostream>
+
 #include "net/messagehandler.h"
 #include "net/connectionclosedexception.h"
 #include "db/result.h"
@@ -10,8 +12,8 @@ namespace db {
 	public:
 		DeleteArtResult(int mess) : message(mess) {};
 		void printToConnection(net::MessageHandler &mh) throw(net::ConnectionClosedException);
-		void printToCout();
 	private:
+		void toString(std::ostream &out) const;
 		int message;
 	};
 }

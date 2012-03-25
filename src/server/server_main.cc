@@ -10,6 +10,8 @@
 #include "net/messagehandler.h"
 #include "db/database.h"
 #include "db/memory_db.h"
+#include "db/query.h"
+#include "db/result.h"
 
 using namespace server;
 using namespace std;
@@ -24,6 +26,7 @@ unsigned int port;
 bool read_args(unsigned int &port, string &db_type, size_t argc, char **argv);
 
 void sighandler(int sig) {
+	clog << "Caught signal " << sig << "." << endl;
 	forever = false;
 	Connection c("localhost", port); // TODO no better way to end server.waitForActivity()?
 }
@@ -71,6 +74,7 @@ int main(int argc, char **argv) {
 
 				result = query->getResult(*database);
 				clog << "Query executed." << endl;
+				//cout << *result; // Debug output.
 
 				result->printToConnection(mh);
 				clog << "Result sent." << endl;

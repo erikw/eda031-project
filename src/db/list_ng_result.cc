@@ -21,11 +21,11 @@ namespace db {
 		mh.print_byte(Protocol::ANS_END);
 	}
 
-	void ListNGResult::printToCout() {
+	void ListNGResult::toString(ostream &out) const {
 		pair<int, string> current_pair;
 		for (size_t i = 0; i < news_groups.size(); ++i) {
 			current_pair = news_groups[i];
-			cout << current_pair.first << ". " << current_pair.second << endl;
+			out << current_pair.first << ". " << current_pair.second << endl;
 		}
 	}
 

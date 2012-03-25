@@ -9,7 +9,7 @@ namespace db {
 	public:
 		ListArtQuery(int ng_id) : newsgroup_id(ng_id) {}
         Result *getResult(Database &db);
-		void send(net::MessageHandler& mh);
+		void send(net::MessageHandler &mh);
 	private:
 		int newsgroup_id;
 	};

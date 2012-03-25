@@ -114,7 +114,7 @@ include $(DFILES)
 
 # Linking of $(PROGS)
 client/client_main: client/client_main.o
-server/server_main: server/server_main.o server/server.o net/connection.o net/messagehandler.o $(DBOBJS)
+server/server_main: server/server_main.o server/server.o server/server_message_interpreter.o net/connection.o net/messagehandler.o $(DBOBJS)
 
 # Linking of tests
 test/test_db: test/test_db.o net/connection.o $(DBOBJS)

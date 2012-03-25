@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <iostream>
 
 #include "db/result.h"
 #include "net/connectionclosedexception.h"
@@ -13,8 +14,8 @@ namespace db {
 	public:
 		ListNGResult(std::vector<std::pair<int, std::string> > ng) : news_groups(ng) {}
 		void printToConnection(net::MessageHandler &mh) throw(net::ConnectionClosedException);
-		void printToCout();
 	private:
+		void toString(std::ostream &out) const;
 		std::vector<std::pair<int, std::string> > news_groups;
 	};
 }

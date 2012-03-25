@@ -21,14 +21,14 @@ namespace db {
 		mh.print_byte(Protocol::ANS_END);
 	}
 
-	void GetArtResult::printToCout() {
-		if(message == Protocol::ANS_ACK){
-			cout << title << "\tFrom: " << author << endl;
-			cout << text << endl;
+	void GetArtResult::toString(ostream &out) const {
+		if (message == Protocol::ANS_ACK){
+			out << title << "\tFrom: " << author << endl;
+			out << text << endl;
 		} else if(message == Protocol::ERR_ART_DOES_NOT_EXIST) {
-			cout << "ERROR: Article doesn't exist" << endl;
+			out << "ERROR: Article doesn't exist" << endl;
 		} else {
-			cout << "ERROR: News group doesn't exist" << endl;
+			out << "ERROR: News group doesn't exist" << endl;
 		}
 	}
 }

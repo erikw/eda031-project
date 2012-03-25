@@ -19,11 +19,11 @@ namespace db {
 		mh.print_byte(Protocol::ANS_END);
 	}
 
-	void DeleteNGResult::printToCout() {
-		if (message == Protocol::ANS_ACK)
-			cout << "Newsgroup successfully deleted" << endl;
-		else
-			cout << "ERROR: Newsgroup doesn't exist" << endl;
+	void DeleteNGResult::toString(ostream &out) const {
+		if (message == Protocol::ANS_ACK){
+			out << "Newsgroup successfully deleted" << endl;
+		} else {
+			out << "ERROR: Newsgroup doesn't exist" << endl;
+		}
 	}
-
 }

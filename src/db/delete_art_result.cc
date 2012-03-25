@@ -17,13 +17,14 @@ namespace db {
 		mh.print_byte(Protocol::ANS_END);
 	}
 
-	void DeleteArtResult::printToCout() {
-		if (message == Protocol::ANS_ACK)
-			cout << "Newsgroup successfully deleted" << endl;
-		else if(message == Protocol::ERR_ART_DOES_NOT_EXIST)
-			cout << "ERROR: Article doesn't exist" << endl;
-		else
-			cout << "ERROR: News group doesn't exist" << endl;
+	void DeleteArtResult::toString(ostream &out) const {
+		if (message == Protocol::ANS_ACK) {
+			out << "Newsgroup successfully deleted" << endl;
+		} else if(message == Protocol::ERR_ART_DOES_NOT_EXIST) {
+			out << "ERROR: Article doesn't exist" << endl;
+		} else {
+			out << "ERROR: News group doesn't exist" << endl;
+		}
 	}
 }
 
