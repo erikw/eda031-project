@@ -5,6 +5,7 @@
 
 #include "db/file_ng.h"
 #include "db/directory.h"
+#include "db/file_art.h"
 
 using namespace std; //TODO
 
@@ -40,5 +41,19 @@ namespace db {
 			articles.push_back(make_pair(id, title));
 		}
 		return articles;
+	}
+
+	FileArt *FileNG::get_art(size_t id) {
+		FileArt *article = 0;
+		ostringstream ostr;
+		ostr << id;
+		string file_name = ostr.str();
+		if (dir.file_exists(file_name)) {
+			ifstream ifs(file_name.c_str());
+			article = new FileArt();
+			ifs >> *article;
+			ifs.close();
+		} 
+		return article;
 	}
 }
