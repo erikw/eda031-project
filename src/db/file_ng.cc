@@ -73,7 +73,12 @@ namespace db {
 	void FileNG::del_art(size_t id) {
 		ostringstream ostr;
 		ostr << id;
-		dir.delete_file(ostr.str());
+		string file_name = ostr.str();
+		if (dir.file_exists(file_name)) {
+			dir.delete_file(ostr.str());
+		} else {
+			throw InexistingArticle();
+		}
 	}
 
 	void FileNG::del_ng() {
