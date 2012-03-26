@@ -11,15 +11,6 @@
 #include "db/delete_art_query.h"
 #include "db/get_art_query.h"
 
-/*list groups
-list articles snum
-create group string
-create article num string
-delete group num
-delete article num num
-read article num num
-*/
-
 namespace client {
 	using namespace db;
 	using namespace std;
@@ -144,7 +135,7 @@ namespace client {
 
 	void ClientInputInterpreter::print_help(){
 		cout << "Usage: " << help_lines[0] << endl;
-		for(size_t i = 1; i < LAST; ++i)
+		for(size_t i = 1; i <= LAST; ++i)
 			cout << "  or:  " << help_lines[i] << endl; 
 	}
 	
@@ -155,7 +146,8 @@ namespace client {
 			"'create article NEWSGROUP_ID TITLE AUTHOR TEXT' - Create an article in NEWSGROUP_ID with title TITLE, author AUTHOR and text TEXT",
 			"'delete group NEWSGROUP_ID' - delete newsgroup with id NEWSGROUP_ID",
 			"'delete article NEWSGROUP_ID' ARTICLE_ID - delete article with id ARTICLE_ID in newsgroup with id NEWSGROUP_ID",
-			"'get article NEWSGROUP_ID ARTICLE_ID' - prints article with id ARTICLE_ID in newsgroup with id NEWSGROUP_ID" };
+			"'get article NEWSGROUP_ID ARTICLE_ID' - prints article with id ARTICLE_ID in newsgroup with id NEWSGROUP_ID",
+			"'exit' - exits the program" };
 	
 	
 }

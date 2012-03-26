@@ -15,7 +15,7 @@ using namespace client;
 
 const unsigned int default_port = 1025;
 const string default_host = "localhost";
-const bool forever = true;
+bool forever = true;
 
 bool read_args(string &host, unsigned int &port, size_t argc, char **argv);
 
@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
 		return EXIT_FAILURE;
 	}
 	cout << "Connected to server." << endl;
-	cout << "Write 'help' for a list of commands" << endl;
+	cout << "\nWrite 'help' for a list of commands" << endl;
 	MessageHandler mh(conn);
 	ClientInputInterpreter input_interpret;
 	ClientMessageInterpreter message_interpret;
@@ -43,7 +43,12 @@ int main(int argc, char** argv) {
 		Query *query = 0;
 		Result *result = 0;
 		try {
-			query = input_interpret.recieve_query(line);
+			if (line.compare("exit")==0) {
+				forever = false;
+				query = 0;	
+			} else {
+				query = input_interpret.recieve_query(line);
+			}	
 			if (query != 0) {
 				query->send(mh);
 				result = message_interpret.recieve_result(mh);
