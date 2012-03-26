@@ -1,5 +1,5 @@
 # Generate all outputs for the project.
-NAME=paper
+NAME=report
 
 .PHONY: all clean help wc
 
