@@ -1,18 +1,19 @@
-#include <iostream>
-#include <sstream>
 #include <cstdlib>
 #include <cstring>
 #include <signal.h>
 
-#include "server/server_message_interpreter.h"
-#include "server/server.h"
-#include "net/connection.h"
-#include "net/messagehandler.h"
+#include <iostream>
+#include <sstream>
+
 #include "db/database.h"
-#include "db/memory_db.h"
 #include "db/file_db.h"
+#include "db/memory_db.h"
 #include "db/query.h"
 #include "db/result.h"
+#include "net/connection.h"
+#include "net/messagehandler.h"
+#include "server/server.h"
+#include "server/server_message_interpreter.h"
 
 using namespace server;
 using namespace std;
@@ -32,13 +33,10 @@ void sighandler(int sig) {
 	Connection c("localhost", port); // TODO no better way to end server.waitForActivity()?
 }
 
-
 int main(int argc, char **argv) {
-
 	signal(SIGABRT, &sighandler);
 	signal(SIGTERM, &sighandler);
 	signal(SIGINT, &sighandler);
-
 
 	string db_type;
 	if (!read_args(port, db_type, argc, argv)) {
@@ -116,18 +114,18 @@ bool read_args(unsigned int &port, string &db_type, size_t argc, char **argv) {
 			if (!strcmp(argv[i], "--db")) {
 				if (!strcmp(argv[i + 1], "memory") || !strcmp(argv[i + 1], "file")) {
 					db_type = argv[i + 1];
-				 } else {
-					 error = true;
-					 cerr << "The database type \"" << argv[i + 1] << "\"is not recognized." << endl;
-				 }
+				} else {
+					error = true;
+					cerr << "The database type \"" << argv[i + 1] << "\"is not recognized." << endl;
+				}
 			} else if (!strcmp(argv[i], "--port")) {
 				unsigned int read_port = atoi(argv[i + 1]);
-					if (read_port == 0 || read_port < 1025) {
-						error = true;
-						cerr << "Port must be > 1024" << endl;
-					} else {
-						port = read_port;
-					}
+				if (read_port == 0 || read_port < 1025) {
+					error = true;
+					cerr << "Port must be > 1024" << endl;
+				} else {
+					port = read_port;
+				}
 			} else {
 				error = true;
 				cerr << "Parameter \"" << argv[i] << "\" is unrecognized." << endl;

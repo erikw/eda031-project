@@ -1,20 +1,19 @@
 #include "server/server_message_interpreter.h"
-#include "net/protocol.h"
-#include "db/list_ng_query.h"
-#include "db/create_ng_query.h"
-#include "db/delete_ng_query.h"
-#include "db/list_art_query.h"
+
 #include "db/create_art_query.h"
+#include "db/create_ng_query.h"
 #include "db/delete_art_query.h"
+#include "db/delete_ng_query.h"
 #include "db/get_art_query.h"
+#include "db/list_art_query.h"
+#include "db/list_ng_query.h"
+#include "net/protocol.h"
 
 using namespace db;
 using namespace net;
 using namespace std;
 
 namespace server {
-
-
 	Query *ServerMessageInterpreter::recieve_query(MessageHandler &mh) throw(IllegalCommandException, ConnectionClosedException){
 		unsigned char command_type = mh.read_byte();
 		Query *query;

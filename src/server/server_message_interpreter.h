@@ -1,13 +1,12 @@
 #ifndef SERVERMESSAGEINTERPRETER_H
 #define SERVERMESSAGEINTERPRETER_H
 
+#include "db/query.h"
 #include "net/connectionclosedexception.h"
 #include "net/messagehandler.h"
-#include "db/query.h"
 #include "net/protocol.h"
 
 namespace server {
-
 	class ServerMessageInterpreter {
 	public:
 		db::Query *recieve_query(net::MessageHandler &mh) throw(net::IllegalCommandException, net::ConnectionClosedException);
