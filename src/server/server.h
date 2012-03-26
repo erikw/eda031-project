@@ -25,6 +25,7 @@
 #define SERVER_H
 
 #include <vector>
+
 #include "net/connection.h"
 
 namespace server {
@@ -34,7 +35,7 @@ namespace server {
 		
 	public:
 		/* Create a server that listens to the port 'port' */
-		Server(int port);
+		explicit Server(int port);
 		
 		/* Delete all registered connections */
 		virtual ~Server();
@@ -55,20 +56,21 @@ namespace server {
 		void deregisterConnection(net::Connection* conn);
 		
 	protected:
+		/* Print error message and exit */
+		void error(const char* msg) const;
+
 		/* The number of the communication socket */
 		int my_socket;
 
 		/* Number of registered connections */
 		int no_of_connections;
-		
+
 		/* List of registered connections */
 		std::vector<net::Connection*> connections;
-		
+
 		/* ? */
 		mutable int pending_socket;
 		
-		/* Print error message and exit */
-		void error(const char* msg) const;
 	};
 }
 

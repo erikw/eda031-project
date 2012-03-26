@@ -1,5 +1,4 @@
-#include <iostream>
-#include <cstdlib>
+//#include <cstdlib>
 #include <sstream>
 #include <cstdlib>
 #include <cstring>
@@ -8,8 +7,6 @@
 #include "client/client_input_interpreter.h"
 #include "net/connection.h"
 #include "net/messagehandler.h"
-
-
 
 using namespace db;
 using namespace std;
@@ -23,12 +20,12 @@ const bool forever = true;
 bool read_args(string &host, unsigned int &port, size_t argc, char **argv);
 
 int main(int argc, char** argv) {
-	cout << "Starting client." << endl;
+	
 	string host;
 	unsigned int port;
 	if (!read_args(host, port, argc, argv))
 		return EXIT_FAILURE;
-	cout << "Connecting to server " << host << " on port " << port << "..." << endl;
+	clog << "Client started. Connecting to " << host << ":" << port << "." << std::endl;
 	Connection conn(host.c_str(), port);
 	if (! conn.isConnected()) {
 		cerr << "Connection attempt failed." << endl;
@@ -50,7 +47,7 @@ int main(int argc, char** argv) {
 			if (query != 0) {
 				query->send(mh);
 				result = message_interpret.recieve_result(mh);
-				result->printToCout();
+				result->toString(cout);
 			}
 		} catch (InputSyntaxError &ise) {
 
@@ -62,6 +59,7 @@ int main(int argc, char** argv) {
 		delete result;
 		
 	}
+	clog << "Client terminating." << endl;
 	return EXIT_SUCCESS;
 }
 

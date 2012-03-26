@@ -7,7 +7,7 @@ INCDIR		= ../include
 SRCS		= $(wildcard $(SRCDIR)/**/*.cc)
 OBJS		= $(shell find -iname '*.o')
 DFILES		= $(patsubst $(SRCDIR)/%.cc,%.d,$(SRCS))
-VPATH		= $(SRCDIR) $(LIBDIR)
+VPATH		= $(SRCDIR) $(LIBDIR) 
 THISDIR		= $(shell basename `pwd`)
 TAGSFILE	= ../tags
 PROGS		= client/client_main server/server_main test/test_db
@@ -16,7 +16,6 @@ DBOBJS		= $(patsubst $(SRCDIR)/db/%.cc,db/%.o,$(wildcard $(SRCDIR)/db/*.cc))
 
 # Compiler and compiler options:
 CXX		=  $(shell hash clang++ 2>/dev/null && echo clang++ || echo g++)
-CXX		=  g++
 CC		=  $(CXX)		# For implicit linking rule.
 OPTLVL		= 2			# Default is 2.
 # Change with $make -e DEBUG=false
@@ -24,29 +23,23 @@ DEBUG		= true
 DEBUGOPT	= -ggdb
 ERRFLAGS	= -Wall -Wextra -Wmissing-braces -Wparentheses -Wold-style-cast
 CXXFLAGS	= -pipe -ansi -pedantic-errors -fstack-protector-all
-ifeq ($(CXX), g++)
+ifeq ($(CXX), g++) 
 	CXXFLAGS +=  -z noexecstack
 endif
 CXXFLAGS	+= $(ERRFLAGS) -I$(SRCDIR)
 #LDFLAGS	=
 #LDLIBE		=
 
-# Enable debug options.
 ifeq ($(DEBUG), true)
-		CXXFLAGS += $(DEBUGOPT)
+		CXXFLAGS += $(DEBUGOPT) -O0
 		LDFLAGS  += $(DEBUGOPT)
 else
 		CXXFLAGS += -O$(OPTLVL)
 endif
 
-# Enable instrumented compilation.
-ifeq ($(COVERAGE), true) 
-	CXXFLAGS += --coverage
-	LDFLAGS  += --coverage
-endif
 
 ## Targets ##
-.PHONY: all clean help list tar test doc install uninstall
+.PHONY: all run-test clean help list tar test doc install uninstall
 
 # target: all - Make all executable programs.
 all: $(PROGS)
@@ -65,12 +58,12 @@ clean:
 cleaner: clean
 	$(RM) $(PROGS)
 	$(RM) $(TAGSFILE)
-	find . -type d -delete
+	#$(RM) -r $(fileter $(shell find . -type d),.) # Useless with include($(DFILES)).
 
 # target: install - Installs executables and libraries.
 install: $(PROGS)
-	install $(PROGS) $(BINDIR)
-	install $(OBJS) $(LIBDIR)
+	 install $(PROGS) $(BINDIR)
+	 install $(OBJS) $(LIBDIR)
 
 # target: uninstall - Deletes all files installed by install-target.
 uninstall:
@@ -99,9 +92,9 @@ tar-src :
 tags :
 	ctags -R --tag-relative=yes -f $(TAGSFILE) ../
 
-# target: help - Run all tests.
+# target: test - Run all tests.
 test:
-	test/test_db
+	./test/test_db
 
 # target: doc - Generate documentation.
 doc :

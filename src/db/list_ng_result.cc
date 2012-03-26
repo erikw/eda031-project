@@ -1,8 +1,9 @@
+#include "db/list_ng_result.h"
+
 #include <string>
 #include <vector>
 #include <iostream>
 
-#include "db/list_ng_result.h"
 #include "net/connectionclosedexception.h"
 #include "net/protocol.h"
 
@@ -21,12 +22,11 @@ namespace db {
 		mh.print_byte(Protocol::ANS_END);
 	}
 
-	void ListNGResult::printToCout() {
-		pair<int, string> current_pair;
+	void ListNGResult::toString(ostream &out) const {
+		pair<size_t, string> current_pair;
 		for (size_t i = 0; i < news_groups.size(); ++i) {
 			current_pair = news_groups[i];
-			cout << current_pair.first << ". " << current_pair.second << endl;
+			out << current_pair.first << ". " << current_pair.second << endl;
 		}
 	}
-
 }

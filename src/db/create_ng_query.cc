@@ -1,6 +1,7 @@
+#include "db/create_ng_query.h"
+
 #include <string>
 
-#include "db/create_ng_query.h"
 #include "net/protocol.h"
 
 namespace db {

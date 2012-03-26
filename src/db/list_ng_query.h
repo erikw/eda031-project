@@ -9,9 +9,8 @@ namespace db {
 	public:
 		ListNGQuery() {}
 		Result *getResult(Database &db);
-		void send(net::MessageHandler& mh);
+		void send(net::MessageHandler &mh);
 	};
-
 }
 
 #endif

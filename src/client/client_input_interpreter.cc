@@ -155,7 +155,7 @@ namespace client {
 			"'create article NEWSGROUP_ID TITLE AUTHOR TEXT' - Create an article in NEWSGROUP_ID with title TITLE, author AUTHOR and text TEXT",
 			"'delete group NEWSGROUP_ID' - delete newsgroup with id NEWSGROUP_ID",
 			"'delete article NEWSGROUP_ID' ARTICLE_ID - delete article with id ARTICLE_ID in newsgroup with id NEWSGROUP_ID",
-			"'get art NEWSGROUP_ID ARTICLE_ID' - prints article with id ARTICLE_ID in newsgroup with id NEWSGROUP_ID" };
+			"'get article NEWSGROUP_ID ARTICLE_ID' - prints article with id ARTICLE_ID in newsgroup with id NEWSGROUP_ID" };
 	
 	
 }

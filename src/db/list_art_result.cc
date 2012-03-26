@@ -1,17 +1,16 @@
+#include "db/list_art_result.h"
+
 #include <string>
 #include <vector>
 #include <iostream>
 
-#include "db/list_art_result.h"
 #include "net/protocol.h"
 #include "net/connectionclosedexception.h"
-
-
-namespace db {
 
 using namespace net;
 using namespace std;
 
+namespace db {
 	void ListArtResult::printToConnection(MessageHandler &mh) throw (ConnectionClosedException){
 		mh.print_byte(Protocol::ANS_LIST_ART);
 		if (message != Protocol::ANS_ACK) {
@@ -21,8 +20,8 @@ using namespace std;
 			mh.print_byte(Protocol::ANS_ACK);
 			mh.print_num(articles.size());
 
-			for (vector<pair<int, string> >::iterator iter = articles.begin(); iter != articles.end(); ++iter) {
-				vector<pair<int, string> >::value_type art = *iter;
+			for (vector<pair<size_t, string> >::iterator iter = articles.begin(); iter != articles.end(); ++iter) {
+				vector<pair<size_t, string> >::value_type art = *iter;
 				mh.print_num(art.first);
 				mh.print_string(art.second);
 			}
@@ -30,14 +29,15 @@ using namespace std;
 		mh.print_byte(Protocol::ANS_END);
 	}
 
-	void ListArtResult::printToCout() {
+
+	void ListArtResult::toString(ostream &out) const {
 		if (message != Protocol::ANS_ACK){
-			cout << "ERROR: Newsgroup doesn't exist" << endl;
+			out << "ERROR: Newsgroup doesn't exist" << endl;
 		} else {
-			pair<int, string> current_pair;
+			pair<size_t, string> current_pair;
 			for (size_t i = 0; i < articles.size(); ++i) {
 				current_pair = articles[i];
-				cout << current_pair.first << ". " << current_pair.second << endl;
+				out << current_pair.first << ". " << current_pair.second << endl;
 			}
 		}
 	}
