@@ -7,18 +7,20 @@ For further documentation; visit [doc/](https://github.com/erikw/eda031_project/
 Compile and run by typing the following commands:
 
 	$cd eda031_project/build/
+	$make help
 	$make
 	$server/server_main [--db (memory | file)] [--port portnum] &
 	$client/client_main [--host hostname] [--port portnum]
-	news> <query>
-	<result>
-	news> <query>
+	news> help
+	news> <commmand>
 	.
+	.
+	news> <commmand>
 	.
 	.
 	^D
 
-With \<query\> and \<result\> as described in the specification. Type `make help` for more instructions about compilation.
+The commands and the result produced corresponds to the functional requirements described in the specification. Type `make help` for more instructions about compilation.
 
 ##Contributors
 
