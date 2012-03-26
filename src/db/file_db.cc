@@ -31,14 +31,14 @@ namespace db {
 	// Must be declared before usage since there is no general template, 
 	// only specializations.
 	template<>
-	struct FileDB::compare_ng<size_t> : binary_function<pair<size_t, string>, const size_t, bool> {
+	struct FileDB::find_ng<size_t> : binary_function<pair<size_t, string>, const size_t, bool> {
 		bool operator()(pair<size_t, string> &ng, const size_t id) const {
 			return ng.first == id;
 		}
 	};
 
 	template<>
-	struct FileDB::compare_ng<string> : binary_function<pair<size_t, string>, const string, bool> {
+	struct FileDB::find_ng<string> : binary_function<pair<size_t, string>, const string, bool> {
 		bool operator()(pair<size_t, string> &ng, const string name) const {
 			return ng.second == name;
 		}
@@ -96,7 +96,7 @@ namespace db {
 			ifst.close();
 			vector<pair<size_t, string> > news_groups; 
 			read_ngs(news_groups);
-			binder2nd<compare_ng<size_t> > comp = bind2nd<compare_ng<size_t>, size_t>(compare_ng<size_t>(), ng_id);
+			binder2nd<find_ng<size_t> > comp = bind2nd<find_ng<size_t>, size_t>(find_ng<size_t>(), ng_id);
 			vector<pair<size_t, string> >::iterator end = remove_if(news_groups.begin(), news_groups.end(), comp);;
 			ofstream ofst((root_dir.full_path(DB_INFO_NAME)).c_str());
 			ofst << id << endl;
@@ -117,7 +117,9 @@ namespace db {
 		Result *result = 0;
 		try {
 			FileNG ng = get_ng(ng_id);	
-			result = new ListArtResult(ng.list_arts());
+			vector<pair<size_t, string> > arts = ng.list_arts();
+			sort(arts.begin(), arts.end(), compare_pair_first<size_t, string>());
+			result = new ListArtResult(arts);
 		} catch (const InexistingNG &ing) {
 			result = new ListArtResult(static_cast<unsigned char>(Protocol::ERR_NG_DOES_NOT_EXIST));
 		}
@@ -228,7 +230,7 @@ namespace db {
 	bool FileDB::exists_ng(const I &identifier) {
 		vector<pair<size_t, string> > news_groups;
 		read_ngs(news_groups);
-		vector<pair<size_t, string> >::iterator found = find_if(news_groups.begin(), news_groups.end(), bind2nd(compare_ng<I>(), identifier));
+		vector<pair<size_t, string> >::iterator found = find_if(news_groups.begin(), news_groups.end(), bind2nd(find_ng<I>(), identifier));
 		return found != news_groups.end();
 	}
 	
@@ -236,7 +238,7 @@ namespace db {
 	FileNG FileDB::get_ng(const I &identifier) throw(InexistingNG) {
 		vector<pair<size_t, string> > news_groups;
 		read_ngs(news_groups);
-		vector<pair<size_t, string> >::iterator found = find_if(news_groups.begin(), news_groups.end(), bind2nd(compare_ng<I>(), identifier));
+		vector<pair<size_t, string> >::iterator found = find_if(news_groups.begin(), news_groups.end(), bind2nd(find_ng<I>(), identifier));
 		if (found != news_groups.end()) {
 			ostringstream ostr;
 			ostr << found->first;

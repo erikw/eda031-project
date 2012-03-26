@@ -49,7 +49,23 @@ namespace db {
 		std::string get_ng_name(size_t ng_idconst) const; 
 
 		template<typename T>
-		struct compare_ng : std::binary_function<std::pair<size_t, std::string>, const T, bool> {};
+		struct find_ng : std::binary_function<std::pair<size_t, std::string>, const T, bool> {};
+
+		//template<typename T, typename U>
+		//struct compare_pair_first : std::binary_function<std::pair<T, U>, std::pair<T, U>, bool>;
+		template<typename T, typename U>
+		struct compare_pair_first : std::binary_function<std::pair<T, U>, std::pair<T, U>, bool> {
+			bool operator()(const std::pair<T, U> &lhs, const std::pair<T, U> &rhs) const {
+				if (lhs.first < rhs.first) {
+					return true;
+				} else if (rhs.first < lhs.first) {
+					return false;
+				} else { // Equal
+					return false;
+				}
+			}
+		};
+
 
 
 		// The root directory for all files.
