@@ -11,7 +11,7 @@ using namespace std;
 namespace db {
 	void DeleteArtResult::printToConnection(MessageHandler &mh) throw(net::ConnectionClosedException) {
 		mh.print_byte(Protocol::ANS_DELETE_ART);
-		if(message != Protocol::ANS_ACK)
+		if (message != Protocol::ANS_ACK)
 			mh.print_byte(Protocol::ANS_NAK);
 		mh.print_byte(message);
 		mh.print_byte(Protocol::ANS_END);

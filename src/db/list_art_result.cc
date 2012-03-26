@@ -21,8 +21,8 @@ using namespace std;
 			mh.print_byte(Protocol::ANS_ACK);
 			mh.print_num(articles.size());
 
-			for (vector<pair<int, string> >::iterator iter = articles.begin(); iter != articles.end(); ++iter) {
-				vector<pair<int, string> >::value_type art = *iter;
+			for (vector<pair<size_t, string> >::iterator iter = articles.begin(); iter != articles.end(); ++iter) {
+				vector<pair<size_t, string> >::value_type art = *iter;
 				mh.print_num(art.first);
 				mh.print_string(art.second);
 			}
@@ -34,7 +34,7 @@ using namespace std;
 		if (message == Protocol::ANS_ACK){
 			out << "ERROR: Newsgroup doesn't exist" << endl;
 		} else {
-			pair<int, string> current_pair;
+			pair<size_t, string> current_pair;
 			for (size_t i = 0; i < articles.size(); ++i) {
 				current_pair = articles[i];
 				out << current_pair.first << ". " << current_pair.second << endl;

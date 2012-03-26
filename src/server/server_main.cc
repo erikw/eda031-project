@@ -10,6 +10,7 @@
 #include "net/messagehandler.h"
 #include "db/database.h"
 #include "db/memory_db.h"
+#include "db/file_db.h"
 #include "db/query.h"
 #include "db/result.h"
 
@@ -19,7 +20,7 @@ using namespace net;
 using namespace db;
 
 const unsigned int default_port = 1025;
-const string default_db = "memory";
+const string default_db = "file";
 bool forever = true;
 unsigned int port;
 
@@ -53,11 +54,11 @@ int main(int argc, char **argv) {
 		cout << "Server is running." << endl;
 	}
 
-	Database* database;
+	Database *database;
 	if (db_type == "memory") {
 		database  = new MemoryDB();
 	} else {
-		//database = new FileDB(); // TODO not implemented.
+		database = new FileDB();
 	}
 	ServerMessageInterpreter interpreter;
 

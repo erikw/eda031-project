@@ -11,7 +11,7 @@ namespace db {
 
 	void CreateArtResult::printToConnection(MessageHandler &mh) throw(ConnectionClosedException) {
 		mh.print_byte(Protocol::ANS_CREATE_ART);
-		if(message != Protocol::ANS_ACK) {
+		if (message != Protocol::ANS_ACK) {
 			mh.print_byte(Protocol::ANS_NAK);
 		}
 		mh.print_byte(message);
