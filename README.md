@@ -20,7 +20,7 @@ Compile and run by typing the following commands:
 	.
 	^D
 
-The commands and the result produced corresponds to the functional requirements described in the specification. Type `make help` for more instructions about compilation.
+The commands and the results produced corresponds to the functional requirements described in the specification. Type `make help` for more instructions about compilation.
 
 ##Contributors
 
