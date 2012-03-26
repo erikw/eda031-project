@@ -173,19 +173,20 @@ namespace db {
 		size_t id;
 		fst >> id;
 
-		ostringstream ostr_tmp;
-		ostr_tmp << id;
+		ostringstream ostr_old;
+		ostr_old << id;
 
-		ostringstream ostr;
-		ostr << ++id;
+		ostringstream ostr_new;
+		ostr_new << ++id;
 
-		if(ostr.str().size() > ostr_tmp.str().size()){
+		if (ostr_new.str().size() > ostr_old.str().size()) {
 			fst << noskipws;
-			ostr << string((istream_iterator<char>(fst)), istream_iterator<char>());
+			ostr_new << string((istream_iterator<char>(fst)), istream_iterator<char>());
 			fst.clear();
 		}
+
 		fst.seekp(0, ios::beg);
-		string out = ostr.str();
+		string out = ostr_new.str();
 		fst.write(out.c_str(), out.size());
 		fst.close();
 
