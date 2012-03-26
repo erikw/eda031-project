@@ -85,7 +85,7 @@ namespace db {
 		dir.delete_dir();
 	}
 
-	size_t FileNG::next_id() { // TODO should be possible to do with only fstream. I tried with seekp(0) after reading etc. but did not work.
+	size_t FileNG::next_id() {
 		ifstream ifst((dir.full_path(NG_INFO_NAME)).c_str());
 		size_t id;
 		ifst >> id;

@@ -24,7 +24,7 @@ namespace db {
 		std::string get_path() { return path; }
 
 		// Construct the full path to the given file.
-		std::string full_path(std::string filename) { return path + "/" + filename; } // TODO use this.
+		std::string full_path(std::string filename) { return path + "/" + filename; }
 
 		// List all files in directory.
 		std::vector<std::string> list_files();

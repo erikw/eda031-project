@@ -167,12 +167,12 @@ namespace db {
 		return result;
 	}
 
-	size_t FileDB::next_id() { // TODO should be possible to do with only fstream. I tried with seekp(0) after reading etc. but did not work.
+	size_t FileDB::next_id() { 
 		ifstream ifst((root_dir.full_path(DB_INFO_NAME)).c_str());
 		size_t id;
 		ifst >> id;
 		ifst.close();
-		vector<pair<size_t, string> > news_groups; // TODO should not be needed to rewrite while file.
+		vector<pair<size_t, string> > news_groups;
 		read_ngs(news_groups);
 		++id;
 		ofstream ofst((root_dir.full_path(DB_INFO_NAME)).c_str());
