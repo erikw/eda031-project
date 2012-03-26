@@ -48,7 +48,7 @@ namespace db {
 		if (!root_dir.file_exists(DB_INFO_NAME)){
 			ofstream info(root_dir.full_path(DB_INFO_NAME).c_str());
 			if (info){
-				info << 0;
+				info << 0 << endl;
 				info.close();
 			} else {
 				exit(EXIT_FAILURE);
@@ -74,7 +74,7 @@ namespace db {
 
 			ofstream ofs;
 			ofs.open(root_dir.full_path(DB_INFO_NAME).c_str(), ofstream::out | ofstream::app);
-		vector<pair<size_t, string> > news_groups;
+			vector<pair<size_t, string> > news_groups;
 			ofs << id_str << " " << ng_name << endl;
 			ofs.close();
 
@@ -168,23 +168,6 @@ namespace db {
 	}
 
 	size_t FileDB::next_id() { 
-		ifstream ifst((root_dir.full_path(DB_INFO_NAME)).c_str());
-		size_t id;
-		ifst >> id;
-		ifst.close();
-		vector<pair<size_t, string> > news_groups;
-		read_ngs(news_groups);
-		++id;
-		ofstream ofst((root_dir.full_path(DB_INFO_NAME)).c_str());
-		ofst << id << endl;
-		for (vector<pair<size_t, string> >::const_iterator it = news_groups.begin(); it != news_groups.end(); ++it) {
-			ofst << it->first << " " << it->second << endl;
-		}
-		ofst.close();
-		/*
-		 * Below is a try to avoid rewriting entire file each time.
-		 * It does not currently work with test_db, but some errors
-		 * seems to not exists while debugging with TestServer1.java.
 		fstream fst((root_dir.full_path(DB_INFO_NAME)).c_str(),
 				ios::in | ios::out | ios::binary);
 
@@ -206,7 +189,7 @@ namespace db {
 		string out = ostr.str();
 		fst.write(out.c_str(), out.size());
 		fst.close();
-		*/
+
 		return id;
 	}
 
