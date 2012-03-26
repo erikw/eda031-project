@@ -1,14 +1,14 @@
 #include "test/test_db.h"
 
-#include <string>
-#include <iostream>
-#include <vector>
 #include <algorithm>
+#include <iostream>
+#include <string>
+#include <vector>
 
 #include "db/database.h"
-#include "db/memory_db.h"
-#include "db/file_db.h"
 #include "db/directory.h"
+#include "db/file_db.h"
+#include "db/memory_db.h"
 #include "net/connection.h"
 #include "net/protocol.h"
 
@@ -66,21 +66,21 @@ int main() {
 
 namespace test {
 	template<typename T>
-	void assertEquals(const string& if_neq, const T& expected, const T& value) {
-		if(!equal(expected.begin(), expected.end(), value.begin())){
-			cout << if_neq << endl;
-			cout << "Was [";
-			typename T::const_iterator it = value.begin();
-			for (; it != value.end(); ++it) {
-				cout << *it << endl;
+		void assertEquals(const string& if_neq, const T& expected, const T& value) {
+			if(!equal(expected.begin(), expected.end(), value.begin())){
+				cout << if_neq << endl;
+				cout << "Was [";
+				typename T::const_iterator it = value.begin();
+				for (; it != value.end(); ++it) {
+					cout << *it << endl;
+				}
+				cout << "] but expected [";
+				for (it = expected.begin(); it != expected.end(); ++it) {
+					cout << *it << endl;
+				}
+				cout << "]." << endl;
 			}
-			cout << "] but expected [";
-			for (it = expected.begin(); it != expected.end(); ++it) {
-				cout << *it << endl;
-			}
-			cout << "]." << endl;
 		}
-	}
 
 	void convert(vector<char>& out, unsigned int num){
 		out.push_back(static_cast<char>((num << 24) & 0xFF));
@@ -98,12 +98,12 @@ namespace test {
 
 	void set_up(){
 		switch(db_type) {
-		case MEMORY_DB:
-			dbp = new MemoryDB();
-			break;
-		case FILE_DB:
-			dbp = new FileDB();
-			break;
+			case MEMORY_DB:
+				dbp = new MemoryDB();
+				break;
+			case FILE_DB:
+				dbp = new FileDB();
+				break;
 		}
 		con = new MockConnection();
 		mh = new MessageHandler(*con);

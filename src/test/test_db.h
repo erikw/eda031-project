@@ -10,32 +10,32 @@
 
 namespace test {
 	class MockConnection : public net::Connection {
-		public:
-			MockConnection() {}
-			virtual ~MockConnection() {}
-			virtual bool isConnected() const {
-				return true;
-			}
+	public:
+		MockConnection() {}
+		virtual ~MockConnection() {}
+		virtual bool isConnected() const {
+			return true;
+		}
 
-			virtual void write(unsigned char ch) const throw(net::ConnectionClosedException) {
-				output.push_back(ch);
-			}
-			
-			virtual unsigned char read() const throw(net::ConnectionClosedException) {
-				return 0;
-			}
+		virtual void write(unsigned char ch) const throw(net::ConnectionClosedException) {
+			output.push_back(ch);
+		}
 
-			std::vector<char> get_output() {
-				return output;
-			}
+		virtual unsigned char read() const throw(net::ConnectionClosedException) {
+			return 0;
+		}
 
-			void clear_output(){
-				output.clear();
-			}
+		std::vector<char> get_output() {
+			return output;
+		}
 
-		private:
-			size_t read_at;
-			mutable std::vector<char> output;
+		void clear_output(){
+			output.clear();
+		}
+
+	private:
+		size_t read_at;
+		mutable std::vector<char> output;
 	};
 
 	enum {MEMORY_DB, FILE_DB};
@@ -46,10 +46,9 @@ namespace test {
 	extern char db_type;
 
 	template<typename T>
-	void assertEquals(const std::string &if_neq, const T &expected, const T &value);
+		void assertEquals(const std::string &if_neq, const T &expected, const T &value);
 	void convert(std::vector<char> &out, unsigned int num);
 	void convert(std::vector<char> &out, std::string str);
-
 
 	void set_up();
 	void tear_down();
