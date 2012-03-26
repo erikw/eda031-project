@@ -10,9 +10,9 @@ Compile and run by typing the following commands:
 	$make
 	$server/server_main [--db (memory | file)] [--port portnum] &
 	$client/client_main [--host hostname] [--port portnum]
-	> <query>
+	news> <query>
 	<result>
-	> <query>
+	news> <query>
 	.
 	.
 	.

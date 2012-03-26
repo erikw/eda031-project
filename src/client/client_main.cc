@@ -1,10 +1,10 @@
-//#include <cstdlib>
-#include <sstream>
+#include <cstdlib>
 #include <cstdlib>
 #include <cstring>
+#include <sstream>
 
-#include "client/client_message_interpreter.h"
 #include "client/client_input_interpreter.h"
+#include "client/client_message_interpreter.h"
 #include "net/connection.h"
 #include "net/messagehandler.h"
 
@@ -23,17 +23,20 @@ int main(int argc, char** argv) {
 	
 	string host;
 	unsigned int port;
-	if (!read_args(host, port, argc, argv))
+	if (!read_args(host, port, argc, argv)) {
 		return EXIT_FAILURE;
+	}
+
 	clog << "Client started. Connecting to " << host << ":" << port << "." << std::endl;
 	Connection conn(host.c_str(), port);
 	if (! conn.isConnected()) {
 		cerr << "Connection attempt failed." << endl;
 		return EXIT_FAILURE;
 	}
+
 	cout << "Connected to server." << endl;
 	cout << "\nWrite 'help' for a list of commands" << endl;
-	MessageHandler mh(conn);
+	MessageHandler m_handler(conn);
 	ClientInputInterpreter input_interpret;
 	ClientMessageInterpreter message_interpret;
 	while (forever) {
@@ -43,15 +46,19 @@ int main(int argc, char** argv) {
 		Query *query = 0;
 		Result *result = 0;
 		try {
-			if (line.compare("exit")==0) {
+			if (!cin) {
+				cout << endl;
+				forever = false;
+				query = 0;	
+			} else if (line.compare("exit") == 0) {
 				forever = false;
 				query = 0;	
 			} else {
 				query = input_interpret.recieve_query(line);
 			}	
 			if (query != 0) {
-				query->send(mh);
-				result = message_interpret.recieve_result(mh);
+				query->send(m_handler);
+				result = message_interpret.recieve_result(m_handler);
 				result->toString(cout);
 			}
 		} catch (InputSyntaxError &ise) {
@@ -64,7 +71,6 @@ int main(int argc, char** argv) {
 		delete result;
 		
 	}
-	clog << "Client terminating." << endl;
 	return EXIT_SUCCESS;
 }
 
