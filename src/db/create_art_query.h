@@ -3,6 +3,7 @@
 
 #include "db/query.h"
 #include "net/messagehandler.h"
+
 namespace db {
 	class CreateArtQuery : public Query {
 	public:

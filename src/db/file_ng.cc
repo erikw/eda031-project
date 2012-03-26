@@ -26,7 +26,7 @@ namespace db {
 		}
 	}
 
-	vector<pair<size_t, string> > FileNG::list_arts() {
+	vector<pair<size_t, string> > FileNG::list_arts() const {
 		vector<string> files = dir.list_files();
 		vector<string>::iterator end = remove_if(files.begin(), files.end(), bind2nd(equal_to<string>(), NG_INFO_NAME));
 		vector<pair<size_t, string> > articles;
@@ -46,7 +46,7 @@ namespace db {
 		return articles;
 	}
 
-	FileArt *FileNG::get_art(size_t id) throw(InexistingArticle) {
+	FileArt *FileNG::get_art(size_t id) const throw(InexistingArticle) {
 		ostringstream ostr;
 		ostr << id;
 		string file_name = ostr.str();

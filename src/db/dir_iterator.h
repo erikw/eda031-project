@@ -12,11 +12,12 @@ namespace db {
 	public:
 		explicit DirIterator(DIR *dir);
 		dirent *operator*() { return dir_entity; }
-		//dirent *operator*() const { return dir_entity; }
+		const dirent *operator*() const { return dir_entity; }
 		DirIterator &operator++();
+		const DirIterator &operator++() const;
 	private:
 		DIR *dir;
-		dirent *dir_entity;
+		mutable dirent *dir_entity;
 
 	};
 

@@ -18,9 +18,9 @@ using namespace std;
 using namespace net;
 
 namespace db {
-	Result *MemoryDB::list_ng() {
+	Result *MemoryDB::list_ng() const {
 		vector<pair<size_t, string> > temp_ng_list;
-		for (map<size_t,NewsGroup>::iterator it = news_groups.begin(); it!=news_groups.end(); ++it)
+		for (map<size_t,NewsGroup>::const_iterator it = news_groups.begin(); it!=news_groups.end(); ++it)
 			temp_ng_list.push_back(make_pair(it->first,it->second.name));
 		return new ListNGResult(temp_ng_list);
 	}
@@ -43,13 +43,14 @@ namespace db {
 		return new DeleteNGResult(static_cast<unsigned char>(Protocol::ANS_ACK));
 	}
 
-	Result *MemoryDB::list_art(size_t ng_id) {
+	Result *MemoryDB::list_art(size_t ng_id) const {
 		if (news_groups.find(ng_id) == news_groups.end()){
 			return new ListArtResult(static_cast<unsigned char>(Protocol::ERR_NG_DOES_NOT_EXIST));
 		}
 		vector<pair<size_t, string> > temp_art_list;
-		map<size_t, Article> art_map = news_groups[ng_id].articles;
-		for (map<size_t, Article>::iterator it = art_map.begin(); it != art_map.end(); ++it)
+		//map<size_t, Article> art_map = news_groups[ng_id].articles;
+		const map<size_t, Article> art_map = news_groups.find(ng_id)->second.articles;
+		for (map<size_t, Article>::const_iterator it = art_map.begin(); it != art_map.end(); ++it)
 			temp_art_list.push_back(make_pair(it->first,it->second.title));
 		return new ListArtResult(temp_art_list);
 	}
@@ -75,12 +76,12 @@ namespace db {
 
 	}
 
-	Result *MemoryDB::get_art(size_t ng_id, size_t art_id) {
+	Result *MemoryDB::get_art(size_t ng_id, size_t art_id) const {
 		if (news_groups.find(ng_id) == news_groups.end())
 			return new GetArtResult(static_cast<unsigned char>(Protocol::ERR_NG_DOES_NOT_EXIST));
-		map<size_t, Article> &temp_art = news_groups[ng_id].articles;
-		map<size_t, Article>::iterator it = temp_art.find(art_id);
-		if (it == temp_art.end())
+		const map<size_t, Article> art_map = news_groups.find(ng_id)->second.articles;
+		map<size_t, Article>::const_iterator it = art_map.find(art_id);
+		if (it == art_map.end())
 			return new GetArtResult(static_cast<unsigned char>(Protocol::ERR_ART_DOES_NOT_EXIST));
 		return new GetArtResult(it->second.title, it->second.author, it->second.text);
 	}

@@ -15,8 +15,8 @@ namespace db {
 
 		explicit FileNG(Directory d);
 		
-		std::vector<std::pair<size_t, std::string> > list_arts();
-		FileArt *get_art(size_t id) throw(InexistingArticle);
+		std::vector<std::pair<size_t, std::string> > list_arts() const;
+		FileArt *get_art(size_t id) const throw(InexistingArticle);
 		void add_art(const std::string &title, const std::string &author, const std::string &text);
 		void del_art(size_t id);
 		void del_ng();

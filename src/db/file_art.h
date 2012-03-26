@@ -15,9 +15,9 @@ namespace db {
 		FileArt() {} // Is to be initialized with operator>>.
 		FileArt(std::string ti, std::string au, std::string te) : title(ti), author(au), text(te) {}
 
-		std::string get_title() { return title; }
-		std::string get_author() { return author; }
-		std::string get_text() { return text; }
+		std::string get_title() const { return title; }
+		std::string get_author() const { return author; }
+		std::string get_text() const { return text; }
 	private:
 		std::string title;
 		std::string author;

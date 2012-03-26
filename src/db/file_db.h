@@ -15,13 +15,13 @@ namespace db {
 		friend void test::tear_down();
 	public:
 		FileDB();
-		Result *list_ng();
+		Result *list_ng() const;
 		Result *create_ng(std::string ng_name);
 		Result *delete_ng(size_t ng_id);
-		Result *list_art(size_t ng_id);
+		Result *list_art(size_t ng_id) const;
 		Result *create_art(size_t ng_id, const std::string &title, const std::string &author, const std::string &text);
 		Result *delete_art(size_t ng_id, size_t art_id);
-		Result *get_art(size_t ng_id, size_t art_id);
+		Result *get_art(size_t ng_id, size_t art_id) const;
 
 	private:
 		// The root directory for all files.
@@ -55,7 +55,7 @@ namespace db {
 		size_t next_id();
 
 		// Read news groups from DB_INFO_NAME.
-		void read_ngs(std::vector<std::pair<size_t, std::string> > &news_groups);
+		void read_ngs(std::vector<std::pair<size_t, std::string> > &news_groups) const;
 
 		//  Check if a news group with the given name exists.
 		// T is news group name or ID.
@@ -64,7 +64,7 @@ namespace db {
 
 		// Get a news group by name or ID.
 		template<typename I>
-		FileNG get_ng(const I &identifier) throw(InexistingNG);
+		FileNG get_ng(const I &identifier) const throw(InexistingNG);
 
 		//  Check if an article in a specific group exists.
 		bool exists_art(const std::string &ng_name, const std::string &art_name);

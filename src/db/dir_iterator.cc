@@ -16,6 +16,13 @@ namespace db {
 		return *this;
 	}
 
+	const DirIterator &DirIterator::operator++() const {
+		if (dir_entity) {
+			dir_entity = readdir(dir);
+		}
+		return *this;
+	}
+
 	bool operator!=(const DirIterator &lhs, const DirIterator &rhs) {
 		return !(lhs == rhs);
 	}

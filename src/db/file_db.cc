@@ -55,7 +55,7 @@ namespace db {
 		}
 	}
 
-	Result *FileDB::list_ng() {
+	Result *FileDB::list_ng() const {
 		vector<pair<size_t, string> > news_groups;
 		read_ngs(news_groups);
 		return new ListNGResult(news_groups);
@@ -112,7 +112,7 @@ namespace db {
 		return result;
 	}
 
-	Result *FileDB::list_art(size_t ng_id) {
+	Result *FileDB::list_art(size_t ng_id) const {
 		Result *result = 0;
 		try {
 			FileNG ng = get_ng(ng_id);	
@@ -151,7 +151,7 @@ namespace db {
 		return result;
 	}
 
-	Result *FileDB::get_art(size_t ng_id, size_t art_id) {
+	Result *FileDB::get_art(size_t ng_id, size_t art_id) const {
 		Result *result = 0;
 		try {
 			FileNG ng = get_ng(ng_id);
@@ -193,7 +193,7 @@ namespace db {
 		return id;
 	}
 
-	void FileDB::read_ngs(std::vector<std::pair<size_t, std::string> > &news_groups) {
+	void FileDB::read_ngs(std::vector<std::pair<size_t, std::string> > &news_groups) const {
 		ifstream ifst((root_dir.full_path(DB_INFO_NAME)).c_str());
 		string line;
 		getline(ifst, line); // Skip id counter.
@@ -218,7 +218,7 @@ namespace db {
 	}
 	
 	template<typename I>
-	FileNG FileDB::get_ng(const I &identifier) throw(InexistingNG) {
+	FileNG FileDB::get_ng(const I &identifier) const throw(InexistingNG) {
 		vector<pair<size_t, string> > news_groups;
 		read_ngs(news_groups);
 		vector<pair<size_t, string> >::iterator found = find_if(news_groups.begin(), news_groups.end(), bind2nd(find_ng<I>(), identifier));
