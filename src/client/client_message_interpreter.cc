@@ -8,6 +8,7 @@
 #include "db/delete_art_result.h"
 #include "db/get_art_result.h"
 
+
 namespace client {
 	using namespace db;
 	using namespace net;
@@ -49,88 +50,92 @@ namespace client {
 		int size = mh.read_num();
 		vector<pair<int, string> > results;		
 		while (size > 0){
-			results.push_back(make_pair(mh.read_num(), mh.read_string()));
+			int id = mh.read_num();
+			string title = mh.read_string();
+			results.push_back(make_pair(id, title));
 			--size;
 		}
-		char end_command = mh.read_num();
-		if (end_command != Protocol::COM_END)
+		char end_command = mh.read_byte();
+		if (end_command != Protocol::ANS_END)
 			throw IllegalCommandException();
 		return new ListNGResult(results);
 	}
 
 	Result *ClientMessageInterpreter::read_create_ng(MessageHandler &mh) throw (IllegalCommandException, ConnectionClosedException){
-		char ans = mh.read_num();
+		char ans = mh.read_byte();
 		if (ans == Protocol::ANS_NAK)
-			ans = mh.read_num();
-		char end_command = mh.read_num();
-		if (end_command != Protocol::COM_END)
+			ans = mh.read_byte();
+		char end_command = mh.read_byte();
+		if (end_command != Protocol::ANS_END)
 			throw IllegalCommandException();
 		return new CreateNGResult(ans);
 	}
 
 	Result *ClientMessageInterpreter::read_delete_ng(MessageHandler &mh) throw (IllegalCommandException, ConnectionClosedException){
-		char ans = mh.read_num();
+		char ans = mh.read_byte();
 		if (ans == Protocol::ANS_NAK)
-			ans = mh.read_num();
-		char end_command = mh.read_num();
-		if (end_command != Protocol::COM_END)
+			ans = mh.read_byte();
+		char end_command = mh.read_byte();
+		if (end_command != Protocol::ANS_END)
 			throw IllegalCommandException();
 		return new DeleteNGResult(ans);
 	}
 
 	Result *ClientMessageInterpreter::read_list_art(MessageHandler &mh) throw (IllegalCommandException, ConnectionClosedException){
-		if (mh.read_num() == Protocol::ANS_ACK){
+		if (mh.read_byte() == Protocol::ANS_ACK){
 			int size = mh.read_num();
 			vector<pair<int, string> > results;		
 			while (size > 0){
-				results.push_back(make_pair(mh.read_num(), mh.read_string()));
+				int id = mh.read_num();
+				string title = mh.read_string();
+				results.push_back(make_pair(id, title));
 				--size;
 			}
-			char end_command = mh.read_num();
-			if (end_command != Protocol::COM_END)
+			char end_command = mh.read_byte();
+			if (end_command != Protocol::ANS_END)
 				throw IllegalCommandException();
 			return new ListArtResult(results);
 		}
-		char err_message = mh.read_num();
-		char end_command = mh.read_num();
-		if (end_command != Protocol::COM_END)
+		char err_message = mh.read_byte();
+		char end_command = mh.read_byte();
+		if (end_command != Protocol::ANS_END)
 			throw IllegalCommandException();
 		return new ListArtResult(err_message);
 	}
 
 	Result *ClientMessageInterpreter::read_create_art(MessageHandler &mh) throw (IllegalCommandException, ConnectionClosedException){
-		char ans = mh.read_num();
+		char ans = mh.read_byte();
 		if (ans == Protocol::ANS_NAK)
-			ans = mh.read_num();
-		char end_command = mh.read_num();
-		if (end_command != Protocol::COM_END)
+			ans = mh.read_byte();
+		char end_command = mh.read_byte();
+		if (end_command != Protocol::ANS_END)
 			throw IllegalCommandException();
 		return new CreateArtResult(ans);
 	}
 
 	Result *ClientMessageInterpreter::read_delete_art(MessageHandler &mh) throw (IllegalCommandException, ConnectionClosedException){
-		char ans = mh.read_num();
+		char ans = mh.read_byte();
 		if (ans == Protocol::ANS_NAK)
-			ans = mh.read_num();
-		char end_command = mh.read_num();
-		if (end_command != Protocol::COM_END)
+			ans = mh.read_byte();
+		char end_command = mh.read_byte();
+		if (end_command != Protocol::ANS_END)
 			throw IllegalCommandException();
 		return new DeleteArtResult(ans);
 	}
 
 	Result* ClientMessageInterpreter::read_get_art(MessageHandler &mh) throw (IllegalCommandException, ConnectionClosedException){
-		if (mh.read_num() == Protocol::ANS_ACK){
+		if (mh.read_byte() == Protocol::ANS_ACK){
 			string title = mh.read_string();
 			string author = mh.read_string();
 			string text = mh.read_string();
-			char end_command = mh.read_num();
-			if (end_command != Protocol::COM_END)
+			char end_command = mh.read_byte();
+			if (end_command != Protocol::ANS_END)
 				throw IllegalCommandException();
 			return new GetArtResult(title, author, text);
 		}
-		char err_message = mh.read_num();
-		char end_command = mh.read_num();
-		if (end_command != Protocol::COM_END)
+		char err_message = mh.read_byte();
+		char end_command = mh.read_byte();
+		if (end_command != Protocol::ANS_END)
 			throw IllegalCommandException();
 		return new GetArtResult(err_message);
 	}
