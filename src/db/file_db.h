@@ -51,8 +51,6 @@ namespace db {
 		template<typename T>
 		struct find_ng : std::binary_function<std::pair<size_t, std::string>, const T, bool> {};
 
-		//template<typename T, typename U>
-		//struct compare_pair_first : std::binary_function<std::pair<T, U>, std::pair<T, U>, bool>;
 		template<typename T, typename U>
 		struct compare_pair_first : std::binary_function<std::pair<T, U>, std::pair<T, U>, bool> {
 			bool operator()(const std::pair<T, U> &lhs, const std::pair<T, U> &rhs) const {
