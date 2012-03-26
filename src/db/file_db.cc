@@ -179,6 +179,32 @@ namespace db {
 			ofst << it->first << " " << it->second << endl;
 		}
 		ofst.close();
+		/*
+		 * Below is a try to avoid rewriting entire file each time.
+		 * It does not currently work with test_db, but some errors
+		 * seems to not exists while debugging with TestServer1.java.
+		fstream fst((root_dir.full_path(DB_INFO_NAME)).c_str(),
+				ios::in | ios::out | ios::binary);
+
+		size_t id;
+		fst >> id;
+
+		ostringstream ostr_tmp;
+		ostr_tmp << id;
+
+		ostringstream ostr;
+		ostr << ++id;
+
+		if(ostr.str().size() > ostr_tmp.str().size()){
+			fst << noskipws;
+			ostr << string((istream_iterator<char>(fst)), istream_iterator<char>());
+			fst.clear();
+		}
+		fst.seekp(0, ios::beg);
+		string out = ostr.str();
+		fst.write(out.c_str(), out.size());
+		fst.close();
+		*/
 		return id;
 	}
 
