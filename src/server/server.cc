@@ -47,9 +47,9 @@ namespace server {
 			my_socket = -1;
 		} else {
 			sockaddr_in server;
-			server.sin_family	   = AF_INET;
+			server.sin_family = AF_INET;
 			server.sin_addr.s_addr = INADDR_ANY;
-			server.sin_port		   = htons(port);
+			server.sin_port	= htons(port);
 			if (bind(my_socket, reinterpret_cast<sockaddr*>(&server), 
 						sizeof(server)) < 0) {
 				my_socket = -1;

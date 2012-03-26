@@ -30,7 +30,7 @@
 #include <netdb.h>		/* gethostbyname() */
 #include <arpa/inet.h>	 	/* htons() */
 #include <unistd.h>		/* close(), read(), write() */
-	#include <sys/uio.h>	/* read(), write() */
+#include <sys/uio.h>		/* read(), write() */
 #include <netinet/in.h>  	/* sockaddr_in */
 
 #include <iostream>
@@ -55,7 +55,7 @@ namespace net {
 		}
 		
 		sockaddr_in server;
-		hostent*	hp;
+		hostent	*hp;
 		
 		my_socket = socket(AF_INET,SOCK_STREAM, 0);
 		if (my_socket < 0)
