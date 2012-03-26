@@ -10,7 +10,6 @@
 namespace client {
 	class ClientMessageInterpreter {
 	public:
-		ClientMessageInterpreter();
 		db::Result* recieve_result(net::MessageHandler &mh) throw(net::IllegalCommandException, net::ConnectionClosedException);
 	private:
 		db::Result *read_list_ng(net::MessageHandler &mh) throw(net::IllegalCommandException, net::ConnectionClosedException);

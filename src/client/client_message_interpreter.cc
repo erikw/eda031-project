@@ -9,13 +9,11 @@
 #include "db/delete_art_result.h"
 #include "db/get_art_result.h"
 
+using namespace db;
+using namespace net;
+using namespace std;
 
 namespace client {
-	using namespace db;
-	using namespace net;
-	using namespace std;
-	ClientMessageInterpreter::ClientMessageInterpreter(){}
-
 	Result *ClientMessageInterpreter::recieve_result(MessageHandler &mh) throw(IllegalCommandException, ConnectionClosedException){
 		unsigned char command_type = mh.read_byte();
 		Result *result;

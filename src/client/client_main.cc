@@ -20,7 +20,7 @@ bool forever = true;
 bool read_args(string &host, unsigned int &port, size_t argc, char **argv);
 
 int main(int argc, char** argv) {
-	
+
 	string host;
 	unsigned int port;
 	if (!read_args(host, port, argc, argv)) {
@@ -35,7 +35,7 @@ int main(int argc, char** argv) {
 	}
 
 	cout << "Connected to server." << endl;
-	cout << "\nWrite 'help' for a list of commands" << endl;
+	cout << "Write 'help' for a list of commands" << endl;
 	MessageHandler m_handler(conn);
 	ClientInputInterpreter input_interpret;
 	ClientMessageInterpreter message_interpret;
@@ -46,11 +46,11 @@ int main(int argc, char** argv) {
 		Query *query = 0;
 		Result *result = 0;
 		try {
-			if (!cin) {
+			if (cin.eof()) {
 				cout << endl;
 				forever = false;
 				query = 0;	
-			} else if (line.compare("exit") == 0) {
+			} else if (line.compare("exit") == 0 || line.compare("q") == 0) {
 				forever = false;
 				query = 0;	
 			} else {
@@ -69,7 +69,7 @@ int main(int argc, char** argv) {
 		}
 		delete query;
 		delete result;
-		
+
 	}
 	return EXIT_SUCCESS;
 }
@@ -91,12 +91,12 @@ bool read_args(string &host, unsigned int &port, size_t argc, char **argv) {
 				host = argv[i + 1];
 			} else if (!strcmp(argv[i], "--port")) {
 				unsigned int read_port = atoi(argv[i + 1]);
-					if (read_port == 0 || read_port < 1025) {
-						error = true;
-						cerr << "Port must be > 1024" << endl;
-					} else {
-						port = read_port;
-					}
+				if (read_port == 0 || read_port < 1025) {
+					error = true;
+					cerr << "Port must be > 1024" << endl;
+				} else {
+					port = read_port;
+				}
 			} else {
 				error = true;
 				cerr << "Parameter \"" << argv[i] << "\" is unrecognized." << endl;

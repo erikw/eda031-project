@@ -20,7 +20,7 @@ namespace db {
 
 	void DeleteArtResult::toString(ostream &out) const {
 		if (message == Protocol::ANS_ACK) {
-			out << "Newsgroup successfully deleted" << endl;
+			out << "Article successfully deleted" << endl;
 		} else if(message == Protocol::ERR_ART_DOES_NOT_EXIST) {
 			out << "ERROR: Article doesn't exist" << endl;
 		} else {
