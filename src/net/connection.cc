@@ -22,17 +22,18 @@
 //
 // ------------------------------------------------------------------
 
+#include <cstdlib>		/* exit() */
+#include <cstring>		/* memcpy() */
+#include <csignal>		/* signal() */
+#include <sys/types.h>	 	/* socket(), connect(), read(), write() */
+#include <sys/socket.h>  	/* socket(), connect() */
+#include <netdb.h>		/* gethostbyname() */
+#include <arpa/inet.h>	 	/* htons() */
+#include <unistd.h>		/* close(), read(), write() */
+	#include <sys/uio.h>	/* read(), write() */
+#include <netinet/in.h>  	/* sockaddr_in */
+
 #include <iostream>
-#include <cstdlib>		 /* exit() */
-#include <cstring>		 /* memcpy() */
-#include <csignal>		 /* signal() */
-#include <sys/types.h>	 /* socket(), connect(), read(), write() */
-#include <sys/socket.h>  /* socket(), connect() */
-#include <netdb.h>		 /* gethostbyname() */
-#include <arpa/inet.h>	 /* htons() */
-#include <unistd.h>		 /* close(), read(), write() */
-#include <sys/uio.h>	 /* read(), write() */
-#include <netinet/in.h>  /* sockaddr_in */
 
 #include "net/connection.h"
 #include "net/connectionclosedexception.h"

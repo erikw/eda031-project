@@ -1,14 +1,16 @@
 #include "net/messagehandler.h"
+
 #include "net/protocol.h"
 #include "net/connection.h"
 
+using namespace std;
+using namespace net;
+
 namespace net {
-	using namespace std;
-	using namespace net;
 	MessageHandler::MessageHandler(Connection &conn) : con(conn) {}
 
 
-    unsigned char MessageHandler::read_byte() throw (ConnectionClosedException){
+	unsigned char MessageHandler::read_byte() throw (ConnectionClosedException){
 		return con.read();
 	}
 
@@ -41,11 +43,11 @@ namespace net {
 		return res;
 	}
 
-    void MessageHandler::print_byte(const unsigned char &b) throw(ConnectionClosedException){
+	void MessageHandler::print_byte(const unsigned char &b) throw(ConnectionClosedException){
 		con.write(b);
 	}
 
-    void MessageHandler::print_num(const int &num) throw(ConnectionClosedException){
+	void MessageHandler::print_num(const int &num) throw(ConnectionClosedException){
 		con.write(Protocol::PAR_NUM);
 		print_int(num);
 	}
