@@ -2,6 +2,7 @@
 #define CLIENTMESSAGEINTERPRETER_H
 
 #include <string>
+
 #include "net/messagehandler.h"
 #include "db/result.h"
 #include "db/database.h"

@@ -1,4 +1,5 @@
 #include "client/client_message_interpreter.h"
+
 #include "net/protocol.h"
 #include "db/list_ng_result.h"
 #include "db/create_ng_result.h"
@@ -47,7 +48,7 @@ namespace client {
 
 	Result *ClientMessageInterpreter::read_list_ng(MessageHandler &mh) throw (IllegalCommandException, ConnectionClosedException){
 		int size = mh.read_num();
-		vector<pair<int, string> > results;		
+		vector<pair<size_t, string> > results;		
 		while (size > 0){
 			results.push_back(make_pair(mh.read_num(), mh.read_string()));
 			--size;
@@ -80,8 +81,8 @@ namespace client {
 
 	Result *ClientMessageInterpreter::read_list_art(MessageHandler &mh) throw (IllegalCommandException, ConnectionClosedException){
 		if (mh.read_num() == Protocol::ANS_ACK){
-			int size = mh.read_num();
-			vector<pair<int, string> > results;		
+			size_t size = mh.read_num();
+			vector<pair<size_t, string> > results;		
 			while (size > 0){
 				results.push_back(make_pair(mh.read_num(), mh.read_string()));
 				--size;

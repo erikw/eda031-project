@@ -1,18 +1,19 @@
-#include <iostream>
-#include <string>
 #include <cstdlib>
 #include <cstring>
+
+#include <iostream>
+#include <string>
 
 using namespace std;
 //using namespace net;
 
 const unsigned int default_port = 1025;
 const string default_host = "localhost";
-unsigned int port;
 
 bool read_args(unsigned int &port, string &host, size_t argc, char **argv);
 
 int main(int argc, char **argv) {
+	unsigned int port;
 	string host;
 	if (!read_args(port, host, argc, argv)) {
 		return EXIT_FAILURE;
