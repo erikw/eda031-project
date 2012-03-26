@@ -1,17 +1,16 @@
+#include "db/list_art_result.h"
+
 #include <string>
 #include <vector>
 #include <iostream>
 
-#include "db/list_art_result.h"
 #include "net/protocol.h"
 #include "net/connectionclosedexception.h"
-
-
-namespace db {
 
 using namespace net;
 using namespace std;
 
+namespace db {
 	void ListArtResult::printToConnection(MessageHandler &mh) throw (ConnectionClosedException){
 		mh.print_byte(Protocol::ANS_LIST_ART);
 		if (message != Protocol::ANS_ACK) {

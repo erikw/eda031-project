@@ -14,6 +14,7 @@ namespace db {
 		void printToConnection(net::MessageHandler &mh) throw(net::ConnectionClosedException);
 	private:
 		void toString(std::ostream &out) const;
+
 		unsigned char message;
 	};
 }

@@ -1,5 +1,7 @@
-#include <iostream>
 #include "db/get_art_result.h"
+
+#include <iostream>
+
 #include "net/connectionclosedexception.h"
 #include "net/protocol.h"
 

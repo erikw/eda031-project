@@ -10,10 +10,11 @@
 namespace db {
 	class DeleteArtResult : public Result {
 	public:
-		DeleteArtResult(int mess) : message(mess) {};
+		explicit DeleteArtResult(int mess) : message(mess) {};
 		void printToConnection(net::MessageHandler &mh) throw(net::ConnectionClosedException);
 	private:
 		void toString(std::ostream &out) const;
+
 		int message;
 	};
 }

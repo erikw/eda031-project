@@ -1,8 +1,10 @@
 #ifndef DATABASEABS_H
 #define DATABASEABS_H
 
-#include "db/result.h"
 #include <string>
+
+#include "db/result.h"
+
 namespace db {
 
 	class Database {

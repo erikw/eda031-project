@@ -1,9 +1,9 @@
 #include "db/list_ng_query.h"
 #include "net/protocol.h"
 
+using namespace net;
+ 
 namespace db {
-    using namespace net;
-
 	Result *ListNGQuery::getResult(Database &database) {
 		return database.list_ng();
 	}

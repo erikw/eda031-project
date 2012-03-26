@@ -1,10 +1,10 @@
-#include <iostream>
-#include <sstream>
-#include <iterator>
-#include <algorithm>
-#include <string>
-
 #include "db/file_art.h"
+
+#include <algorithm>
+#include <iostream>
+#include <iterator>
+#include <sstream>
+#include <string>
 
 using namespace std;
 

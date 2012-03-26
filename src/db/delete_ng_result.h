@@ -10,10 +10,11 @@
 namespace db {
 	class DeleteNGResult : public Result {
 	public:
-		DeleteNGResult(unsigned char mess) : message(mess) {};
+		explicit DeleteNGResult(unsigned char mess) : message(mess) {};
 		void printToConnection(net::MessageHandler &mh) throw(net::ConnectionClosedException);
 	private:
 		void toString(std::ostream &out) const;
+
 		unsigned char message;
 
 	};

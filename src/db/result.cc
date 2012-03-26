@@ -1,6 +1,6 @@
-#include <iostream>
-
 #include "db/result.h"
+
+#include <iostream>
 
 using namespace std;
 

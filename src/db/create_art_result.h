@@ -10,10 +10,11 @@
 namespace db {
 	class CreateArtResult : public Result {
 	public:
-		CreateArtResult(unsigned char mess) : message(mess) {};
+		explicit CreateArtResult(unsigned char mess) : message(mess) {};
 		void printToConnection(net::MessageHandler &mh) throw(net::ConnectionClosedException);
 	private:
 		void toString(std::ostream &out) const;
+
 		unsigned char message;
 	};
 }

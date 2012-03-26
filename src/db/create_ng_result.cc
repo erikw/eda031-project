@@ -1,8 +1,9 @@
+#include "db/create_ng_result.h"
+
 #include <iostream>
 
 #include "net/protocol.h"
 #include "net/connectionclosedexception.h"
-#include "db/create_ng_result.h"
 
 using namespace net;
 using namespace std;

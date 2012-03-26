@@ -1,4 +1,5 @@
 #include "db/get_art_query.h"
+
 #include "db/result.h"
 #include "net/protocol.h"
 

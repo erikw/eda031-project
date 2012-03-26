@@ -15,7 +15,6 @@ namespace db {
 		size_t newsgroup_id;
 		size_t article_id;
 	};
-
 }
 
 #endif

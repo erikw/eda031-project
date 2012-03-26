@@ -11,7 +11,6 @@ namespace db {
 		Result *getResult(Database &db);
 		void send(net::MessageHandler &mh);
 	};
-
 }
 
 #endif

@@ -13,7 +13,7 @@ namespace db {
 		friend std::ostream &operator<<(std::ostream &out, const FileArt &file_art);
 	public:
 		FileArt() {} // Is to be initialized with operator>>.
-		FileArt( std::string ti, std::string au, std::string te) : title(ti), author(au), text(te) {}
+		FileArt(std::string ti, std::string au, std::string te) : title(ti), author(au), text(te) {}
 
 		std::string get_title() { return title; }
 		std::string get_author() { return author; }

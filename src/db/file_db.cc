@@ -1,24 +1,24 @@
-#include <string>
-#include <vector>
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <utility>
-
 #include "db/file_db.h"
+
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <utility>
+#include <vector>
+
+#include "db/create_art_result.h"
+#include "db/create_ng_result.h"
+#include "db/delete_art_result.h"
+#include "db/delete_ng_result.h"
+#include "db/directory.h"
 #include "db/file_art.h"
+#include "db/file_ng.h"
+#include "db/get_art_result.h"
+#include "db/list_art_result.h"
+#include "db/list_ng_result.h"
 #include "db/result.h"
 #include "net/protocol.h"
-#include "db/directory.h"
-
-#include "db/list_ng_result.h"
-#include "db/create_ng_result.h"
-#include "db/delete_ng_result.h"
-#include "db/list_art_result.h"
-#include "db/create_art_result.h"
-#include "db/delete_art_result.h"
-#include "db/get_art_result.h"
-#include "db/file_ng.h"
 
 using namespace std;
 using namespace net;
@@ -26,7 +26,6 @@ using namespace net;
 namespace db {
 	const string FileDB::DB_ROOT = "news_db";
 	const string FileDB::DB_INFO_NAME = "db_info";
-
 
 	// Must be declared before usage since there is no general template, 
 	// only specializations.

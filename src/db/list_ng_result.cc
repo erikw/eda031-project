@@ -1,8 +1,9 @@
+#include "db/list_ng_result.h"
+
 #include <string>
 #include <vector>
 #include <iostream>
 
-#include "db/list_ng_result.h"
 #include "net/connectionclosedexception.h"
 #include "net/protocol.h"
 
@@ -28,5 +29,4 @@ namespace db {
 			out << current_pair.first << ". " << current_pair.second << endl;
 		}
 	}
-
 }

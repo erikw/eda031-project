@@ -24,29 +24,15 @@ namespace db {
 		Result *get_art(size_t ng_id, size_t art_id);
 
 	private:
-		// Read and increment ID counter.
-		size_t next_id();
+		// The root directory for all files.
+		static const std::string DB_ROOT;
+		
+		// The name file where ng_count is stored. One file like this for each news group too.
+		static const std::string DB_INFO_NAME;	
 
-		// Read news groups from DB_INFO_NAME.
-		void read_ngs(std::vector<std::pair<size_t, std::string> > &news_groups);
-
-		//  Check if a news group with the given name exists.
-		// T is news group name or ID.
-		template<typename I>
-		bool exists_ng(const I&);
 
 		// Exception.
 		struct InexistingNG {};
-
-		// Get a news group by name or ID.
-		template<typename I>
-		FileNG get_ng(const I &identifier) throw(InexistingNG);
-
-		//  Check if an article in a specific group exists.
-		bool exists_art(const std::string &ng_name, const std::string &art_name);
-
-		// Return the full name "id_name".
-		std::string get_ng_name(size_t ng_idconst) const; 
 
 		template<typename T>
 		struct find_ng : std::binary_function<std::pair<size_t, std::string>, const T, bool> {};
@@ -65,12 +51,26 @@ namespace db {
 		};
 
 
+		// Read and increment ID counter.
+		size_t next_id();
 
-		// The root directory for all files.
-		static const std::string DB_ROOT;
-		
-		// The name file where ng_count is stored. One file like this for each news group too.
-		static const std::string DB_INFO_NAME;	
+		// Read news groups from DB_INFO_NAME.
+		void read_ngs(std::vector<std::pair<size_t, std::string> > &news_groups);
+
+		//  Check if a news group with the given name exists.
+		// T is news group name or ID.
+		template<typename I>
+		bool exists_ng(const I&);
+
+		// Get a news group by name or ID.
+		template<typename I>
+		FileNG get_ng(const I &identifier) throw(InexistingNG);
+
+		//  Check if an article in a specific group exists.
+		bool exists_art(const std::string &ng_name, const std::string &art_name);
+
+		// Return the full name "id_name".
+		std::string get_ng_name(size_t ng_idconst) const; 
 
 
 		// Directory entry to the db_root.

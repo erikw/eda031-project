@@ -1,10 +1,11 @@
 #include "db/list_art_query.h"
+
 #include "db/result.h"
 #include "net/protocol.h"
 
-namespace db {
-    using namespace net;
+using namespace net;
 
+namespace db {
 	Result *ListArtQuery::getResult(Database &database) {
 		return database.list_art(newsgroup_id);
 	}
