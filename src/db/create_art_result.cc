@@ -21,9 +21,9 @@ namespace db {
 
 	void CreateArtResult::toString(ostream &out) const {
 		if (message == Protocol::ANS_ACK) {
-			out << "Article successfully created" << endl;
+			out << "Article successfully created.";
 		} else {
-			out << "ERROR: Article already exists" << endl;
+			out << "ERROR: Article already exists.";
 		}
 	}
 }

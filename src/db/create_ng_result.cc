@@ -19,9 +19,9 @@ namespace db {
 
 	void CreateNGResult::toString(ostream &out) const {
 		if (message == Protocol::ANS_ACK) {
-			out << "Newsgroup successfully created" << endl;
+			out << "Newsgroup successfully created.";
 		} else {
-			out << "ERROR: Newsgroup already exists" << endl;
+			out << "ERROR: Newsgroup already exists.";
 		}
 	}
 }

@@ -22,9 +22,9 @@ namespace db {
 
 	void DeleteNGResult::toString(ostream &out) const {
 		if (message == Protocol::ANS_ACK){
-			out << "Newsgroup successfully deleted" << endl;
+			out << "Newsgroup successfully deleted.";
 		} else {
-			out << "ERROR: Newsgroup doesn't exist" << endl;
+			out << "ERROR: Newsgroup doesn't exist.";
 		}
 	}
 }

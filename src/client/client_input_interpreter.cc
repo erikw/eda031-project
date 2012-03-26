@@ -5,6 +5,7 @@
 #include <cctype>
 #include <sstream>
 #include <iostream>
+#include <iterator>
 
 #include "db/create_art_query.h"
 #include "db/create_ng_query.h"
@@ -27,18 +28,18 @@ namespace client {
 		string check;
 		iss_check >> check;
 
-		if (command.compare("list") == 0 | command.compare("ls") == 0) {
+		if ((command.compare("list") == 0) | (command.compare("ls") == 0)) {
 			if (iss_check >> check) {
 				return read_list_art(iss);
 			} else {
-				return read_list_ng(iss);
+				return read_list_ng();
 			}
 		} else if (command.compare("create") == 0) {
 			size_t id_check;
 			if (iss_check >> id_check) {
 				return read_create_art(iss);
 			} else {
-				return read_create_ng(iss);
+				return read_create_ng();
 			}
 		} else if (command.compare("delete") == 0 || command.compare("rm") == 0) {
 			size_t id_check;
@@ -55,21 +56,21 @@ namespace client {
 			print_help();
 			return 0;
 		} else {
-			throw_exception(LAST);
+			// Silence please!
 		}
 		return 0;
 	}
 
-	Query *ClientInputInterpreter::read_list_ng(istringstream &iss) throw (InputSyntaxError) {
+	Query *ClientInputInterpreter::read_list_ng() throw (InputSyntaxError) {
 		return new ListNGQuery();
 	}
 
-	Query *ClientInputInterpreter::read_create_ng(istringstream &iss) throw (InputSyntaxError) {
+	Query *ClientInputInterpreter::read_create_ng() throw (InputSyntaxError) {
 		string name;
-		if (!(iss >> name))
+		cout << "Name: ";
+		if (!getline(cin, name)) {
 			throw_exception(CREATE_NG);
-		if (!iss.eof())
-			throw_exception(CREATE_NG);
+		}
 		return new CreateNGQuery(name);
 	}
 
@@ -86,23 +87,34 @@ namespace client {
 		int id;
 		if (!(iss >> id) || !iss.eof()) {
 			throw_exception(LIST_ART);
-		} 
+		}
 		return new ListArtQuery(id);
 	}
 
 	Query *ClientInputInterpreter::read_create_art(istringstream &iss) throw (InputSyntaxError) {
-		string title, author, text;
 		int ng_id;
-		if (!(iss >> ng_id >> title >> author >> text))
+		if (!(iss >> ng_id)) {
 			throw_exception(CREATE_ART);
-		//if (!(iss >> ng_id)) {
+		}
 
-		//}
+		string title;
+		cout << "Title: ";
+		if (!getline(cin, title)) {
+			throw_exception(CREATE_NG);
+		}
 
+		string author;
+		cout << "Author: ";
+		if (!getline(cin, author)) {
+			throw_exception(CREATE_NG);
+		}
 
+		cin >> noskipws;
+		cout << "Article (end with EOF):" << endl;
+		ios_base::iostate old_state = cin.rdstate();
+		string text = string((istream_iterator<char>(cin)), istream_iterator<char>());
+		cin.clear(old_state);
 
-		if (!iss.eof())
-			throw_exception(CREATE_ART);
 		return new CreateArtQuery(ng_id,title, author, text);
 	}
 
@@ -139,18 +151,18 @@ namespace client {
 	void ClientInputInterpreter::print_help(){
 		cout << "Available commands:" << endl;
 		for (size_t i = 0; i < LAST; ++i)
-			cout << "  " << help_lines[i] << endl;
+			cout << help_lines[i] << endl;
 	}
 
 	const string ClientInputInterpreter::help_lines[] = {
-		"'list|ls' - List all newsgroups.",
-		"'(list|ls) NEWSGROUP_ID' - List all articles in NEWSGROUP_ID.",
-		"'create NEWSGROUPNAME' - Create a new newsgroup with title NEWSGROUPNAME.",
-		"'create NEWSGROUP_ID TITLE AUTHOR TEXT' - Create an article in NEWSGROUP_ID with title TITLE, author AUTHOR and text TEXT.",
-		"'(delete|rm) NEWSGROUP_ID' - Delete newsgroup with id NEWSGROUP_ID.",
-		"'(delete|rm) NEWSGROUP_ID' ARTICLE_ID - Delete article with id ARTICLE_ID in newsgroup with id NEWSGROUP_ID.",
-		"'read article NEWSGROUP_ID ARTICLE_ID' - Prints article with id ARTICLE_ID in newsgroup with id NEWSGROUP_ID.",
-		"'exit|EOF|q' - Exits the program.",
-		"'help|?' - This help listing."
+		"create\n\tCreate a new newsgroup.",
+		"create NEWSGROUP_ID\n\tCreate an article in the specified newsgroup.",
+		"(delete|rm) NEWSGROUP_ID\n\tDelete a newsgroup.",
+		"(delete|rm) NEWSGROUP_ID ARTICLE_ID\n\tDelete an article within a newsgroup.",
+		"exit|EOF|q\n\tExits the program.",
+		"help|?\n\tThis help listing.",
+		"list|ls\n\tList all newsgroups.",
+		"(list|ls) NEWSGROUP_ID\n\tList all articles in the specified newsgroup.",
+		"read article NEWSGROUP_ID ARTICLE_ID\n\tGet an article form a newsgroup."
 	};
 }

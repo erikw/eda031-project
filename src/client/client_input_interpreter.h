@@ -20,8 +20,8 @@ namespace client {
 
 		static const std::string help_lines[];
 
-		db::Query *read_list_ng(std::istringstream &iss) throw (InputSyntaxError);
-		db::Query *read_create_ng(std::istringstream &iss) throw (InputSyntaxError);
+		db::Query *read_list_ng() throw (InputSyntaxError);
+		db::Query *read_create_ng() throw (InputSyntaxError);
 		db::Query *read_delete_ng(std::istringstream &iss) throw (InputSyntaxError);
 		db::Query *read_list_art(std::istringstream &iss) throw (InputSyntaxError);
 		db::Query *read_create_art(std::istringstream &iss) throw (InputSyntaxError);

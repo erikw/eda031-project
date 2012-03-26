@@ -25,12 +25,13 @@ namespace db {
 
 	void GetArtResult::toString(ostream &out) const {
 		if (message == Protocol::ANS_ACK){
-			out << title << "\tFrom: " << author << endl;
-			out << text << endl;
-		} else if(message == Protocol::ERR_ART_DOES_NOT_EXIST) {
-			out << "ERROR: Article doesn't exist" << endl;
+			out << "Title: " << title << endl;
+			out << "Author: " << author << endl;
+			out << text;
+		} else if (message == Protocol::ERR_ART_DOES_NOT_EXIST) {
+			out << "ERROR: Article doesn't exist.";
 		} else {
-			out << "ERROR: News group doesn't exist" << endl;
+			out << "ERROR: News group doesn't exist.";
 		}
 	}
 }

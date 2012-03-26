@@ -27,15 +27,16 @@ int main(int argc, char** argv) {
 		return EXIT_FAILURE;
 	}
 
-	clog << "Client started. Connecting to " << host << ":" << port << "." << std::endl;
+	clog << "Connecting to " << host << ":" << port << "... ";
 	Connection conn(host.c_str(), port);
 	if (! conn.isConnected()) {
-		cerr << "Connection attempt failed." << endl;
+		cerr << "failed!" << endl;
 		return EXIT_FAILURE;
+	} else {
+		cout << "succeed." << endl;
 	}
 
-	cout << "Connected to server." << endl;
-	cout << "Write 'help' for a list of commands" << endl;
+	cout << "Type 'help' for a list of commands." << endl;
 	MessageHandler m_handler(conn);
 	ClientInputInterpreter input_interpret;
 	ClientMessageInterpreter message_interpret;
@@ -56,10 +57,11 @@ int main(int argc, char** argv) {
 			} else {
 				query = input_interpret.recieve_query(line);
 			}	
+
 			if (query != 0) {
 				query->send(m_handler);
 				result = message_interpret.recieve_result(m_handler);
-				result->toString(cout);
+				cout << *result << endl;
 			}
 		} catch (InputSyntaxError &ise) {
 
