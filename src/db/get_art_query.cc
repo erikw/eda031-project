@@ -11,8 +11,8 @@ namespace db {
 
 	void GetArtQuery::send(MessageHandler &mh){
 		mh.print_byte(Protocol::COM_GET_ART);
-		mh.print_int(newsgroup_id);
-		mh.print_int(article_id);
+		mh.print_num(newsgroup_id);
+		mh.print_num(article_id);
 		mh.print_byte(Protocol::COM_END);
     }
 }

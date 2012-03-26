@@ -11,7 +11,7 @@ namespace db {
 
 	void ListArtQuery::send(MessageHandler &mh){
 		mh.print_byte(Protocol::COM_LIST_ART);
-		mh.print_int(newsgroup_id);
+		mh.print_num(newsgroup_id);
 		mh.print_byte(Protocol::COM_END);
     }
 }

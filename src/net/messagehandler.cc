@@ -1,7 +1,6 @@
 #include "net/messagehandler.h"
 #include "net/protocol.h"
 #include "net/connection.h"
-
 namespace net {
 	using namespace std;
 	using namespace net;

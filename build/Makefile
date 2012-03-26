@@ -119,6 +119,6 @@ doc :
 include $(DFILES)
 
 # Linking of $(PROGS)
-client/client_main: client/client_main.o
+client/client_main: client/client_main.o client/client_message_interpreter.o client/client_input_interpreter.o net/connection.o net/messagehandler.o $(DBOBJS) 
 server/server_main: server/server_main.o server/server_message_interpreter.o server/server.o net/connection.o net/messagehandler.o $(DBOBJS)
 test/test_db: test/test_db.o net/messagehandler.o net/connection.o $(DBOBJS)

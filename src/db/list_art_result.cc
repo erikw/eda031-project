@@ -31,7 +31,7 @@ using namespace std;
 	}
 
 	void ListArtResult::printToCout() {
-		if (message == Protocol::ANS_ACK){
+		if (message != Protocol::ANS_ACK){
 			cout << "ERROR: Newsgroup doesn't exist" << endl;
 		} else {
 			pair<int, string> current_pair;

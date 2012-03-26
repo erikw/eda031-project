@@ -11,7 +11,7 @@ namespace db {
 
 	void DeleteNGQuery::send(MessageHandler &mh){
 		mh.print_byte(Protocol::COM_DELETE_NG);
-		mh.print_int(newsgroup_id);
+		mh.print_num(newsgroup_id);
 		mh.print_byte(Protocol::COM_END);
     }
 }

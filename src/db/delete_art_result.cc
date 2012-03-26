@@ -19,11 +19,11 @@ namespace db {
 
 	void DeleteArtResult::printToCout() {
 		if (message == Protocol::ANS_ACK)
-			cout << "Newsgroup successfully deleted" << endl;
+			cout << "Article successfully deleted" << endl;
 		else if(message == Protocol::ERR_ART_DOES_NOT_EXIST)
 			cout << "ERROR: Article doesn't exist" << endl;
 		else
-			cout << "ERROR: News group doesn't exist" << endl;
+			cout << "ERROR: Newsgroup doesn't exist" << endl;
 	}
 }
 

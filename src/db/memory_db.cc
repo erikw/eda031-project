@@ -43,6 +43,7 @@ namespace db {
 		}
 
 		Result *MemoryDB::list_art(int ng_id) {
+			cout << "id in DB: " << ng_id << endl;			
 			if (news_groups.find(ng_id) == news_groups.end()){
 				return new ListArtResult(static_cast<unsigned char>(Protocol::ERR_NG_DOES_NOT_EXIST));
 			}
