@@ -104,7 +104,6 @@ doc :
 	#ln -s client/client_main client
 	#ln -s server/server_main server
 
-
 # Generate Makefiles describing "name.cc"s dependencies.
 # The double escaped `echo` is needed because the normal .o : .c implicit rule will not be invoked when target is not in the same directory as prerequisite.
 %.d: %.cc
