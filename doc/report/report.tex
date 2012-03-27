@@ -30,8 +30,6 @@
 \section{EDA031 Project - News System}
 The purpose of the project was to develop a simple news system consisting of a client and server model. The objects of interest for the user is news articles. An article is have a title, is written by an author and contains text content. Articles are created by users using a client and are posted to different news groups. Each article belongs to one news group and are stored in a database at the server side. In total, the allowed operations from the users are listing news groups, listing articles in a specified news group, reading an article, creating articles, deleting articles and news groups.
 
-\subsection{Detailed description of design and UML}
-
 The server was required to have a memory database and a persistent file database. The file database was implemented with one directory on disk for each news group and the articles as text files in these directories. The communication between the server and client uses a specified protocol in the application layer on top of TCP/IP. The server needed not be be multi-threaded but should sequentially be able to handle multiple clients.
 
 \section{Detailed description of design and UML}
@@ -44,14 +42,13 @@ To meet the requirement of two databases we decided it would be best to make a d
 \label{init+design}
 \caption{Initial design after our first project meeting.}
 \end{figure}
-\clearpage
 \begin{figure}[hbt]
 
 
-In the final version of the system we had not deviated too much from the original design. The main difference is the previously mentioned separation of receiving and sending queries and results. A UML of the final design can be seen in figure \ref{UML}.
+In the final version of the system we had not deviated too much from the original design. The main difference is the previously mentioned separation of receiving and sending queries and results. A UML diagram of the final design can be seen in figure \ref{UML}.
 
 \begin{center}
-\includegraphics[scale=0.3]{uml.pdf}
+\includegraphics[scale=0.3]{img/uml.pdf}
 \end{center}
 \label{UML}
 \caption{An UML diagram describing the project.}
