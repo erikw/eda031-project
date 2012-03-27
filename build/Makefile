@@ -39,10 +39,10 @@ endif
 
 
 ## Targets ##
-.PHONY: all run-test clean help list tar test doc install uninstall
+.PHONY: all run-test clean help list tar test doc install uninstall symlink
 
 # target: all - Make all executable programs.
-all: $(PROGS)
+all: $(PROGS) symlink
 
 # target: help - Display all targets.
 help :
@@ -99,6 +99,11 @@ test:
 # target: doc - Generate documentation.
 doc :
 	#doxygen ../src
+
+#symlink: $(PROGS)
+	#ln -s client/client_main client
+	#ln -s server/server_main server
+
 
 # Generate Makefiles describing "name.cc"s dependencies.
 # The double escaped `echo` is needed because the normal .o : .c implicit rule will not be invoked when target is not in the same directory as prerequisite.
