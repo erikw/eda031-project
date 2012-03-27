@@ -26,10 +26,10 @@ clean :
 
 # target: compile - Compiles and renders documents.
 compile :
-	latex		$(NAME).tex	# Make aux that bibtex need.
+	pdflatex		$(NAME).tex	# Make aux that bibtex need.
 	bibtex		$(NAME).aux	# Go through all references.	
-	latex		$(NAME).tex	# Make dvi.
-	latex		$(NAME).tex	# Complete references.
+	pdflatex		$(NAME).tex	# Make dvi.
+	pdflatex		$(NAME).tex	# Complete references.
 	dvips		$(NAME).dvi	# Generate postscript.
 	$(RM)		$(NAME).aux	# Delete because the current aux was not generate with hyperref and pdflatex will complain.
 	pdflatex 	$(NAME).tex	# Generate PDF.
