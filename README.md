@@ -20,7 +20,8 @@ Compile and run by typing the following commands:
 	.
 	^D
 
-The commands and the results produced corresponds to the functional requirements described in the specification. Type `make help` for more instructions about compilation. The paramters defaults to
+The commands and the results produced corresponds to the functional requirements described in the specification. Type `make help` for more instructions about compilation. The paramters defaults to:
+
 * db:=file
 * port:=1025
 * host:=localhost
