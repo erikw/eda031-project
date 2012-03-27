@@ -7,6 +7,8 @@
 #include "client/client_message_interpreter.h"
 #include "net/connection.h"
 #include "net/messagehandler.h"
+#include "db/query.h"
+#include "db/result.h"
 
 using namespace db;
 using namespace std;

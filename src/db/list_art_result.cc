@@ -33,15 +33,17 @@ namespace db {
 	void ListArtResult::toString(ostream &out) const {
 		if (message != Protocol::ANS_ACK){
 			out << "ERROR: Newsgroup doesn't exist.";
-		} else {
+		} else if (articles.size() > 0) {
 			pair<size_t, string> current_pair;
 			for (size_t i = 0; i < articles.size(); ++i) {
 				current_pair = articles[i];
 				out << current_pair.first << ". " << current_pair.second;
 				if (i < (articles.size() - 1)) {
-					out<< endl;
+					out << endl;
 				}
 			}
+		} else {
+			out << "No articles.";
 		}
 	}
 

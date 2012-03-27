@@ -42,7 +42,7 @@ endif
 .PHONY: all run-test clean help list tar test doc install uninstall symlink
 
 # target: all - Make all executable programs.
-all: $(PROGS) symlink
+all: $(PROGS)
 
 # target: help - Display all targets.
 help :

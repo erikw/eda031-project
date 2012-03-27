@@ -23,13 +23,17 @@ namespace db {
 	}
 
 	void ListNGResult::toString(ostream &out) const {
-		pair<size_t, string> current_pair;
-		for (size_t i = 0; i < news_groups.size(); ++i) {
-			current_pair = news_groups[i];
-			out << current_pair.first << ". " << current_pair.second;
-			if (i < (news_groups.size() - 1)) {
-				out<< endl;
+		if (news_groups.size() > 0) {
+			pair<size_t, string> current_pair;
+			for (size_t i = 0; i < news_groups.size(); ++i) {
+				current_pair = news_groups[i];
+				out << current_pair.first << ". " << current_pair.second;
+				if (i < (news_groups.size() - 1)) {
+					out<< endl;
+				}
 			}
+		} else {
+			out << "No news groups.";
 		}
 	}
 }
