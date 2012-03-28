@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="11.3">
+  <zoom_level>10</zoom_level>
+  <element>
+    <type>com.umlet.element.SequenceDiagram</type>
+    <coordinates>
+      <x>0</x>
+      <y>0</y>
+      <w>2600</w>
+      <h>950</h>
+    </coordinates>
+    <panel_attributes>title: Flow Chart
+_server_main~sm_|_Server~srv_|_ServerMessageInterpreter~smi_|_MessageHandler~mh_|_Connection~con_|_Query~q_|_Database~db_|_FileNG~ng_|_Directory~dir_|_Result~r_|
+iframe{:Get Command from Client
+sm-&gt;&gt;srv:sm,srv:waiForActivity
+srv-&gt;&gt;sm:srv,sm:Connection
+sm-&gt;&gt;smi:sm,smi:recieve_query
+smi-&gt;&gt;mh:smi,mh:read_num, read_byte
+mh-&gt;&gt;con:mh,con:read*
+con-&gt;&gt;mh:con,mh:char
+mh-&gt;&gt;smi:mh,smi:string/int/char
+smi-&gt;&gt;sm:sm,smi:ListArtQuery
+iframe}
+iframe{:Execute command
+sm-&gt;&gt;q:sm,q:getResult
+q-&gt;&gt;db:q,db:list_art
+db-&gt;&gt;ng:db,ng:list_arts
+ng-&gt;&gt;dir:ng,dir:list_files
+dir-&gt;&gt;ng:dir,ng:vector&lt;string&gt;
+ng-&gt;&gt;db:ng,db:vector&lt;pair&lt;size_t,string&gt;&gt;
+db-&gt;&gt;q:db,q:ListArtResult
+q-&gt;&gt;sm:q,sm:ListArtResult
+iframe}
+iframe{:Return result to client
+sm-&gt;&gt;r:sm,r:printToConnection
+r-&gt;&gt;mh:r,mh:print_num/string/byte
+mh-&gt;&gt;con:mh,con:write*
+con-&gt;&gt;mh:con,mh
+mh-&gt;&gt;r:r,mh
+r-&gt;&gt;sm:r,sm
+iframe}</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
