@@ -1,5 +1,6 @@
 \documentclass[10pt, a4paper]{article}
 \usepackage[T1]{fontenc}
+\usepackage{float}
 \usepackage[utf8]{inputenc}
 \usepackage{enumerate}
 %\usepackage[swedish]{babel}
@@ -71,7 +72,7 @@ The client package contains the client part of the project. The most important c
 The server package consists most importantly of the main function found in \emph{server/server\_main}. It first register it self as listener at a port in the operating system. It then wait for events of two types, new connections, disconnections and command requests from existing connections. In the first case the connection is stored, in the second deregistered. In the third case when a request is made the class \emph{ServerMessageInterpreter} is invoked. It knows how to receive queries and used the protocol \emph{net/protocol.h} and the \emph{MessagHandler} to construct a \emph{Query} object. The query is then executed against the database interface which returns a \emph{Result} object. That result knows it data and thus sends it self on the network using a \emph{MessageHandler} for data conversion. We decided to centralize the execution path to the main while loop so we easily could handle exceptions.
 
 \subsection{Communication, flow-chart}
-To give an overview of the dynamics of the system we will trace the execution path from when the server receives a command to it sends a reply;
+To give an overview of the dynamics of the system we will trace the execution path from when the server receives a command to it sends a reply. A visual flow chart can be seen in figure \ref{flow+chart}.
 
 \begin{enumerate}
 	\item When a client sends a command to the server it is blocked in \emph{Server::waitForActivity()}, more specifically at the system call \emph{accept()}. In this case it returns with a previously connected client and the function will return a pointer to that connection.
@@ -87,8 +88,8 @@ To give an overview of the dynamics of the system we will trace the execution pa
 	\item Now all IDs and  titles can be used to create an \emph{ListArtResult} object.  That is returned to the caller, the query. The query just passes the result up to the main while loop.
 	\item Now the result should be sent to the client so the function \emph{Result::printToConnection()} is called with the \emph{MessageHandler}. That function send the result accordingly to the protocol.
 	\item The main loop will now restart by waiting for activity on the socket.
-	
 \end{enumerate}
+
 
 \subsection{Conclusion}
 
@@ -107,14 +108,23 @@ However the combination separate output directory, automatic prerequisites gener
 We believe that we have implemented all features outlined in the specification.
 
 \subsubsection{Suggestions}
+The project seems to have been around since '95 and it stills works.
 
-
-
-
-\emph{\cite{dummy+ref}} 
-\newpage
+\appendix
 \bibliographystyle{plain}
 \bibliography{references}
+
+\section{Figures}
+\begin{figure}[hbt]
+\begin{center}
+\vspace*{-1.8in}
+\includegraphics[scale=0.3,angle=90]{img/flow-chart.pdf}
+\thispagestyle{empty}	% No page number on title page.
+\end{center}
+\label{flow+chart}
+\caption{A flow chart of the execution on the server side.}
+\end{figure}
+
 \end{document}
 
 %\begin{figure}[hbt]
