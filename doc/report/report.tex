@@ -38,15 +38,16 @@ From the beginning we realized that the server and client will share much of the
 To meet the requirement of two databases we decided it would be best to make a database interface and to implemented that in a file and memory version. Our initial design is show in figure \ref{init+design}.
 
 \begin{figure}[hbt]
-\includegraphics[scale=0.4]{img/uml_blueprint.png}
+\begin{center}
+\includegraphics[scale=0.38]{img/uml_blueprint.png}
+\end{center}
 \label{init+design}
 \caption{Initial design after our first project meeting.}
 \end{figure}
-\begin{figure}[hbt]
-
 
 In the final version of the system we had not deviated too much from the original design. The main difference is the previously mentioned separation of receiving and sending queries and results. A UML diagram of the final design can be seen in figure \ref{UML}.
 
+\begin{figure}[hbt]
 \begin{center}
 \includegraphics[scale=0.3]{img/uml.pdf}
 \end{center}
