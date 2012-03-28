@@ -17,7 +17,7 @@ namespace net {
 	string MessageHandler::read_string() throw (IllegalCommandException, ConnectionClosedException) {
 		if (con.read() != Protocol::PAR_STRING)
 			throw IllegalCommandException();
-		int size = read_int();
+		size_t size = read_uint();
 		string str;
 		while(size > 0){
 			str += con.read();
@@ -26,16 +26,16 @@ namespace net {
 		return str;
 	}
 
-	int MessageHandler::read_num() throw (IllegalCommandException, ConnectionClosedException) {
-		if(con.read() != Protocol::PAR_NUM)
+	size_t MessageHandler::read_num() throw (IllegalCommandException, ConnectionClosedException) {
+		if (con.read() != Protocol::PAR_NUM)
 			throw IllegalCommandException();
-		unsigned int num = read_int();
+		unsigned int num = read_uint();
 		return num;
 	}
 
-	int MessageHandler::read_int() throw (ConnectionClosedException) {
+	unsigned int MessageHandler::read_uint() throw (ConnectionClosedException) {
 		unsigned int res;
-		for(unsigned char i = 0; i < 4; ++i){
+		for (unsigned char i = 0; i < 4; ++i){
 			unsigned char tmp = con.read();
 			res <<= 8;
 			res += tmp;

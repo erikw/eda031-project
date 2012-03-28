@@ -1,6 +1,7 @@
 \documentclass[10pt, a4paper]{article}
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
+\usepackage{enumerate}
 %\usepackage[swedish]{babel}
 \usepackage{ifpdf}
 \usepackage[parfill]{parskip}
@@ -67,9 +68,27 @@ The package also contains \emph{Query} and \emph{Result} classes. For every poss
 The client package contains the client part of the project. The most important class here is \emph{client/client\_main} which starts the client program. First, the program connects itself to a server by using the \emph{Connection} class. It then waits for an input from the user. When it receives a command, the class \emph{ClientInputInterpreter} is involved. This class interprets the command, creates a \emph{Query} object and returns it. The query is then converted to a message and sent to the server by using \emph{MessageHandler} and the \emph{Protocol} class. The result from the server is then received and interpreted by \emph{ClientMessageInterpreter} using \emph{MessageHandler} and returns a \emph{Result} object. The data in this result object is then printed to standard output. This whole process is repeated until the user gives the input \cite{'exit'}.
 
 \subsection{Server}
-The server package consists most importantly of the main function found in \emph{server/server\_main}. It first register it self as listener at a port in the operating system. It then wait for events of two types, new connections, disconnections and command requests from existing connections. In the first case the connection is stored, in the second deregistered. In the third case when a request is made the class \emph{ServerMessageInterpreter} is invoked. It knows how to receive queries and used the protocol \emph{net/protocol.h} and the \emph{MessagHandler} to construct a \emph{Query} object. The query is then executed against the database interface which returns a \emph{Result} object. That result knows it data and thus sends it self on the network using a \emph{MessageHandler} for data conversion.
+The server package consists most importantly of the main function found in \emph{server/server\_main}. It first register it self as listener at a port in the operating system. It then wait for events of two types, new connections, disconnections and command requests from existing connections. In the first case the connection is stored, in the second deregistered. In the third case when a request is made the class \emph{ServerMessageInterpreter} is invoked. It knows how to receive queries and used the protocol \emph{net/protocol.h} and the \emph{MessagHandler} to construct a \emph{Query} object. The query is then executed against the database interface which returns a \emph{Result} object. That result knows it data and thus sends it self on the network using a \emph{MessageHandler} for data conversion. We decided to centralize the execution path to the main while loop so we easily could handle exceptions.
 
 \subsection{Communication, flow-chart}
+To give an overview of the dynamics of the system we will trace the execution path from when the server receives a command to it sends a reply;
+
+\begin{enumerate}
+	\item When a client sends a command to the server it is blocked in \emph{Server::waitForActivity()}, more specifically at the system call \emph{accept()}. In this case it returns with a previously connected client and the function will return a pointer to that connection.
+	\item Back at the caller, the while(forever) loop in \emph{server/server\_main.cc}, a \emph{MessageHandler} for this connection in created. The next step is to get an \emph{Query} instance. Thus \emph{MessageInterpreter::receive\_query()} is called with this connection.
+	\item It reads the first byte which determines the type of the command. From this a private helper function for that message type is called who will read more bytes from the stream using the \emph{MessageHandler} and interpret them according to the protocol. If this fails an exception will be thrown at caught in the main while loop and the client will be disconnected. Otherwise a derived class of base type \emph{Query} will be instantiated representing the request.
+	\item The main while loop will now execute the query with \emph{Query::execute()} of an instance of the database interface. Let this be a \emph{FileDB} since this is the most interesting case.
+	\item The query calls the correct function in the database with the parameters for the request stored as members of this object. Let the query be a article listing query since this is a typical usage of the database. In this case \emph{FileDB::list\_art()} is called.
+	\item First it must be verified that the news group exists. Therefor a private member function \emph{FileDB::get\_ng()} is called. This function will first need to get a set of news group from the file system so it calls another private member function \emph{FileDB::read\_ngs}. The news groups are stored as directories with their ID as the name. Since each news group must not impose any restrictions on its title that can not be saved as part of the name since a typical file system limits filenames to 255 bytes. The file names are stored in a file \emph{FileDB::DB\_INFO\_NAME} which is scanned for news groups. The result is returned to the \emph{get\_ng} function which will search the result for the requested news group.
+	\item Back in the function \emph{list\_ng} we now want to get the articles for the found news group and the function \emph{FileNG::list\_arts()} is called.
+	\item The articles are stored with their ID as filename and their title in the first line of the file. First the directory content must be listed which is done by calling \emph{Directory::list\_files()}. That function will call a private function \emph{Directory::list\_type()} with the parameter set to list regular files only.
+	\item The file listing is achieved using a pair of \emph{DireIterator}s. In the function \emph{Directory::begin()} a new \emph{DirIterator} is instantiated with the result from the private function \emph{Directory::open\_dir()} which will open the news group directory and return a pointer to a structure representing the opened directory.
+	\item The iterator will be incremented causing the next file to be read and dereferenced yielding a pointer to a representation of an entity (file). All file names are collected and returned to \emph{Directory::list\_files} who just passes that up to \emph{FileNG::list\_arts()}. Now a file stream for all files are opened so the IDs can matched with the corresponding article title found in the file. The result is returned to \emph{FileDB::list\_art()}
+	\item Now all IDs and  titles can be used to create an \emph{ListArtResult} object.  That is returned to the caller, the query. The query just passes the result up to the main while loop.
+	\item Now the result should be sent to the client so the function \emph{Result::printToConnection()} is called with the \emph{MessageHandler}. That function send the result accordingly to the protocol.
+	\item The main loop will now restart by waiting for activity on the socket.
+	
+\end{enumerate}
 
 \subsection{Conclusion}
 

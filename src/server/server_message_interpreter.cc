@@ -61,7 +61,7 @@ namespace server {
 	}
 
 	Query *ServerMessageInterpreter::read_delete_ng(MessageHandler &mh) throw (IllegalCommandException, ConnectionClosedException){
-		int ng_id = mh.read_num();
+		size_t ng_id = mh.read_num();
 		char end_command = mh.read_byte();
 		if (end_command != Protocol::COM_END)
 			throw IllegalCommandException();
@@ -69,7 +69,7 @@ namespace server {
 	}
 
 	Query *ServerMessageInterpreter::read_list_art(MessageHandler &mh) throw (IllegalCommandException, ConnectionClosedException){
-		int ng_id = mh.read_num();
+		size_t ng_id = mh.read_num();
 		char end_command = mh.read_byte();
 		if (end_command != Protocol::COM_END)
 			throw IllegalCommandException();
@@ -77,7 +77,7 @@ namespace server {
 	}
 
 	Query *ServerMessageInterpreter::read_create_art(MessageHandler &mh) throw (IllegalCommandException, ConnectionClosedException){
-		int ng_id = mh.read_num();
+		size_t ng_id = mh.read_num();
 		string title = mh.read_string();
 		string author = mh.read_string();
 		string text = mh.read_string();
@@ -88,8 +88,8 @@ namespace server {
 	}
 
 	Query *ServerMessageInterpreter::read_delete_art(MessageHandler &mh) throw (IllegalCommandException, ConnectionClosedException){
-		int ng_id = mh.read_num();
-		int art_id = mh.read_num();
+		size_t ng_id = mh.read_num();
+		size_t art_id = mh.read_num();
 		char end_command = mh.read_byte();
 		if (end_command != Protocol::COM_END)
 			throw IllegalCommandException();
@@ -97,8 +97,8 @@ namespace server {
 	}
 
 	Query* ServerMessageInterpreter::read_get_art(MessageHandler &mh) throw (IllegalCommandException, ConnectionClosedException){
-		int ng_id = mh.read_num();
-		int art_id = mh.read_num();
+		size_t ng_id = mh.read_num();
+		size_t art_id = mh.read_num();
 		char end_command = mh.read_byte();
 		if (end_command != Protocol::COM_END)
 			throw IllegalCommandException();
