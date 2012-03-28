@@ -14,8 +14,8 @@ namespace net {
 
 		unsigned char read_byte() throw (ConnectionClosedException);
 		std::string read_string() throw (IllegalCommandException, ConnectionClosedException);
-		int read_num() throw (IllegalCommandException, ConnectionClosedException);
-		int read_int() throw (ConnectionClosedException);
+		size_t read_num() throw (IllegalCommandException, ConnectionClosedException);
+		unsigned int read_uint() throw (ConnectionClosedException);
 
 		void print_byte(const unsigned char &b) throw (ConnectionClosedException);
 		void print_string(const std::string &s) throw (ConnectionClosedException);
