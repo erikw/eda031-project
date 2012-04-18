@@ -163,6 +163,6 @@ namespace client {
 		"help|?\n\tThis help listing.",
 		"list|ls\n\tList all newsgroups.",
 		"(list|ls) NEWSGROUP_ID\n\tList all articles in the specified newsgroup.",
-		"read article NEWSGROUP_ID ARTICLE_ID\n\tGet an article form a newsgroup."
+		"read NEWSGROUP_ID ARTICLE_ID\n\tGet an article form a newsgroup."
 	};
 }
