@@ -159,9 +159,9 @@ namespace client {
 		"create NEWSGROUP_ID\n\tCreate an article in the specified newsgroup.",
 		"(delete|rm) NEWSGROUP_ID\n\tDelete a newsgroup.",
 		"(delete|rm) NEWSGROUP_ID ARTICLE_ID\n\tDelete an article within a newsgroup.",
-		"exit|EOF|q\n\tExits the program.",
-		"help|?\n\tThis help listing.",
-		"list|ls\n\tList all newsgroups.",
+		"(exit|EOF|q)\n\tExits the program.",
+		"(help|?)\n\tThis help listing.",
+		"(list|ls)\n\tList all newsgroups.",
 		"(list|ls) NEWSGROUP_ID\n\tList all articles in the specified newsgroup.",
 		"read NEWSGROUP_ID ARTICLE_ID\n\tGet an article form a newsgroup."
 	};
