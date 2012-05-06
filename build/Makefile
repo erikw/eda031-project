@@ -7,7 +7,7 @@ INCDIR		= ../include
 SRCS		= $(wildcard $(SRCDIR)/**/*.cc)
 OBJS		= $(shell find -iname '*.o')
 DFILES		= $(patsubst $(SRCDIR)/%.cc,%.d,$(SRCS))
-VPATH		= $(SRCDIR) $(LIBDIR) 
+VPATH		= $(SRCDIR) $(LIBDIR)
 THISDIR		= $(shell basename `pwd`)
 TAGSFILE	= ../tags
 PROGS		= client/client_main server/server_main test/test_db
@@ -23,7 +23,7 @@ DEBUG		= true
 DEBUGOPT	= -ggdb
 ERRFLAGS	= -Wall -Wextra -Wmissing-braces -Wparentheses -Wold-style-cast
 CXXFLAGS	= -pipe -ansi -pedantic-errors -fstack-protector-all
-ifeq ($(CXX), g++) 
+ifeq ($(CXX), g++)
 	CXXFLAGS +=  -z noexecstack
 endif
 CXXFLAGS	+= $(ERRFLAGS) -I$(SRCDIR)
@@ -116,6 +116,6 @@ doc :
 -include $(DFILES) /dev/null
 
 # Linking of $(PROGS)
-client/client_main: client/client_main.o client/client_message_interpreter.o client/client_input_interpreter.o net/connection.o net/messagehandler.o $(DBOBJS) 
+client/client_main: client/client_main.o client/client_message_interpreter.o client/client_input_interpreter.o net/connection.o net/messagehandler.o $(DBOBJS)
 server/server_main: server/server_main.o server/server_message_interpreter.o server/server.o net/connection.o net/messagehandler.o $(DBOBJS)
 test/test_db: test/test_db.o net/messagehandler.o net/connection.o $(DBOBJS)
