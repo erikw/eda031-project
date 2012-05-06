@@ -113,7 +113,7 @@ doc :
 	sed 's,\(.*\)\.o[ :]*,$(shell echo $< | sed -e "s/\.\.\/src\/\(.*\)\/[-_[:alnum:]]*\.cc/\1/g")\/\1.o $@ : ,g' < $@.$$$$ > $@; \
 	echo "	\$$(CXX) \$$(CXXFLAGS) -c -o \$$(patsubst %.d,%.o,\$$@) \$$<" >> $@; \
 	rm -f $@.$$$$
-include $(DFILES)
+-include $(DFILES) /dev/null
 
 # Linking of $(PROGS)
 client/client_main: client/client_main.o client/client_message_interpreter.o client/client_input_interpreter.o net/connection.o net/messagehandler.o $(DBOBJS) 
