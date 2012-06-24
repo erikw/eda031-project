@@ -6,11 +6,11 @@ For further documentation; visit [doc/](https://github.com/erikw/eda031_project/
 ## How to build and run
 Compile and run by typing the following commands:
 
-	$cd eda031_project/build/
-	$make help
-	$make
-	$server/server_main [--db (memory | file)] [--port portnum] &
-	$client/client_main [--host hostname] [--port portnum]
+	$ cd eda031_project/build/
+	$ make help
+	$ make
+	$ server/server_main [--db (memory | file)] [--port portnum] &
+	$ client/client_main [--host hostname] [--port portnum]
 	news> help
 	news> <commmand>
 	.
